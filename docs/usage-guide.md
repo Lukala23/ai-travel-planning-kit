@@ -1,32 +1,36 @@
-# TravelSpec AI 使用指南
+# AI 旅行规划工具包：完整使用指南
 
-本指南说明怎样把 TravelSpec AI 用于一次真实旅行，而不是只让 AI 生成一篇看起来像攻略的文章。
+本指南说明怎样使用 **AI 旅行规划工具包（AI Travel Planning Kit）**完成一次真实旅行：从第一次告诉 AI 目的地，到确认住宿和路线，再到生成资料包、临行更新和旅途中查询。
+
+如果你只想先完成安装，请看 [各 Agent 安装与使用指南](agent-platforms.md)。
 
 ## 1. 选择使用方式
 
-### Codex Skill
+### 原生 Agent Skill
 
-把 `skill/plan-reliable-trips` 放入或链接到 `~/.codex/skills/plan-reliable-trips`。OpenAI 官方的 [Save workflows as skills](https://learn.chatgpt.com/codex/use-cases/reusable-codex-skills) 说明，`~/.codex/skills` 中的技能可跨仓库使用。
+Codex、TRAE、WorkBuddy、Claude Code、Cursor、Windsurf、GitHub Copilot 和 Gemini CLI 对 Skills 的目录、导入和调用方式各不相同。请根据 [平台指南](agent-platforms.md) 安装，不要把 Codex 的目录直接套用到其他软件。
+
+Codex 示例：
 
 ```bash
-git clone https://github.com/Lukala23/travelspec-ai.git
-cd travelspec-ai
+git clone https://github.com/Lukala23/ai-travel-planning-kit.git
+cd ai-travel-planning-kit
 mkdir -p ~/.codex/skills
 ln -s "$PWD/skill/plan-reliable-trips" ~/.codex/skills/plan-reliable-trips
 ```
 
 目标位置已经存在时不要直接覆盖。先比较现有版本，或把仓库克隆到其他目录再决定怎样合并。
 
-调用示例：
+Codex 调用示例：
 
 ```text
 使用 $plan-reliable-trips，根据下面的信息规划这次旅行。
 先整理单次任务卡，再告诉我还缺哪些会改变路线或安全的关键信息。
 ```
 
-### 其他 AI
+### 文件上传模式
 
-其他支持文件上传、联网检索和图片理解的 AI 也可以使用这套规则。建议先给它：
+不支持原生 Skill、但支持文件上传或工作区上下文的 AI 也可以使用这套规则。建议先给它：
 
 1. `SKILL.md`；
 2. `planning-principles.md`；

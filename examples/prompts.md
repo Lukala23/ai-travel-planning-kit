@@ -1,6 +1,8 @@
-# TravelSpec AI 可复制提示词
+# AI 旅行规划工具包：可复制提示词
 
 把方括号内容替换成自己的信息。无需一次使用所有提示词。
+
+Codex 中可以保留 `$plan-reliable-trips`；TRAE、WorkBuddy、Claude Code、Cursor、Windsurf、GitHub Copilot、Gemini CLI 或普通文件上传模式，请按 [平台指南](../docs/agent-platforms.md) 换成对应调用方式，或直接写“使用 AI 旅行规划工具包”。
 
 ## 1. 从自然语言建立任务卡
 

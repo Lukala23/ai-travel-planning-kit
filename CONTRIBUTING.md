@@ -1,6 +1,6 @@
-# Contributing to TravelSpec AI
+# Contributing to AI Travel Planning Kit
 
-感谢你帮助 TravelSpec AI 变得更可靠、更简洁、更适合真实旅行。
+感谢你帮助 **AI 旅行规划工具包（AI Travel Planning Kit）**变得更可靠、更简洁、更适合真实旅行。
 
 ## 什么样的贡献最有价值
 
@@ -74,7 +74,7 @@
 - 检查 Markdown 链接；
 - 搜索是否残留旧术语或冲突规则；
 - 确认没有本地绝对路径和敏感信息；
-- 使用 Codex Skill Creator 或等价工具检查技能结构；
+- 使用 Agent Skill 结构校验工具检查 `SKILL.md`、目录与链接；
 - 阅读完整 diff，确认只包含本次主题。
 
 ## License

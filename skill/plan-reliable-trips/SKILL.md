@@ -3,7 +3,7 @@ name: plan-reliable-trips
 description: Research and create reliable, source-backed travel plans in Chinese, including destinations, accommodation, local dining, transit, taxis and charters, negotiated transport and scam prevention, payments, connectivity, road trips, borders and tipping, mobile-first photography with reference images, museum screening and Chinese guides, souvenirs, hikes, and foreign-trek route data, logistics, insurance, medical, lodging, food, equipment, and safety. Use when the user provides a destination or trip brief and asks to explore or compare places, choose lodging, food, or transport, design or revise an itinerary, plan around dates, weather, budget, mobility, payments, photography, bookings, driving, international travel, museums, souvenirs, or outdoor safety, or produce a practical Markdown guide, illustrated PDF handbook, quick-reference card, print fallback, or AI-queryable travel package.
 ---
 
-# 可靠旅行规划
+# AI 旅行规划工具包（AI Travel Planning Kit）
 
 ## 数据分层
 
