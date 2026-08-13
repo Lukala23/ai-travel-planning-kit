@@ -1,83 +1,74 @@
-# TravelSpec AI
+# AI Travel Planning Kit（AI 旅行规划工具包）
 
-## Turn travel inspiration into a verified, executable, and updateable travel system
+## Let AI research, compare, schedule, budget, and deliver a trip plan you can actually follow
 
-[中文主页](README.md) · [Usage guide](docs/usage-guide.md) · [Prompt library](examples/prompts.md)
+[中文主页](README.md) · [Usage guide in Chinese](docs/usage-guide.md) · [Agent setup guide](docs/agent-platforms.md) · [Prompt library](examples/prompts.md)
 
-TravelSpec AI is not another destination-to-itinerary demo. It is an open-source constraint layer, research standard, decision workflow, and delivery protocol for AI-assisted travel planning.
+**AI Travel Planning Kit** is an open-source set of instructions and templates for AI agents. Give the AI a destination, dates, travelers, budget, confirmed bookings, and your real priorities. The kit tells it how to research current facts, compare options, build a workable route, expose uncertainty, and produce a practical travel package.
 
-It tells an AI:
+It is not a booking app and it is not a fixed itinerary. It is a reusable planning tool that helps an AI do more complete travel work:
 
-- what must be researched;
-- how to separate popularity from actual travel value;
-- which facts must be verified live;
-- how to expose uncertainty and source conflicts;
-- how to combine accommodation, food, transport, payments, language, photography, museums, and safety;
-- how to deliver a guide that remains usable on the road.
+- screen classic and lesser-known places without treating popularity as value;
+- choose accommodation areas and exact properties together with the route;
+- place local food into each day instead of appending a viral restaurant list;
+- verify transport, mobile payments, cash, exchange, connectivity, fees, tips, and scams;
+- plan museums with actual exhibition value and Chinese-language access;
+- add reproducible mobile-photography positions, light, composition, and reference images;
+- review user-supplied hiking tracks and the surrounding permits, insurance, rescue, medical, lodging, food, equipment, and communication conditions;
+- deliver a complete guide, a phone-friendly quick reference, images, and pre-departure updates.
 
-The project is Chinese-first. Its defaults currently suit a Chinese-speaking traveler with limited English, mobile-first photography, and a preference for practical, locally grounded experiences. Fork it and change the preferences without weakening its evidence and safety rules.
+All personal preferences are editable. Destination, dates, travelers, budget, and travel mode are collected again for each trip rather than hard-coded into a permanent profile.
 
-## Why
+## What it helps you do
 
-Many AI travel plans look complete but fail in practice:
-
-- opening hours, ticket rules, visas, transport, and trail status are stale;
-- social popularity is mistaken for value;
-- accommodation and meals are detached from the route;
-- public-transport payment and local-wallet requirements are ignored;
-- taxi and charter prices have no route-specific reference or scam prevention;
-- museums lack current exhibition value, language support, and an actual visit path;
-- photo advice has no reproducible position, light, or reference image;
-- hiking plans omit track integrity, permits, exit points, rescue, insurance, and communications;
-- the final guide is too long to use quickly during the trip.
-
-TravelSpec AI addresses those failures with modular constraints and explicit verification.
-
-## Core design
-
-The system separates:
-
-1. **Stable planning constraints** — evidence standards, safety boundaries, convenience checks, decision rules, and delivery quality.
-2. **Per-trip parameters** — destination, dates, travelers, budget, confirmed bookings, travel modes, abilities, and trip-specific goals.
-
-Domestic, international, city, road-trip, museum, photography, and hiking modules can be combined without forcing every trip through one fixed sequence.
-
-## Major capabilities
-
-| Area | What the skill requires |
+| Capability | Practical result |
 |---|---|
-| Destination screening | Search broadly, remove marketing noise, and rank by real value and trip fit |
-| Accommodation | Optimize area, exact property, route, local food, total cost, and experiential stays together |
-| Dining | Research local everyday food and place it into the route instead of appending a viral list |
-| Transit and payments | Verify the exact operator, fare medium, device/card compatibility, and fallback |
-| Taxi and charter | Provide route-specific price references, written total-price confirmation, scam warnings, and help channels |
-| International travel | Separate official fees, taxes, service charges, tips, deposits, and reported unofficial solicitation |
-| Museums | Verify what is actually on display, Chinese-language access, guide value, price, and in-museum routing |
-| Photography | Provide reproducible sample images, position, direction, light, mobile composition, and limitations |
-| Hiking | Review a user-provided track for version, gaps, jumps, wrong branches, restrictions, key points, and support conditions |
+| Destination research | Find high-value candidates, challenge marketing noise, and explain what was excluded |
+| Executable itinerary | Include door-to-door movement, queues, meals, rest, luggage, reservations, buffers, and safe return |
+| Accommodation | Compare areas and exact properties by total price, transport, evening walkability, food, noise, and experiential value |
+| Local dining | Research local everyday choices and place suitable restaurants, stalls, or markets into the route |
+| Budget | Normalize currencies and price units, separate required and optional spending, and expose taxes, deposits, and hidden costs |
+| Transport and payments | Verify the actual operator, fare medium, phone/card compatibility, cash, local wallets, SIM/eSIM, and fallbacks |
+| Taxi and charter safety | Give route-specific price references, legitimate channels, written confirmation language, and scam warnings |
+| International travel | Cover entry, official charges, service fees, tipping customs, local conditions, language labels, and a compact safety card |
+| Museums | Assess what is actually worth seeing, current displays, Chinese interpretation, guide value, and a usable in-museum route |
+| Photography | Recommend reproducible position, direction, composition, light, and sample images for phones and pocket cameras |
+| Hiking | Review a supplied track plus permits, weather, insurance, medical access, communications, huts, water, exits, and rescue |
 | Delivery | Derive Markdown, searchable PDF, a field quick-reference card, images, and an optional print fallback from one source |
 
-## Install as a Codex skill
+## Install or import
 
-OpenAI's [Save workflows as skills](https://learn.chatgpt.com/codex/use-cases/reusable-codex-skills) explains that skills in `~/.codex/skills` are available across repositories.
+The repository uses a standard `SKILL.md` layout and documents both native Agent Skill installation and file-upload fallbacks.
+
+| Platform | Recommended method |
+|---|---|
+| OpenAI Codex | Link into `~/.codex/skills/plan-reliable-trips` and invoke `$plan-reliable-trips` |
+| TRAE | Import in SOLO or copy into `.trae/skills/plan-reliable-trips` |
+| WorkBuddy | Upload the skill ZIP from the latest GitHub Release |
+| Claude Code | Put it in `~/.claude/skills/` or a project's `.claude/skills/` |
+| Cursor | Use `.cursor/skills/`, `.agents/skills/`, or GitHub import |
+| Windsurf | Use workspace `.windsurf/skills/` or the global skills directory |
+| GitHub Copilot | Use repository `.github/skills/` / `.agents/skills/` or a personal skills directory |
+| Gemini CLI | Link the bundled skill with `gemini skills link` |
+| Other AI tools | Upload the core files and only the specialist modules needed for the trip |
+
+See the [platform setup guide](docs/agent-platforms.md) for exact paths, UI steps, invocation examples, limitations, verification dates, and links to each product's official documentation.
+
+Codex quick install:
 
 ```bash
-git clone https://github.com/Lukala23/travelspec-ai.git
-cd travelspec-ai
+git clone https://github.com/Lukala23/ai-travel-planning-kit.git
+cd ai-travel-planning-kit
 mkdir -p ~/.codex/skills
 ln -s "$PWD/skill/plan-reliable-trips" ~/.codex/skills/plan-reliable-trips
 ```
 
-Do not overwrite an existing skill with the same name without comparing or backing it up.
+## First request
 
-Invoke it in a new Codex task:
+You do not need to complete a long fixed questionnaire. Start with the information that can materially change the plan:
 
 ```text
-Use $plan-reliable-trips.
-
-Turn my natural-language trip request into a per-trip brief first.
-Ask only for missing information that materially changes safety, feasibility,
-the route structure, accommodation area, or total budget.
+Use the AI Travel Planning Kit for this trip.
 
 Destination: ...
 Dates: ...
@@ -85,41 +76,66 @@ Travelers: ...
 Budget: ...
 Confirmed bookings: ...
 Main goals: ...
+Other constraints: ...
+
+Build a per-trip brief first. Ask only for missing information that materially
+changes safety, feasibility, accommodation area, route structure, total budget,
+or the main experience. Show candidate research and key trade-offs before
+producing a full hour-by-hour itinerary.
 ```
 
-## Use with other AI systems
+After agreeing on the core places, accommodation area, transport structure, budget, and high-risk dependencies, ask the AI to generate the complete travel and execution plan.
 
-Provide `SKILL.md`, the core planning, source-verification, and output rules, the trip brief, and only the relevant specialist modules. Results depend on the platform's file, browsing, image, PDF, and tool capabilities.
+## Why it is more than a prompt
 
-## Evidence discipline
+- It is reusable and version-controlled.
+- Modules load only when relevant; a city trip does not automatically receive hiking or road-trip chapters.
+- Accommodation, food, transport, payments, route, and budget are planned together.
+- Dynamic facts must be researched for the current trip.
+- Source conflicts and uncertainty remain visible.
+- The result is designed for use before and during the trip, not just for reading.
+- Stable principles, soft preferences, and per-trip inputs stay separate, so users can safely customize them.
 
-- Verify prices, opening, reservations, timetables, visas, weather, roads, trails, payments, and inventory for the current task.
-- Use two independent sources for safety, law, and expensive non-refundable decisions; at least one should be the competent authority or direct operator.
-- Use official sources for rules and operational state; use recent visitor reports for experience and problem discovery.
+## Evidence rules
+
+- Verify prices, opening, reservations, timetables, visas, weather, roads, trails, payment support, and inventory for the current trip.
+- Use at least two independent sources for safety, law, and expensive non-refundable decisions; one should be the responsible authority or direct operator.
+- Use official sources for rules and current operations, and recent visitor evidence for queues, wayfinding, and on-site problems.
 - Treat social media as candidate discovery, not proof of value.
-- Label information as verified, recheck before departure, conditional, uncertain, or planning judgment.
-- Preserve source conflicts instead of hiding them behind fluent prose.
-- Never fabricate fares, coordinates, tickets, schedules, track data, or official advice.
+- Label claims as verified, recheck before departure, conditional, uncertain, or planning judgment.
+- Preserve source conflicts and never invent fares, coordinates, schedules, tickets, track data, or official advice.
 
-## Responsible use
+AI can make the planning more complete and easier to audit, but no model can guarantee that every dynamic fact is correct. Users must still confirm important bookings, high-risk activities, and last-minute conditions.
 
-This project supports travel research and decision-making. It does not replace authorities, embassies, operators, medical professionals, insurers, licensed guides, or on-site rescue services. Dynamic facts change, and track review is not a safety certification.
+## Customize your preferences
 
-Do not publish passport numbers, identity documents, full payment data, verification codes, booking QR codes, private addresses, or unredacted personal itineraries.
+Ask the AI to classify a proposed change before editing the files:
 
-## Repository
+- safety or legal boundary;
+- stable hard constraint;
+- default preference that a specific trip may override;
+- soft preference that should only improve ranking;
+- per-trip input that must not carry into the next trip.
+
+See [Review and edit rules with AI](docs/ai-review-guide.md). The detailed rationale behind the current Chinese-first defaults is recorded in [the constraint review](docs/constraint-review.md).
+
+## Repository entry points
 
 - [Skill entrypoint](skill/plan-reliable-trips/SKILL.md)
 - [Trip brief template](skill/plan-reliable-trips/assets/trip-brief-template.md)
 - [Planning principles](skill/plan-reliable-trips/references/planning-principles.md)
 - [Source verification](skill/plan-reliable-trips/references/source-verification.md)
 - [Delivery package](skill/plan-reliable-trips/references/deliverable-package.md)
-- [Full design review](docs/constraint-review.md)
+- [Prompt library](examples/prompts.md)
 
-## Contributing
+## Responsible use
 
-Issues and pull requests are welcome, especially reproducible travel failures, regional verification methods, better source hierarchies, and simplifications that improve actual decisions. Read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+This project supports travel research and decision-making. It does not replace authorities, embassies, operators, medical professionals, insurers, licensed guides, or on-site rescue services. Dynamic facts change, and hiking track review is not a safety certification.
 
-## License
+Do not publish passport numbers, identity documents, full payment data, verification codes, booking QR codes, private addresses, or unredacted personal itineraries.
 
-[MIT](LICENSE)
+## Contributing and license
+
+Issues and pull requests are welcome, especially reproducible travel failures, regional verification methods, better source hierarchies, platform compatibility updates, and simplifications that improve real decisions. Read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
+[MIT License](LICENSE)

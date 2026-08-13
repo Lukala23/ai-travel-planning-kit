@@ -1,4 +1,4 @@
 interface:
-  display_name: "可靠旅行规划"
-  short_description: "研究住宿美食、博物馆讲解、交通防骗、出境与徒步保障"
-  default_prompt: "使用 $plan-reliable-trips 根据这次出行信息生成可靠、可执行且注明依据的旅行计划。"
+  display_name: "AI 旅行规划工具包"
+  short_description: "查景点、选住宿、排路线、控预算，生成可执行旅行方案"
+  default_prompt: "使用 $plan-reliable-trips 根据本次目的地、日期、人数、预算和偏好，研究并生成完整可执行的旅行方案。"
