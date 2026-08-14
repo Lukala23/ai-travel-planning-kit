@@ -15,6 +15,28 @@ fail() {
   exit 1
 }
 
+search_recursive() {
+  local pattern="$1"
+  shift
+
+  if command -v rg >/dev/null 2>&1; then
+    rg -n "$pattern" "$@"
+  else
+    grep -R -n -E -- "$pattern" "$@"
+  fi
+}
+
+search_quiet() {
+  local pattern="$1"
+  shift
+
+  if command -v rg >/dev/null 2>&1; then
+    rg -q "$pattern" "$@"
+  else
+    grep -q -E -- "$pattern" "$@"
+  fi
+}
+
 for skill_name in plan-reliable-trips plan-reliable-trips-en; do
   skill_dir="$repo_root/skill/$skill_name"
   [[ -f "$skill_dir/SKILL.md" ]] || fail "missing $skill_dir/SKILL.md"
@@ -30,14 +52,14 @@ if ! diff -u "$tmp_dir/zh-references.txt" "$tmp_dir/en-references.txt"; then
   fail "Chinese and English reference inventories differ"
 fi
 
-if rg -n '昆明|Kunming|KMG' \
+if search_recursive '昆明|Kunming|KMG' \
   "$repo_root/skill" "$repo_root/docs" "$repo_root/examples" \
   "$repo_root/README.md" "$repo_root/README.en.md" \
   "$repo_root/CONTRIBUTING.md" "$repo_root/CONTRIBUTING.en.md"; then
   fail "city-specific origin default remains"
 fi
 
-if rg -n 'references/international-travel\.md' \
+if search_recursive 'references/international-travel\.md' \
   "$repo_root/skill" "$repo_root/scripts/build-release-assets.sh" "$repo_root/README.md" "$repo_root/README.en.md" \
   "$repo_root/docs/architecture.md" "$repo_root/docs/architecture.en.md" \
   "$repo_root/docs/usage-guide.md" "$repo_root/docs/usage-guide.en.md" \
@@ -105,12 +127,12 @@ for delta in \
   ai-travel-planning-kit-portable-city.en.md \
   ai-travel-planning-kit-portable-international.en.md \
   ai-travel-planning-kit-portable-road-outdoor.en.md; do
-  if rg -q 'Source file: .*SKILL\.md|源文件：.*SKILL\.md|references/source-verification\.md|references/output-contract\.md' "$tmp_dir/dist/$delta"; then
+  if search_quiet 'Source file: .*SKILL\.md|源文件：.*SKILL\.md|references/source-verification\.md|references/output-contract\.md' "$tmp_dir/dist/$delta"; then
     fail "$delta repeats portable core"
   fi
 done
 
-rg -q 'references/entry-and-transit\.md' "$tmp_dir/dist/ai-travel-planning-kit-portable-international.md" || fail "Chinese international delta misses entry module"
-rg -q 'references/international-operations\.md' "$tmp_dir/dist/ai-travel-planning-kit-portable-international.en.md" || fail "English international delta misses operations module"
+search_quiet 'references/entry-and-transit\.md' "$tmp_dir/dist/ai-travel-planning-kit-portable-international.md" || fail "Chinese international delta misses entry module"
+search_quiet 'references/international-operations\.md' "$tmp_dir/dist/ai-travel-planning-kit-portable-international.en.md" || fail "English international delta misses operations module"
 
 printf 'Project validation passed.\n'
