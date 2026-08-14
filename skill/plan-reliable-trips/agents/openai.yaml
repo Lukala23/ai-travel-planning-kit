@@ -1,4 +1,6 @@
 interface:
   display_name: "AI 旅行规划工具包"
-  short_description: "查景点、选住宿、排路线、控预算，生成可执行旅行方案"
-  default_prompt: "使用 $plan-reliable-trips 根据本次目的地、日期、人数、预算和偏好，研究并生成完整可执行的旅行方案。"
+  short_description: "按当前问题查资料、比较方案和安排路线，只加载必要模块"
+  default_prompt: "使用 $plan-reliable-trips 只针对我当前提出的旅行问题完成最小充分研究；我明确要求完整方案时再扩展。"
+policy:
+  allow_implicit_invocation: false

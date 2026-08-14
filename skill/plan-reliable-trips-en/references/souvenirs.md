@@ -1,6 +1,6 @@
 # Souvenirs and Local Purchases
 
-This is a light planning module, not a shopping itinerary. The default preference is for items that feel connected to the place, are interesting and portable, and do not cost too much. Handmade, uncommon, or hard-to-copy qualities are bonuses rather than rigid gates.
+Read only when the user wants a memento/gift or a purchase has become an explicit route stop. Passing a museum, cultural site, market, or craft area warrants only a light value scan, not an automatic module load or shopping plan. This remains a light planning module, not a shopping itinerary. The default preference is for items connected to the place, interesting, portable, and reasonably priced; handmade or uncommon qualities are bonuses, not gates.
 
 ## 1. What to recommend
 

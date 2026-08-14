@@ -17,41 +17,31 @@ Codex example for the English Skill:
 ```bash
 git clone https://github.com/Lukala23/ai-travel-planning-kit.git
 cd ai-travel-planning-kit
-mkdir -p ~/.codex/skills
-ln -s "$PWD/skill/plan-reliable-trips-en" ~/.codex/skills/plan-reliable-trips-en
+mkdir -p ~/.agents/skills
+ln -s "$PWD/skill/plan-reliable-trips-en" ~/.agents/skills/plan-reliable-trips-en
 ```
 
 Do not overwrite an existing destination without comparing or backing it up.
 
 ```text
 Use $plan-reliable-trips-en for the trip below.
-Build a per-trip brief first, then tell me which missing facts would change the
-route or safety.
+Extract only the conditions needed for the current question. Ask only when an
+ambiguity would change the route or safety.
 ```
 
 ### File-upload mode
 
-An AI that supports files or workspace context can use the same rules without native Skills. Provide:
+An AI with files or workspace context can use the rules without a native Skill. Upload `ai-travel-planning-kit-portable-core.en.md` first, then add the closest scenario delta. A delta does not repeat or replace the core:
 
-1. `SKILL.md`;
-2. `planning-principles.md`;
-3. `source-verification.md`;
-4. `output-contract.md`;
-5. the current trip brief;
-6. only the specialist rules relevant to this trip.
-
-| Trip need | Load |
+| Scenario pack | Scope |
 |---|---|
-| Overnight trip / hotel choice | `accommodation.md` |
-| Route crosses a main meal | `dining.md` |
-| Bus, metro, rail, or ferry | `public-transit.md` |
-| Taxi, transfer, charter, carriage, or negotiated transport | `taxi-charter.md` |
-| Self-drive | `self-drive.md` |
-| International / cross-border | `international-travel.md` |
-| Hiking / mountaineering | `hiking-rules.md` |
-| Museum / gallery | `museum-visits.md` |
-| Photography | `photography.md` |
-| Formal PDF / quick card | `deliverable-package.md` |
+| `portable-city.en.md` | Destination candidates, daily route, lodging/dining decisions, and public transport |
+| `portable-international.en.md` | Air chain, entry/transit, triggered health, and minimum insurance reminders |
+| `portable-road-outdoor.en.md` | Self-drive, hiking, health, and related insurance reminders |
+
+If a needed specialist is absent, add its individual `references/*.md` from the Skill archive. Add photography, museums, or souvenirs only when the user explicitly values them, they enter the main route, or the purchase is real. The full `ai-travel-planning-kit-portable.en.md` is for archive, compatibility, or a platform that genuinely searches the whole library—not the default upload.
+
+Natural language is normally sufficient. Add the advanced trip form only when the user completed it or the trip has unusually many conditions.
 
 ## 2. Prepare one trip's information
 
@@ -69,7 +59,10 @@ Do not place a lifetime of preferences into every request, and do not guess answ
 
 ### Only when relevant
 
-- driving documents, vehicle, and parking requirements;
+- flight-date flexibility, cabin/baggage, connection and red-eye tolerance, self-transfer, willingness to position from the actual origin through another gateway, airfare/refund needs, and existing fare alerts;
+- driving documents, traffic side, vehicle, protection/excess, fuel/charging, toll, parking, and border needs;
+- non-hiking altitude, medicine/device, chronic condition/pregnancy, vaccine, or medical access;
+- existing travel cover, non-refundable exposure, special activity, and card-benefit activation;
 - hiking ability, altitude experience, and track source;
 - interpretation or guide budget;
 - willingness to invest extra time in photography;
@@ -78,20 +71,35 @@ Do not place a lifetime of preferences into every request, and do not guess answ
 
 Write `Unknown` when something is not decided. See the [English trip brief](../skill/plan-reliable-trips-en/assets/trip-brief-template.md).
 
-## 3. Use the right planning sequence
+## 3. Set task scope, verification strength, and delivery form separately
 
-### Stage A: trip brief
+Do not bind “how broad,” “how strongly verified,” and “whether files are created” into one level. Let the AI select independently:
+
+- current scope: Narrow answer / Current plan / Comprehensive research;
+- verification: Normal / High consequence;
+- delivery: Chat / Structured plan / Formal files.
+
+A visa or transit issue can be `Narrow + High consequence + Chat` without researching lodging, payment, and the whole itinerary.
+
+### Stage A: extract necessary conditions
+
+An ordinary question does not require a complete brief. For a complex or ambiguous task, summarize only parameters that affect the decision:
 
 ```text
-Do not schedule the route yet. Turn my information into a per-trip brief with:
-known facts, hard constraints, soft preferences, unknowns, and temporary assumptions.
+Do not expand into a complete route yet. Extract only the known facts, hard
+constraints, unknowns, and temporary assumptions needed for this decision.
+Do not print fields from unrelated specialist modules.
 Ask only about gaps that change safety, feasibility, accommodation area,
 transport structure, or total budget.
 ```
 
-Check that the AI has not inherited travelers, budget, dates, equipment, or interests from another trip.
+Check that the AI has not inherited travelers, budget, dates, equipment, or interests from another trip. The optional advanced brief remains available for genuinely complex work.
 
-### Stage B: candidates and structure
+### Stage B: minimum trip-condition check
+
+For an executable itinerary or go/no-go judgment, ask the AI to state what must minimally be true: entry/permit requirements for the travel document, long-distance access from the actual origin to the first node and back from the final node, major unavoidable budget costs, and the user's own conditions. For an unbooked flight, this gate only confirms sellable routing and broad complete cost; the air module performs the deeper comparison next. Mark each `Met / To confirm / Not met`, then give `Feasible / Conditionally feasible / Material mismatch / Cannot yet assess`. Even when no obvious blocker is found, preserve every condition still to satisfy or recheck. Skip this process for inspiration-only exploration.
+
+### Stage C: candidates and structure
 
 Ask the AI to establish:
 
@@ -103,7 +111,7 @@ Ask the AI to establish:
 
 The goal is to choose, not to force every candidate into the itinerary.
 
-### Stage C: route draft
+### Stage D: route draft
 
 A route should include:
 
@@ -115,20 +123,24 @@ A route should include:
 - executable cuts or swaps for weather, closure, or delay;
 - clear units and required versus optional costs.
 
-### Stage D: specialist verification
+### Stage E: specialist verification
 
 Check only what this trip needs:
 
+- a complete return/open-jaw chain from the actual origin: airline-direct inventory and rules plus reputable local/regional channels the traveler can buy from; like-for-like baggage, currency, positioning transport/lodging, and connection responsibility; when dynamic fares are inaccessible, use repeatable search steps or redacted user quotes; give a booking or tracking protocol with triggers and a latest decision date;
 - accommodation total price, taxes, cancellation, and exact room type;
 - whether public transport really accepts the user's existing phone, wallet, or cards;
 - normal taxi, charter, and unusual-transport prices plus written confirmation language;
 - local SIM/eSIM, roaming, and offline fallback;
+- self-drive contract, CDW/LDW and excess, fuel/charging, toll tag, winter equipment, border use, assistance, penalties, and pickup/return evidence;
+- only necessary insurance reminders: mandatory evidence, special activity/altitude, remote evacuation, or planned reliance on card coverage; the traveler handles whole-trip insurance and full policy wording;
+- vaccine/prophylaxis, medicine import, non-hiking altitude, food/vector, care, and evacuation when the health module triggers;
 - statutory tax, service charge, tip, deposit, and reported unofficial demands;
 - what is actually on display in museums, language access, and guide value;
 - reference photographs, shooting position, and reproducibility;
 - hiking track integrity, permits, exits, rescue, insurance, and medical access.
 
-### Stage E: formal delivery
+### Stage F: formal delivery
 
 After the route and key choices are confirmed:
 
@@ -144,6 +156,7 @@ Put the version, generation date, latest verification date, and recheck points i
 |---|---|---|
 | Government / competent authority | Law, visa, permit, safety, official fee | Subjective experience |
 | Attraction / operator | Opening, tickets, services, entrance, policy | “Most worthwhile” |
+| China-market flight platforms + airline direct | Current China-market route/fare plus inventory, baggage, fare rules, and connection responsibility | Guaranteed future movement or inventory after an alert |
 | Booking platform | Current inventory, channel total, cancellation | Long-term stable quality |
 | Professional / research source | Collections, history, culture, expert context | Current opening |
 | Maps and recent visitors | Wayfinding, queues, construction, field conditions | Law, safety, official rules |
@@ -157,7 +170,7 @@ Use five explicit states:
 - `Uncertain`: sources conflict, are stale, or cannot be accessed;
 - `Planning judgment`: a recommendation inferred from facts, not a source quotation.
 
-Place citations beside conclusions and include the verification date. Safety, law, and expensive non-refundable decisions require at least two independent sources, including the responsible authority or direct operator.
+Place citations beside conclusions and include the verification date. Safety, law, and expensive non-refundable decisions require at least one responsible authority or direct operator; add a second independent source when wording is ambiguous, evidence conflicts or is inaccessible, or the downside is severe and confirmation is practical.
 
 ## 5. Photography and wayfinding images
 
@@ -247,4 +260,4 @@ Before a public issue or prompt, also inspect travel dates, accommodation orders
 
 ## 10. When a rule does not fit
 
-Do not silently override a long-term rule inside one trip. Use the [AI review guide](ai-review-guide.en.md) to classify it as a safety boundary, stable hard constraint, default preference, soft preference, or per-trip parameter. Change only the authoritative file that truly needs to change and record the impact.
+Do not change the whole toolkit because of a casual preference expressed in one trip. Use the [AI review guide](ai-review-guide.en.md) to classify it as a safety boundary, current hard constraint, overridable default, soft preference, or per-trip parameter. Keep personal conditions and current preferences in the trip brief. Change the responsible specialist file only when intentionally changing toolkit behavior, record the impact, and do not create a separate long-term preference index.

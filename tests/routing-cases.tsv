@@ -1,0 +1,10 @@
+id	edition	prompt_summary	expected_scope	expected_verification	expected_delivery	include_modules	exclude_modules
+cn_transit_visa	zh	中国护照经第三国同票行李直挂转机，只问是否需要过境签和缺失条件	窄问题	高后果核验	聊天回答	source-verification.md,entry-and-transit.md	air-travel.md,international-operations.md,travel-insurance.md,health-and-medical.md,accommodation.md
+cn_flight_compare	zh	从用户提供的中国实际出发地比较国际往返航班和购买时机	当前方案	常规核验	结构化计划	source-verification.md,output-contract.md,air-travel.md	international-operations.md,accommodation.md,dining.md,deliverable-package.md
+cn_domestic_air	zh	比较目的地国境内一段飞机和铁路的门到门方案	当前方案	常规核验	结构化计划	source-verification.md,output-contract.md,air-travel.md,public-transit.md	accommodation.md,travel-insurance.md,deliverable-package.md
+cn_city_area	zh	已订机票酒店，只比较两个城区三小时步行路线	当前方案	常规核验	聊天回答	source-verification.md,output-contract.md,route-core.md	air-travel.md,accommodation.md,entry-and-transit.md,international-operations.md,travel-insurance.md
+cn_payment	zh	只问境外地铁可否使用现有手机钱包以及失败备份	窄问题	常规核验	聊天回答	source-verification.md,public-transit.md,international-operations.md	air-travel.md,entry-and-transit.md,accommodation.md,travel-insurance.md
+en_entry	en	Origin-neutral traveler asks only about an international transit document requirement	Narrow answer	High consequence	Chat answer	source-verification.md,entry-and-transit.md	air-travel.md,international-operations.md,travel-insurance.md,accommodation.md
+en_lodging	en	Compare two lodging areas using traveler-provided origin currency and dates	Current plan	Normal	Structured plan	source-verification.md,output-contract.md,accommodation.md	air-travel.md,entry-and-transit.md,international-operations.md,travel-insurance.md
+en_flight	en	Compare flights from the actual origin using channels in the traveler sales market	Current plan	Normal	Structured plan	source-verification.md,output-contract.md,air-travel.md	entry-and-transit.md,international-operations.md,accommodation.md,deliverable-package.md
+formal_package	en	Confirmed route and explicit request for a PDF handbook and quick card	Current plan	Normal	Formal files	output-contract.md,deliverable-package.md	destination-research.md,air-travel.md,travel-insurance.md

@@ -16,10 +16,10 @@ Calculate each segment:
 - Give the last admission/closure of the last hard-closing node.
 - Route from the final node back to accommodation or transport; never end naturally at an attraction.
 - Treat confirmed bookings as anchors. Separate hard anchors, core experiences, movable nodes, and spare-capacity additions; cut low priority before transport, food, rest, and safe return.
-- Use `dining.md` for real meal windows; a high-value or reservation meal may anchor, while ordinary meals remain on-route with backups.
-- Use `photography.md` for a light full-route scan and practical ordinary-sight compositions; expand only genuine value and attach a reference where words are insufficient.
+- First reserve a realistic meal window and convenient area. A high-value or reservation meal may anchor; read `dining.md` through the SKILL router only when an actual food choice needs research.
+- Perform only a one-line photography-value scan across ordinary sights. Read `photography.md` through the SKILL router only when a high-value opportunity changes route tradeoffs, photography is explicit, or formal delivery needs reference images.
 - Raise priority when high photo and independently judged social-sharing value coexist at manageable cost; otherwise compare normal and photography-upgrade plans.
-- Use `museum-visits.md` for security, storage, interpretation, internal movement, fatigue, and shortened routes; do not model a major museum as a generic one-hour sight.
+- When a museum is a route core, load `museum-visits.md` through the SKILL router for security, storage, interpretation, internal movement, fatigue, and shortened routes; do not model a major museum as a generic one-hour sight.
 
 ## 2. Season and near-term weather
 

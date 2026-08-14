@@ -1,6 +1,6 @@
 # Museums, Exhibitions, Memorials, and Interpretation
 
-Museums are potential core travel experiences, not a minor ticket-and-hours appendix. Scan for genuinely important venues in every destination, including smaller cities. Search more deeply in national or regional capitals, famous cities, and historic/cultural destinations, while rejecting fame without real visitor value.
+Read when the user names a venue, a museum is selected for the route, or a light destination scan shows that it is central to the place's value. Capitals, famous cities, and historic/cultural destinations increase the chance of a scan but do not automatically trigger this full module. Once active, treat museums as potential core experiences rather than a ticket-and-hours appendix, while rejecting fame without real visitor value.
 
 ## 1. Candidate discovery and value
 
@@ -30,7 +30,7 @@ Use recent visitor evidence to supplement wayfinding, queues, fatigue, and confu
 
 ## 3. Preferred-language access
 
-Determine the travelers' preferred interpretation language from the current trip. For the original Chinese-first user profile, Chinese is the default unless the trip says otherwise. This English Skill generalises the rule so other users can request any language.
+Determine the travelers' preferred interpretation language from the current trip. Do not infer it from the language of this Skill, passport, residence, or destination; ask only when language access changes the recommendation.
 
 Check:
 

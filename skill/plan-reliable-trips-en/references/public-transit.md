@@ -1,6 +1,6 @@
 # Public transport, fares, and payment
 
-Read for bus, metro, rail, flight, ferry, or public shuttle.
+Read for bus, metro, rail, ferry, public shuttle, or non-air intercity transfer. `air-travel.md` owns every flight segment, including domestic flights inside the destination country; this file owns alternative surface/water transport, public airport access, and surface timing for a must-catch flight.
 
 ## 1. Verify the actual connection
 
@@ -25,17 +25,21 @@ For each operator, verify:
 - payment methods on vehicle, at station, in app/site, or convenience store;
 - action for low balance, failed payment, dead phone, or no data; whether e-tickets work offline.
 
-## 4. Payment priority
+## 4. Use a soft payment preference, not a fixed ladder
 
-When actually compatible:
+Cash, physical cards, and digital wallets are all normal candidates. Start with methods the traveler already has and can reuse in the relevant region, without assuming a home-country wallet or card network. This is a convenience starting point, not proof that a wallet should lead for this operator, country, or account.
 
-1. an already configured cross-border wallet or open-loop contactless method with no new account;
-2. the user's existing international contactless physical card;
-3. an anonymous/visitor transit card without local phone, ID, or bank account;
-4. cash/paper ticket as normal or emergency fallback;
-5. a local app/wallet only when material time/cost benefit outweighs registration, identity, top-up, language, and balance exit.
+Compare the following for exact acceptance, full cost, setup burden, network/battery dependency, and failure consequence:
 
-The presence of Alipay, WeChat Pay, Apple Pay, Google Wallet, UnionPay, Visa, or Mastercard branding does not prove the user's account works. Verify:
+1. an existing reusable digital wallet or phone-based contactless method;
+2. the traveler's existing physical cards;
+3. cash or paper tickets;
+4. an anonymous/visitor transit card that needs no local phone, ID, or bank account;
+5. a destination-specific app or local wallet.
+
+A physical card or cash may be primary when it has better critical-segment coverage, lower cost, or higher reliability. Recommend a local wallet only when it is unusually useful in key scenarios, or lacking it would cause material inconvenience, price loss, or loss of access, and those gains outweigh registration, identity, local-number, card-link/top-up, language, refund, and balance-exit burden. This is a trip-specific judgment, not an absolute rule.
+
+The presence of any wallet, QR rail, or card-network branding does not prove the user's account works. Verify:
 
 - **user side**: OS, NFC, region, app version, linked card/balance and international/transport eligibility;
 - **acceptance side**: exact operator, gate, line, ticket, and scenario;

@@ -2,7 +2,7 @@
 
 [中文版](ai-review-guide.md)
 
-**AI Travel Planning Kit** lets you add your own long-term requirements and preferences gradually. The goal is not to accumulate rules. The goal is to make human–AI decisions reviewable, editable, and reversible without turning one trip's temporary conditions into permanent preferences.
+**AI Travel Planning Kit** lets you review rules and overridable preferences one module at a time. The goal is not to accumulate rules. The goal is to make human–AI decisions reviewable, editable, and reversible without turning one trip's personal conditions into global behavior.
 
 ## 1. Classify a request before editing
 
@@ -11,12 +11,12 @@ The same natural-language comment can be misread as very different rules. Classi
 | Level | Meaning | Example | May a trip override it? |
 |---|---|---|---|
 | Safety / legal boundary | Do not proceed if it fails | Do not enter a closed trail; do not advise paying a public official | No |
-| Stable hard constraint | The user has explicitly made it permanent | Step-free access is required; the user cannot drive | Only when the user explicitly changes it |
-| Default preference | Apply when the trip says nothing else | Use a normal, balanced sightseeing pace | Yes |
+| Current hard constraint | This trip cannot violate it | Step-free access is required; the traveler cannot drive this trip | No; provide it again next trip |
+| Overridable default | A module applies it when the trip says nothing else | Use a normal, balanced sightseeing pace | Yes |
 | Soft preference | A ranking bonus, not a gate | Prefer interesting, portable, locally distinctive gifts | Yes; it must not block the plan |
 | Per-trip parameter | Belongs only to this trip | Travelers, budget, destination, whether it is a holiday | Collect again next trip |
 
-The most common error is expanding “I may prefer…” into a permanent hard standard. Ask whether the comment would truly rule out every other option.
+The most common error is expanding “I may prefer…” into a global hard standard. Ask whether the comment would truly rule out every other option. Keep personal conditions and one-trip tendencies in the trip brief; change a specialist module only when the user intends to change toolkit behavior.
 
 ## 2. Review one topic at a time
 
@@ -124,35 +124,43 @@ Preferences choose among options that are already legal and feasible.
 
 | Topic | Primary file |
 |---|---|
-| Long-term principles and priorities | `references/planning-principles.md` |
-| Dynamic facts and sources | `references/source-verification.md` |
+| Global operating boundaries and module routing | `SKILL.md`; keep only per-trip isolation, workflow, priority, and loading rules, with no permanent personal preference index |
+| Shared dynamic-fact and source floors | `references/source-verification.md`; keep specialist source rules in the active domain module |
 | Routes and fallbacks | `references/route-core.md` |
 | Accommodation | `references/accommodation.md` |
 | Dining | `references/dining.md` |
+| Air routing, flight search, fare tracking, and booking timing | `references/air-travel.md` |
 | Public-transport payment | `references/public-transit.md` |
 | Taxis, charters, and scam prevention | `references/taxi-charter.md` |
-| International travel | `references/international-travel.md` |
+| Self-drive and rental car | `references/self-drive.md` |
+| Visa, entry, international transit, and borders | `references/entry-and-transit.md` |
+| International payment, connectivity, charges, and local operation | `references/international-operations.md` |
+| Health and medical | `references/health-and-medical.md` |
+| Travel insurance | `references/travel-insurance.md` |
 | Photography | `references/photography.md` |
 | Museums | `references/museum-visits.md` |
 | Hiking and track review | `references/hiking-rules.md` |
 | Formal travel package | `references/deliverable-package.md` |
-| Per-trip input | `assets/trip-brief-template.md` |
-| Conditional output and QA | `references/output-contract.md` |
+| Optional complex-trip input form | `assets/trip-brief-template.md`; ordinary work uses natural language |
+| Minimum cross-task output | `references/output-contract.md` |
+| Formal files and complete acceptance | `references/deliverable-package.md` |
+| Loading and document ownership | `docs/architecture.en.md` |
 
-`SKILL.md` owns triggering, workflow, and module routing. Keep detailed rules in their reference files so the entrypoint remains compact.
+`SKILL.md` owns task scope, verification strength, delivery form, the universal trigger gate, workflow, and routing. Keep detailed research, source, and delivery rules in the responsible reference. One reference mentioning another does not automatically load it.
 
 ## 9. Acceptance checklist
 
-- [ ] Per-trip information has not become a permanent rule.
+- [ ] Personal conditions and per-trip information remain in the trip brief.
 - [ ] A soft preference has not become a rejection criterion.
 - [ ] No unnecessary required field was added.
 - [ ] Users can understand headings and status labels.
 - [ ] The same fact is not contradicted across files.
+- [ ] Every universal specialist rule has one authoritative file, with no separate long-term preference index or duplicate body.
 - [ ] The loading matrix can find the new rule.
 - [ ] Safety and legal priority remain intact.
 - [ ] Dynamic facts still require current verification.
 - [ ] The design review and execution rules agree.
-- [ ] Chinese and English versions preserve the same behavior.
+- [ ] Chinese and English versions preserve safety and decision behavior while keeping their intended market positioning.
 - [ ] Both Skills validate.
 
 ## 10. Common anti-patterns

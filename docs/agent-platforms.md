@@ -21,7 +21,7 @@ git clone https://github.com/Lukala23/ai-travel-planning-kit.git
 cd ai-travel-planning-kit
 ```
 
-不使用命令行的用户可以在 GitHub 首页选择 `Code → Download ZIP`。如果平台要求上传“技能包”，请直接下载 [Releases](https://github.com/Lukala23/ai-travel-planning-kit/releases/latest) 中名为 `plan-reliable-trips-skill.zip` 的文件，不要自行猜测应该压缩哪一层目录。不支持原生 Skill、只接受文档上传的 AI，可以下载同一 Release 中的 `ai-travel-planning-kit-portable.md` 单文件版。
+不使用命令行的用户可以在 GitHub 首页选择 `Code → Download ZIP`。如果平台要求上传“技能包”，请直接下载 [Releases](https://github.com/Lukala23/ai-travel-planning-kit/releases/latest) 中名为 `plan-reliable-trips-skill.zip` 的文件，不要自行猜测应该压缩哪一层目录。不支持原生 Skill、只接受文档上传的 AI，先使用同一 Release 中的 `ai-travel-planning-kit-portable-core.md`，再按任务增加场景包。
 
 无论在哪个平台使用，真正的技能目录都是：
 
@@ -49,18 +49,18 @@ skill/plan-reliable-trips/
 
 ## OpenAI Codex
 
-OpenAI 官方说明，个人 Skills 可以放在 `~/.codex/skills`，这样可在不同项目中重复使用；仓库级技能也可以随项目共享。参见 [Save workflows as skills](https://learn.chatgpt.com/use-cases/reusable-codex-skills)。
+OpenAI 当前文档说明，个人 Skills 放在 `~/.agents/skills`，仓库级 Skill 放在仓库向上扫描范围内的 `.agents/skills`；符号链接受支持。参见 [Build skills](https://learn.chatgpt.com/docs/build-skills)。部分旧版或兼容环境仍能读取 `~/.codex/skills`，但新安装优先使用官方当前目录。
 
 在 macOS / Linux 中建立链接：
 
 ```bash
-mkdir -p ~/.codex/skills
-ln -s "$PWD/skill/plan-reliable-trips" ~/.codex/skills/plan-reliable-trips
+mkdir -p ~/.agents/skills
+ln -s "$PWD/skill/plan-reliable-trips" ~/.agents/skills/plan-reliable-trips
 ```
 
 如果目标目录已有同名内容，先比较或备份，不要直接覆盖。Windows 用户可以把整个 `plan-reliable-trips` 文件夹复制到个人 Codex Skills 目录。
 
-在新的 Codex 任务中调用：
+本项目在 OpenAI 元数据中关闭隐式调用，避免普通旅行对话误载整套 Skill。在新的 Codex 任务中显式调用：
 
 ```text
 使用 $plan-reliable-trips。
@@ -225,39 +225,28 @@ gemini skills link "$PWD/skill/plan-reliable-trips"
 
 如果使用的软件没有原生 Agent Skills，也可以把这套工具作为一组“规划参考文件”。不要一开始上传所有专项规则；按本次任务选择，既节省上下文，也能减少无关输出。
 
-### 每次至少提供
+### 每次先提供
 
-1. [`SKILL.md`](../skill/plan-reliable-trips/SKILL.md)；
-2. [`planning-principles.md`](../skill/plan-reliable-trips/references/planning-principles.md)；
-3. [`source-verification.md`](../skill/plan-reliable-trips/references/source-verification.md)；
-4. [`output-contract.md`](../skill/plan-reliable-trips/references/output-contract.md)；
-5. [`trip-brief-template.md`](../skill/plan-reliable-trips/assets/trip-brief-template.md) 或你已经填写的本次任务卡。
+上传 Release 中的 `ai-travel-planning-kit-portable-core.md`。它包含 Skill 路由和两份精简通用规则，不包含完整任务卡或全部专项模块。
 
-### 再按需要提供
+### 再按场景提供增量包
+
+下列文件只包含专项模块，不重复核心路由；必须与 core 搭配，而不是单独上传。
 
 | 本次任务 | 增加文件 |
 |---|---|
-| 先全面了解目的地 | `destination-research.md` |
-| 过夜、选区域或选酒店 | `accommodation.md` |
-| 生成逐日路线 | `route-core.md` |
-| 跨越正餐、寻找当地美食 | `dining.md` |
-| 公交、地铁、铁路、航班或轮渡 | `public-transit.md` |
-| 打车、接送、包车、马车或议价交通 | `taxi-charter.md` |
-| 租车或自驾 | `self-drive.md` |
-| 国外、跨境或国际中转 | `international-travel.md` |
-| 摄影建议和参考图 | `photography.md` |
-| 博物馆、展馆和中文讲解 | `museum-visits.md` |
-| 徒步、登山或轨迹审核 | `hiking-rules.md` |
-| 纪念品和本地购买 | `souvenirs.md` |
-| 完整手册、PDF、速查卡或图片 | `deliverable-package.md` |
+| 城市候选、逐日路线、需要研究的住宿 / 餐饮、公共交通 | `ai-travel-planning-kit-portable-city.md` |
+| 航空链路、国外 / 跨境 / 国际中转、触发后的健康与保险提醒 | `ai-travel-planning-kit-portable-international.md` |
+| 租车、自驾、徒步、户外、相关健康与保障提醒 | `ai-travel-planning-kit-portable-road-outdoor.md` |
+
+摄影、展馆、纪念品、包车或正式资料包等不在场景包中的专项，只在真正触发时从 Skill 压缩包增加对应 `references/*.md`。完整 `ai-travel-planning-kit-portable.md` 仅作向后兼容和归档，不是默认上下文。用户已填写或复杂任务确实需要时才增加高级任务卡。
 
 然后输入：
 
 ```text
-请先完整阅读我上传的核心规则和本次相关模块。
-根据我的自然语言建立本次任务卡，未知信息保持未知，
-不要继承其他旅行的参数。先说明需要联网核验什么、有哪些关键取舍，
-等我确认后再生成完整旅行方案和执行方案。
+请按我上传的核心规则，只读取和输出当前问题真正需要的模块。
+从自然语言提取必要条件，未知信息保持未知，不继承其他旅行参数。
+先完成最小充分研究；只有我明确要求时再扩展为完整旅行方案或正式文件。
 ```
 
 如果平台不能联网，要求它先输出“待核验清单”和需要打开的官方来源类型，不要让它把旧知识写成当前事实。
@@ -278,7 +267,8 @@ gemini skills link "$PWD/skill/plan-reliable-trips"
 - 不继承旧旅行的预算、人数、体力和兴趣；
 - 不强迫一次填写所有模块；
 - 把日期、目的地范围、预算、徒步与否、能力和已订项目视为本次参数；
-- 说明将加载出境、住宿、交通，并在涉及徒步时加载徒步与轨迹审核规则；
+- 因为尚未提出具体问题，不直接加载出入境、住宿或交通全文；只说明何种后续问题会触发它们，并在徒步真正进入当前范围时再加载徒步与轨迹审核；
+- 若要求检查路由，可用 `调试加载` 显示三项配置和实际读取文件；正常旅行回答不显示内部过程；
 - 不在没有当前资料的情况下编造价格、签证、天气或步道状态。
 
 ## 更新技能
