@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Travel Planning Kit"
+  short_description: "Research, plan, budget, and deliver executable trips"
+  default_prompt: "Use $plan-reliable-trips-en to research this trip and produce a complete, source-backed, executable plan."

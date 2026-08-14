@@ -1,5 +1,7 @@
 # Contributing to AI Travel Planning Kit
 
+[English](CONTRIBUTING.en.md)
+
 感谢你帮助 **AI 旅行规划工具包（AI Travel Planning Kit）**变得更可靠、更简洁、更适合真实旅行。
 
 ## 什么样的贡献最有价值

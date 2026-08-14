@@ -1,5 +1,7 @@
 # AI 旅行规划工具包：完整使用指南
 
+[English](usage-guide.en.md)
+
 本指南说明怎样使用 **AI 旅行规划工具包（AI Travel Planning Kit）**完成一次真实旅行：从第一次告诉 AI 目的地，到确认住宿和路线，再到生成资料包、临行更新和旅途中查询。
 
 如果你只想先完成安装，请看 [各 Agent 安装与使用指南](agent-platforms.md)。

@@ -6,7 +6,7 @@
 
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Agent Skill](https://img.shields.io/badge/Agent-Skill-111111.svg)
-![Language](https://img.shields.io/badge/language-中文-red.svg)
+![Language](https://img.shields.io/badge/language-中文%20%7C%20English-red.svg)
 
 **AI 旅行规划工具包**是一套可以直接交给 AI 使用的开源规划文件。你只需要告诉 AI 这次去哪、什么时候去、几个人、大致预算和不能妥协的要求，它就会按一套更完整的规则帮你：
 
@@ -21,6 +21,17 @@
 它不是一个替你下单的旅行 App，也不是一份固定攻略。它更像一套给 AI 使用的“旅行规划工作说明”：告诉 AI 应该查什么、怎样比较、哪些信息必须现查，以及最终怎样把结果整理得方便你执行。
 
 你的偏好都可以自行增加、删除或修改；目的地、日期、人数、预算和旅行方式则在每次出行时重新提供，不会被写死。
+
+## 中英文双语版本
+
+仓库提供两套内容完整、可独立安装的 Skill。规则含义保持一致，但运行时只需启用自己使用的语言，避免把两套文本同时塞进 AI 上下文。
+
+| 语言 | Skill 名称 | Release 安装包 | 便携单文件 |
+|---|---|---|---|
+| 中文 | `$plan-reliable-trips` | `plan-reliable-trips-skill.zip` | `ai-travel-planning-kit-portable.md` |
+| English | `$plan-reliable-trips-en` | `plan-reliable-trips-en-skill.zip` | `ai-travel-planning-kit-portable.en.md` |
+
+英文用户可以直接从 [English homepage](README.en.md) 开始，所有使用指南、平台安装说明、偏好审阅方法、提示词、任务卡和规划规则均有对应英文版。
 
 ## 你可以用它完成什么
 
@@ -72,6 +83,8 @@ flowchart LR
 
 本项目采用标准 `SKILL.md` 结构，同时为不支持原生 Skill 的 AI 提供文件上传方式。
 
+下表中的目录和调用名以中文版为例。英文用户把 `plan-reliable-trips` 换成 `plan-reliable-trips-en`；完整英文步骤见 [English Agent setup guide](docs/agent-platforms.en.md)。
+
 | AI / Agent | 推荐使用方式 |
 |---|---|
 | OpenAI Codex | 链接到 `~/.codex/skills/plan-reliable-trips`，然后使用 `$plan-reliable-trips` |
@@ -86,7 +99,7 @@ flowchart LR
 
 每个平台的准确目录、界面步骤、调用方法和限制见 [各 Agent 安装与使用指南](docs/agent-platforms.md)。平台功能会更新，该文档会标注核验日期并链接官方说明。
 
-不支持原生 Skill 时，可以从 [Releases](https://github.com/Lukala23/ai-travel-planning-kit/releases/latest) 下载 `ai-travel-planning-kit-portable.md`，把这一个文件上传给 AI；它由模块化规则自动生成，方便使用，但长期修改仍建议回到仓库源文件。
+不支持原生 Skill 时，可以从 [Releases](https://github.com/Lukala23/ai-travel-planning-kit/releases/latest) 下载中文 `ai-travel-planning-kit-portable.md` 或英文 `ai-travel-planning-kit-portable.en.md`，把一个对应语言的文件上传给 AI；它们由模块化规则自动生成，方便使用，但长期修改仍建议回到仓库源文件。
 
 Codex 的快速安装示例：
 
@@ -216,15 +229,25 @@ ai-travel-planning-kit/
 ├── README.en.md
 ├── docs/
 │   ├── agent-platforms.md
+│   ├── agent-platforms.en.md
 │   ├── usage-guide.md
+│   ├── usage-guide.en.md
 │   ├── ai-review-guide.md
-│   └── constraint-review.md
+│   ├── ai-review-guide.en.md
+│   ├── constraint-review.md
+│   └── constraint-review.en.md
 ├── examples/
-│   └── prompts.md
+│   ├── prompts.md
+│   └── prompts.en.md
 ├── scripts/
 │   └── build-release-assets.sh
 └── skill/
-    └── plan-reliable-trips/
+    ├── plan-reliable-trips/       # 中文 Skill
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   ├── assets/trip-brief-template.md
+    │   └── references/
+    └── plan-reliable-trips-en/    # English Skill
         ├── SKILL.md
         ├── agents/openai.yaml
         ├── assets/trip-brief-template.md
@@ -239,6 +262,8 @@ ai-travel-planning-kit/
 - [信息核验规则](skill/plan-reliable-trips/references/source-verification.md)
 - [正式资料包规则](skill/plan-reliable-trips/references/deliverable-package.md)
 - [完整约束审阅记录](docs/constraint-review.md)
+- [English Skill entrypoint](skill/plan-reliable-trips-en/SKILL.md)
+- [English trip brief](skill/plan-reliable-trips-en/assets/trip-brief-template.md)
 
 ## 更多可复制指令
 
@@ -264,7 +289,7 @@ ai-travel-planning-kit/
 - 对重复、僵硬、难懂或无助于实际决策的规则进行简化；
 - 新 Agent 平台的安装与兼容性更新。
 
-提交前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，并移除订单、证件、联系方式和其他私人信息。
+提交前请阅读 [中文贡献指南](CONTRIBUTING.md) 或 [English contribution guide](CONTRIBUTING.en.md)，并移除订单、证件、联系方式和其他私人信息。
 
 ## License
 
