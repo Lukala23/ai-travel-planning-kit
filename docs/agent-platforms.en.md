@@ -21,7 +21,7 @@ git clone https://github.com/Lukala23/ai-travel-planning-kit.git
 cd ai-travel-planning-kit
 ```
 
-Without Git, choose `Code → Download ZIP` on GitHub. For local Skill upload, download `plan-reliable-trips-en-skill.zip` from [Releases](https://github.com/Lukala23/ai-travel-planning-kit/releases/latest). For an AI that accepts documents but not Skills, upload `ai-travel-planning-kit-portable.en.md` from the same Release.
+Without Git, choose `Code → Download ZIP` on GitHub. For local Skill upload, download `plan-reliable-trips-en-skill.zip` from [Releases](https://github.com/Lukala23/ai-travel-planning-kit/releases/latest). For an AI that accepts documents but not Skills, upload `ai-travel-planning-kit-portable-core.en.md` first and then add the relevant scenario pack.
 
 The English Skill directory is:
 
@@ -49,16 +49,18 @@ skill/plan-reliable-trips-en/
 
 ## OpenAI Codex
 
-OpenAI's [Save workflows as skills](https://learn.chatgpt.com/use-cases/reusable-codex-skills) explains that personal Skills under `~/.codex/skills` can be reused across repositories and that project Skills can be shared with a repository.
+OpenAI's current [Build skills](https://learn.chatgpt.com/docs/build-skills) documentation places personal Skills under `~/.agents/skills`, scans repository `.agents/skills` locations, and supports symlinked Skill folders. Some older or compatibility builds still read `~/.codex/skills`, but use the current official location for a new installation.
 
 macOS / Linux:
 
 ```bash
-mkdir -p ~/.codex/skills
-ln -s "$PWD/skill/plan-reliable-trips-en" ~/.codex/skills/plan-reliable-trips-en
+mkdir -p ~/.agents/skills
+ln -s "$PWD/skill/plan-reliable-trips-en" ~/.agents/skills/plan-reliable-trips-en
 ```
 
 Compare or back up an existing destination before replacing it. Windows users can copy the complete folder into their personal Codex Skills directory.
+
+This project disables implicit invocation in OpenAI metadata to avoid loading the full Skill during unrelated travel chat. Invoke it explicitly:
 
 ```text
 Use $plan-reliable-trips-en.
@@ -118,7 +120,7 @@ Enable only Skills relevant to the task. Inspect the source, permissions, and sc
 1. Use the repository as the task workspace, or copy `skill/plan-reliable-trips-en` into your travel folder.
 2. `@`-reference `SKILL.md`, its core rules, and the trip brief.
 3. Require the AI to read them and conditionally load modules before planning.
-4. Save the trip output separately; do not edit the toolkit unless you are intentionally changing a long-term rule.
+4. Save the trip output separately; edit a specialist module only when you intentionally want to change toolkit behavior.
 
 ```text
 Read @skill/plan-reliable-trips-en/SKILL.md and the core rules it references.
@@ -198,37 +200,27 @@ For one workspace, `.gemini/skills/` or `.agents/skills/` can be used. Confirm d
 
 If the product lacks native Agent Skills, use the rules as planning context. Do not upload every specialist file by default.
 
-### Always provide
+### Provide first
 
-1. [`SKILL.md`](../skill/plan-reliable-trips-en/SKILL.md);
-2. [`planning-principles.md`](../skill/plan-reliable-trips-en/references/planning-principles.md);
-3. [`source-verification.md`](../skill/plan-reliable-trips-en/references/source-verification.md);
-4. [`output-contract.md`](../skill/plan-reliable-trips-en/references/output-contract.md);
-5. the [trip brief](../skill/plan-reliable-trips-en/assets/trip-brief-template.md) or a completed equivalent.
+Upload `ai-travel-planning-kit-portable-core.en.md` from the Release. It contains the router and two slim shared rules, not the complete brief or every specialist.
 
-### Add only when needed
+### Add a scenario delta
+
+These files contain specialists only and do not repeat the router. Pair them with the core rather than uploading one alone.
 
 | Task | Additional file |
 |---|---|
-| Explore a destination broadly | `destination-research.md` |
-| Overnight trip or hotel selection | `accommodation.md` |
-| Build a daily route | `route-core.md` |
-| Route crosses a main meal | `dining.md` |
-| Public transport, rail, flights, or ferry | `public-transit.md` |
-| Taxi, transfer, charter, carriage, or negotiated transport | `taxi-charter.md` |
-| Rental car or self-drive | `self-drive.md` |
-| International, cross-border, or transit | `international-travel.md` |
-| Photography or reference images | `photography.md` |
-| Museum, gallery, or interpretation | `museum-visits.md` |
-| Hiking, mountaineering, or track review | `hiking-rules.md` |
-| Souvenirs or local purchasing | `souvenirs.md` |
-| Complete handbook, PDF, quick card, or images | `deliverable-package.md` |
+| City candidates, daily route, researched lodging/dining, and public transport | `ai-travel-planning-kit-portable-city.en.md` |
+| Air chain, international/cross-border/transit, and triggered health/insurance reminders | `ai-travel-planning-kit-portable-international.en.md` |
+| Rental/self-drive, hiking/outdoor, and related health/insurance reminders | `ai-travel-planning-kit-portable-road-outdoor.en.md` |
+
+For photography, museums, souvenirs, charters, or formal package rules absent from a scenario pack, add the individual `references/*.md` from the Skill archive only when triggered. The full `ai-travel-planning-kit-portable.en.md` is backward-compatible archive, not the default context. Add the advanced trip brief only when completed or genuinely useful for a complex task.
 
 ```text
-Read the uploaded core rules and relevant modules completely.
-Build a per-trip brief from my natural language. Keep unknowns unknown and do
-not inherit parameters from another trip. Tell me what requires live research
-and what key trade-offs I need to confirm before the full travel and execution plan.
+Follow the uploaded core rules and use only modules needed for my current question.
+Extract necessary conditions from natural language, keep unknowns unknown, and do
+not inherit another trip. Do the smallest sufficient research and expand into a
+complete plan or formal files only when I explicitly ask.
 ```
 
 Without browsing, require a “to verify” list and the types of official sources to open. Do not let stale model knowledge become a current fact.
@@ -247,7 +239,8 @@ Correct behavior includes:
 - no inherited budget, travelers, ability, or interests;
 - no demand to complete every module;
 - dates, destination scope, budget, hiking intent, ability, and bookings treated as per-trip data;
-- international, accommodation, and transport rules loaded, plus hiking and track review only if relevant;
+- no automatic full load of entry, lodging, or transport before a current question needs them; it should explain their future triggers and load hiking/track review only when hiking enters scope;
+- `debug loading` may expose the three controls and files actually read during a routing test; normal trip answers should hide that internal process;
 - no invented prices, visas, weather, or trail status.
 
 ## Update

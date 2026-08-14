@@ -1,6 +1,6 @@
 # Local food research and route integration
 
-Read whenever a route crosses a main meal or the user requests local food, restaurants, markets, or street shops. Food is part of travel experience and daily timing, not a viral list at the end.
+Read when the user wants local-food research, restaurants/markets/street shops, or a meal becomes a route anchor or material choice. A route crossing a main meal still reserves a realistic window and convenient area, but that alone does not trigger the full dining module.
 
 ## 1. Decide what to eat before where
 

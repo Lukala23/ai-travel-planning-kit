@@ -1,6 +1,6 @@
 # Mobile-First Photography Rules
 
-Photography is one input to route quality, not the only fixed objective. Scan the entire executable route for genuine visual and social-sharing value, then recommend photographs that an ordinary traveler can reproduce with a phone or pocket camera through position, timing, composition, and light rather than professional equipment.
+Read when photography is explicit, a light route scan finds a high-value opportunity that changes route tradeoffs, or formal delivery needs reference images. Once active, scan the relevant executable route for genuine visual and social-sharing value and recommend reproducible phone or pocket-camera photographs through position, timing, composition, and light rather than professional equipment.
 
 ## 1. Evaluation standard
 
@@ -67,9 +67,9 @@ References are for planning and study, not for copying protected work or trespas
 - Identify good en-route street, transit, landscape, food, market, and accommodation frames rather than limiting photography to official attractions.
 - For weather-dependent views, give a normal-condition plan and a bad-weather alternative instead of promising a result.
 
-## 6. Phone and pocket-camera defaults
+## 6. Phone and pocket-camera starting point
 
-Assume a phone and, at most, a compact device such as an Osmo Pocket unless the current trip says otherwise. Do not make equipment a required questionnaire field.
+When the current trip does not specify equipment, start from a phone and do not assume additional gear. This is an overridable planning assumption, not a permanent traveler profile. Current equipment and goals take priority; ask about gear only when it changes a route or recommendation.
 
 Prioritise:
 

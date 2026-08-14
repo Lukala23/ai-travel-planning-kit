@@ -90,6 +90,8 @@ Calculate a personal turnaround time from sunset, weather window, descent speed,
 
 Route geometry remains in the user's app. Give planning space to access, legality, safety, insurance, medical support, accommodation, food/water, communication, payment, equipment, and emergency response.
 
+This section adds route-specific altitude, activity, search/rescue, and remote-care conditions. Apply `health-and-medical.md` for general travel health, medicine, and care planning, and `travel-insurance.md` for the whole policy/gap review; then test the exact route activity, maximum altitude, and rescue method against the wording.
+
 ### Permits, legal route, guide
 
 - Verify national/park/local/restricted-area permits, checkpoints, registration, required guide/agency or party size, and authorised entry/exit.

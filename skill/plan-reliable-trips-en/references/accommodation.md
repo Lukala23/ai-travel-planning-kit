@@ -1,6 +1,6 @@
 # Accommodation research, area planning, and recommendations
 
-Read for every overnight trip, accommodation-area or property comparison, recommendation, or booked-stay review. Accommodation is a core route and budget decision; actively reach a conclusion rather than appending a hotel after the route.
+Read only when selecting or recommending accommodation, comparing areas/properties, or auditing a booking that may change route or cost. Every overnight route still identifies lodging status and base, but a settled booking with no material mismatch does not require the full research rules or an alternative ranking.
 
 ## 1. Define the current accommodation task
 
@@ -14,9 +14,8 @@ Read for every overnight trip, accommodation-area or property comparison, recomm
 Build area candidates from urban structure and route skeleton, then search exact properties in high-fit areas using:
 
 - official property/group channels for room, facilities, policy, membership, and direct benefits;
-- Trip.com/Ctrip or channels appropriate to the user's region;
-- Booking.com;
-- Agoda, Expedia, Hotels.com, Google Hotels/Maps, and genuinely useful local platforms;
+- reputable regional or global booking channels the traveler can actually use and obtain support from;
+- metasearch and maps for discovery, followed by a bookable direct or agency page;
 - lawful official/management/specialist channels for apartments, guesthouses, huts, or special stays.
 
 This is not a mandatory platform checklist. For finalists, compare two currently bookable channels and the official one where accessible. When login, region, cookies, dynamic pricing, or blocking prevents verification, say so; never treat a search snippet as a live fare.

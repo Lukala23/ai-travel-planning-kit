@@ -2,7 +2,7 @@
 
 [中文版](constraint-review.md)
 
-> This document records the ten rule groups that were reviewed and confirmed. It is not a form to complete for every trip. A compatible Agent reads the Skill rules; file-upload users provide only the modules relevant to the current task.
+> This is a historical record of the section-by-section rule review, not a runtime authority or a file to upload for every trip. Current loading is defined by [Document Architecture and AI Loading Principles](architecture.en.md) and each language's `SKILL.md`.
 
 ## How to review a future change
 
@@ -32,6 +32,31 @@ After confirmation, update this review, the authoritative execution rule, and th
 | 8 | Museums, exhibitions, memorials, souvenirs, and local purchases | Confirmed 2026-08-13 |
 | 9 | Verification, guide content, and final QA | Confirmed 2026-08-13 |
 | 10 | Formal package, images, quick reference, and use | Confirmed 2026-08-13 |
+| New | Air travel, flight search, and booking timing | Confirmed 2026-08-14 |
+
+## 2026-08-14 cross-module architecture update
+
+- Remove `planning-principles.md` and the long-term preference index. Keep only minimal global operating boundaries in `SKILL.md`; research, route, safety, and overridable preferences live in their responsible references.
+- When an executable conclusion is needed, a minimum trip-condition check states entry/permit, round-trip long-distance access, major unavoidable costs, and user assumptions; conditional proposals retain outstanding and recheck conditions even without an obvious blocker.
+- `self-drive.md` is now a complete rental/road module covering contract total, vehicle protection/excess, fuel/charging, toll systems, winter equipment, traffic-side adaptation, border use, fatigue, assistance, penalties, and pickup/return evidence.
+- New `health-and-medical.md` loads for sleeping/activity altitude around 2,450–2,500 m+, user health/medicine needs, or an authoritative risk screen; health planning is no longer confined to hiking.
+- New and deliberately narrow `travel-insurance.md` loads in full only for mandatory proof, special activity/altitude, remote evacuation, planned card coverage, or an explicit question; the traveler manages whole-trip insurance.
+- New `air-travel.md` separates flight search and booking strategy from public transport and owns the actual-origin air chain, complete cost, comfort, connection risk, and a tracking protocol.
+- Former `international-travel.md` is split into `entry-and-transit.md` and `international-operations.md`, so a narrow visa/transit question does not load payment, connectivity, and tipping guidance.
+- Task scope, verification strength, and delivery form are independent. OpenAI uses explicit invocation by default; module loading is model-followed soft routing with debug output and behavioral cases for testing.
+
+---
+
+## 2026-08-14 new specialist module: air travel, flight search, and booking timing
+
+- Plan the complete outbound and return chain from the actual origin. Compare nonstop, protected connections, and useful open-jaw structures first; consider another gateway only when complete cost, time, and risk materially improve.
+- The origin-neutral English edition uses airline-direct, reputable local/regional channels, and metasearch appropriate to the traveler’s sales market. The Chinese edition separately prioritizes accessible China-market channels.
+- A gateway option includes feeder transport, airport change, hotel, baggage on every ticket, self-transfer, missed-connection, and effort cost. A cheaper long-haul segment alone does not prove a cheaper complete journey.
+- Normalize complete tax-inclusive cost, required extras, door-to-door time, comfort, baggage, connection protection, fare rules, and support. Keep only genuinely different balanced, lowest-complete-cost, and more-comfortable/lower-risk finalists.
+- Do not give a universal “20/100 days ahead” answer. Use route-level current fare, intelligible low-fare calendar/trend, recorded snapshots, date rigidity, holidays, and alternatives to return `Buy now / Set alerts and observe / Wait for trip conditions / Cannot yet assess`. An observation plan needs a complete target price, buy trigger, latest decision date, and checkout repricing.
+- When platforms or route-level history are inaccessible, preserve uncertainty and give exact searches instead of inventing a trend. Never book, log in, redeem, or enter traveler/payment data without explicit authorization.
+
+This module is confirmed as origin-neutral in English. The Chinese edition remains optimized for departure from China, with shared safety and comparison logic rather than literal wording.
 
 ---
 
@@ -123,7 +148,8 @@ Separate convenience, fares and travel cards, payment and exchange, mobile data,
 
 ### Payments, physical backup, and exchange
 
-- Prefer: verified cross-region mobile/contactless payment → existing international physical card → appropriate tourist transit card → necessary cash. Recommend a local wallet/app only when registration's combined benefit is material.
+- Cash, physical cards, and digital wallets are normal candidates. Start by verifying already configured, reusable methods such as Alipay, WeChat Pay, Apple Pay, or Google Wallet/Google Pay, then compare them with cards and cash for exact acceptance, cost, reliability, and failure consequence. This is an overridable convenience preference, not a fixed ladder.
+- A physical card or cash may lead when it is more reliable, cheaper, or better covered in critical scenarios. Recommend a destination-specific wallet/app only when it is unusually useful, or lacking it would cause material inconvenience, price loss, or loss of access, and those gains outweigh registration, identity, local-number, card-link/top-up, language, refund, and balance-exit burden.
 - Verify exact phone, linked card, acceptance context, fees, limits, connectivity, and refunds. A logo for Alipay, Google Wallet, or Visa is not a guarantee.
 - Physical cards and cash can be prepared, but estimate real cash needs before comparing home exchange, legal exchange offices, and ATM spread, fixed fee, withdrawal fee, DCC, limit, and leftover-cash loss.
 - Primary and fallback payment must not depend on one phone, card, or account. State actions for battery loss, fraud controls, SMS failure, decline, and insufficient balance.
@@ -249,7 +275,7 @@ Cut in this order instead of compressing meals, rest, movement, or safe return. 
 
 ## Section 6: photography, priority shots, and useful light
 
-- Default to a phone and, at most, an Osmo Pocket or similar device. Do not repeatedly ask about cameras, lenses, or tripods.
+- When the brief does not specify equipment, start from a phone and, at most, an Osmo Pocket or similar device. This is overridable, not a permanent traveler profile; current equipment and goals take priority.
 - Prioritise composition, position, light, people placement, layers, and clean background; add equipment settings only when the trip explicitly includes other gear.
 - Scan the whole route lightly. For core and ordinary popular sights with reproducible compositions, state where to stand, direction, orientation, people position, what to keep, and what to avoid.
 - For high-travel-value but visually ordinary places, use `Record only` and a solid memory-photo method rather than inventing a masterpiece.
@@ -361,7 +387,7 @@ Museum planning can shape the entire trip. Souvenir advice is a light purchasing
 - Include only relevant modules. Expand automatically for safety, law, expensive non-refundable decisions, complex museums, or overseas treks; keep ordinary low-risk content concise.
 - State dates, travelers, budget, confirmed items, and key assumptions at the top; preserve missing information as unknown or conditional.
 - Recheck opening, price, booking, transport, visa, road/trail, weather, payment, accommodation inventory, restaurant status, and exchange rate for the current task.
-- Use at least two independent sources for safety, law, and expensive non-refundable items, including the competent authority or direct operator. Use visitor evidence for field experience and issue discovery.
+- Use at least one competent authority or direct operator for safety, law, and expensive non-refundable items. Add an independent second source when wording is ambiguous, evidence conflicts or is inaccessible, or the downside is severe and confirmation is practical. Use visitor evidence for field experience and issue discovery.
 - Put direct sources and verification dates beside decision-critical claims. Keep only a short key-evidence table at the end.
 - Use `Verified / Recheck before departure / Conditional / Uncertain / Planning judgment`. These are evidence states, not attraction grades.
 - Preserve source conflicts and applicable dates. Unknown is better than invented certainty.

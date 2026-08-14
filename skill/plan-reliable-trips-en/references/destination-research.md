@@ -19,6 +19,10 @@ Search selectively for:
 
 Lightly scan museums for every destination and deepen the search in capitals, major cities, and historic/cultural cities. When a venue matters, apply `museum-visits.md` to actual display, curation, language access, time, and overlap; do not limit research to famous tourist museums or treat all museums as rain fallbacks.
 
+### Screen marketing noise
+
+Use social platforms, lists, ratings, and likes only to discover candidates. For a highly visible or high-premium product, check concentrated copy/angles, disclosure of commercial relationships, consistency with recent ordinary traveler text/original images/negative reports, dependence on drones, long-lens compression, heavy editing, closed positions, or a tiny seasonal window, and whether the real content justifies queue, ticket, detour, and extras. Check whether different platforms merely repeat one asset. Use `High marketing risk` only with observable reasons; without sufficient evidence, do not allege rating manipulation, fabrication, or fraud.
+
 ## 2. Build spatial and time structure
 
 - Group by zone, transport corridor, or entrance.

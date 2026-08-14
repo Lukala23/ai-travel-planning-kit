@@ -1,6 +1,6 @@
 # Taxi, charter, and negotiated unusual transport
 
-Read for taxi, ride-hail, airport transfer, charter/private driver, carriage, riding, tuk-tuk, rickshaw, motorcycle hire, traditional boat, or any non-fixed-price transport/experience. Give verifiable prices, written confirmation, safety/ethics, scam warning, and executable fallback—not only an app name.
+Read for a consequential taxi/ride-hail segment, airport transfer, charter/private driver, negotiated price, or special carriage, riding, tuk-tuk, motorcycle, or traditional-boat experience. An ordinary short urban ride needs a legitimate channel and fallback, not the complete module. Specialist research gives verifiable prices, written confirmation, safety/ethics, scam warning, and executable fallback—not only an app name.
 
 ## 1. Assess the exact segment
 

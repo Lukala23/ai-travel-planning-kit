@@ -9,7 +9,7 @@ Thank you for helping **AI Travel Planning Kit（AI 旅行规划工具包）** b
 - reproducible failures from real travel;
 - country- or region-specific methods for verifying payments, transport, taxes, language, or safety;
 - better official, professional, or local source hierarchies;
-- field-tested improvements to accommodation, dining, museum, photography, or hiking rules;
+- field-tested improvements to accommodation, dining, air travel and airfare, self-drive, travel-health, insurance, museum, photography, or hiking rules;
 - removal of duplicated, rigid, unclear, or decision-irrelevant constraints;
 - clearer trip briefs, delivery structures, and AI collaboration workflows;
 - fixes for broken links, inconsistent terminology, translation drift, or incorrect module routing.
@@ -53,11 +53,12 @@ Keep one pull request focused on one topic where practical. Its description shou
 When changing detailed rules, also inspect:
 
 - whether the conditional loading matrix in `SKILL.md` still finds the rule;
-- whether `planning-principles.md` conflicts with it;
-- whether `output-contract.md` needs a corresponding quality check;
+- whether the rule has one responsible specialist file and avoids an implicit traveler profile or duplicate behavior;
+- whether specialist checks stay in their owner module; `output-contract.md` keeps only cross-task minimum checks and does not duplicate specialist lists;
 - whether `trip-brief-template.md` genuinely needs another field;
-- whether `docs/constraint-review.md` and its English counterpart need a design note;
-- whether the Chinese and English versions still express the same decision behavior.
+- whether `docs/architecture.md` and its English counterpart need a loading update; add historical discussion to `constraint-review` only when it has durable value;
+- whether a new/removed reference is present in the right scenario packs and full archive in `scripts/build-release-assets.sh`;
+- whether both editions preserve the same safety and decision logic while the Chinese edition remains China-origin and the English edition remains origin-neutral; literal translation is not required.
 
 ## Writing principles
 
@@ -78,7 +79,9 @@ Before submission:
 - check Markdown links;
 - search for stale terminology and conflicting rules;
 - confirm there are no local absolute paths or sensitive data;
-- validate both Agent Skill directories when either shared rule set changes;
+- run `scripts/validate-project.sh` to check both Skills, links, portable profiles, and routing cases;
+- rebuild both language release assets when references or routing change;
+- update `tests/routing-cases.tsv` after trigger/routing changes and run at least one narrow real prompt to observe module overloading;
 - review the complete diff and confirm it contains only the intended topic.
 
 ## License

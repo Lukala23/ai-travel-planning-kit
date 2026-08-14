@@ -2,7 +2,7 @@
 
 [English](ai-review-guide.en.md)
 
-**AI 旅行规划工具包（AI Travel Planning Kit）**允许你把自己的长期要求和偏好逐步加入规则。最重要的不是堆更多要求，而是让人与 AI 的讨论可审阅、可修改、可回退，并避免把一次旅行的临时条件误写成永久偏好。
+**AI 旅行规划工具包（AI Travel Planning Kit）**允许你逐个模块审阅规则和可覆盖偏好。最重要的不是堆更多要求，而是让人与 AI 的讨论可审阅、可修改、可回退，并避免把一次旅行的个人条件误写成全局行为。
 
 ## 1. 先判断一条意见应该放在哪里
 
@@ -11,12 +11,12 @@
 | 级别 | 含义 | 示例 | 是否可由单次任务覆盖 |
 |---|---|---|---|
 | 安全 / 法律底线 | 不满足就不执行 | 关闭步道不走、不建议向公职人员付款 | 否 |
-| 长期硬约束 | 使用者长期明确要求 | 必须无障碍、不能驾驶 | 仅在用户明确改变时 |
-| 默认偏好 | 没有其他说明时采用 | 普通观光默认平衡密度 | 可以 |
+| 本次硬约束 | 这趟旅行不能违反 | 必须无障碍、这次不能驾驶 | 否；下一趟重新提供 |
+| 可覆盖默认 | 模块在没有其他说明时采用 | 普通观光默认平衡密度 | 可以 |
 | 软偏好 | 只作为加分项 | 喜欢有趣、便携、有当地特点的小礼物 | 可以，不应阻塞方案 |
 | 单次参数 | 只属于这一趟旅行 | 人数、预算、目的地、是否度假 | 下一次必须重新采集 |
 
-最常见的错误是把一句“我可能更喜欢……”扩写成永久硬标准。AI 必须先问：这句话真的会否决其他选择吗？
+最常见的错误是把一句“我可能更喜欢……”扩写成全局硬标准。AI 必须先问：这句话真的会否决其他选择吗？如果只是个人条件或单次倾向，应留在任务卡；只有明确要改变工具包行为时，才修改对应专项模块。
 
 ## 2. 一次只审一个主题
 
@@ -127,30 +127,38 @@
 
 | 主题 | 主要文件 |
 |---|---|
-| 长期原则与优先级 | `references/planning-principles.md` |
-| 动态信息与来源 | `references/source-verification.md` |
+| 全局运行边界与模块路由 | `SKILL.md`；只保留单次任务隔离、工作流、优先级和加载规则，不保存个人长期偏好 |
+| 通用动态信息与来源底线 | `references/source-verification.md`；专项来源规则留在对应模块 |
 | 路线和备选 | `references/route-core.md` |
 | 住宿 | `references/accommodation.md` |
 | 饮食 | `references/dining.md` |
+| 航空链路、机票搜索、价格跟踪与购票时机 | `references/air-travel.md` |
 | 公交支付 | `references/public-transit.md` |
 | 打车、包车和防骗 | `references/taxi-charter.md` |
-| 出境 | `references/international-travel.md` |
+| 自驾与租车 | `references/self-drive.md` |
+| 签证、入境、国际中转与口岸 | `references/entry-and-transit.md` |
+| 境外支付、通信、税费与在地运行 | `references/international-operations.md` |
+| 健康与医疗 | `references/health-and-medical.md` |
+| 旅行保险 | `references/travel-insurance.md` |
 | 摄影 | `references/photography.md` |
 | 博物馆 | `references/museum-visits.md` |
 | 徒步与轨迹审核 | `references/hiking-rules.md` |
 | 正式资料包 | `references/deliverable-package.md` |
-| 单次输入 | `assets/trip-brief-template.md` |
-| 条件式输出与自检 | `references/output-contract.md` |
+| 复杂任务的可选单次输入表 | `assets/trip-brief-template.md`；普通任务直接使用自然语言 |
+| 跨任务最小输出规则 | `references/output-contract.md` |
+| 正式文件与完整验收 | `references/deliverable-package.md` |
+| 加载关系与文档职责 | `docs/architecture.md` |
 
-`SKILL.md` 主要负责触发、工作流和文件路由。详细规则应尽量留在对应 reference 中，避免主文件不断膨胀。
+`SKILL.md` 主要负责任务范围、核验强度、交付形式、通用触发门槛、工作流和文件路由。详细研究、来源与交付要求留在负责该主题的 reference；reference 之间的提及不自动触发递归加载。
 
 ## 9. 修改后的验收清单
 
-- [ ] 规则分类正确，没有把单次信息写成长期规则；
+- [ ] 规则分类正确，个人条件和单次信息留在任务卡；
 - [ ] 没有把软偏好变成否决条件；
 - [ ] 没有增加无必要的每次必填项；
 - [ ] 使用者能看懂标题和状态词；
 - [ ] 同一事实没有在多个文件出现互相矛盾的版本；
+- [ ] 通用专项规则只有一个权威文件，没有另建长期偏好索引或重复其正文；
 - [ ] 条件加载矩阵能让模型找到新规则；
 - [ ] 安全与法律优先级没有降低；
 - [ ] 动态事实仍要求当次核验；

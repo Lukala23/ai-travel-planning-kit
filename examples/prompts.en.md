@@ -114,19 +114,19 @@ communications. Return Usable / Conditionally usable / Do not use, list every
 required correction, and state clearly that this is not a safety certification.
 ```
 
-## 9. Review one long-term rule
+## 9. Review one module rule or preference
 
 ```text
 Review only the rules about [topic]. Do not edit yet.
 
 Explain:
 1. what the current rule makes the model do;
-2. whether my comment is a safety boundary, stable hard constraint, default,
+2. whether my comment is a safety boundary, current hard constraint, overridable default,
    soft preference, or per-trip parameter;
 3. whether a casual preference has become a rigid rule;
 4. which file should change and which outputs it affects.
 
-Then propose simplified wording and wait for confirmation.
+Do not create a long-term preference index. Then propose simplified wording and wait for confirmation.
 ```
 
 ## 10. Generate the formal travel package
@@ -190,4 +190,55 @@ Protect non-refundable bookings, important transport, and safe return. Explain
 what was removed, moved, or replaced; reconnect transport and meals; and move
 photography, outdoor, or evening activities to a better day. Do not regenerate
 the entire trip without cause.
+```
+
+## 15. Check minimum trip conditions first
+
+```text
+Use $plan-reliable-trips-en and do not research a complete attraction list yet.
+For [destination / dates / days / travellers / budget / actual origin and return endpoint],
+state the minimum trip conditions: entry/permit for the travel document, round-trip
+long-distance access, major unavoidable costs, and my execution assumptions. Mark each
+Met / To confirm / Not met, then return Feasible / Conditionally feasible / Material
+mismatch / Cannot yet assess. Even with no obvious blocker, retain conditions still to
+arrange, satisfy, or recheck. For a clear blocker, give two or three smallest adjustments.
+```
+
+## 16. Non-hiking altitude, medicine, and care readiness
+
+```text
+Use $plan-reliable-trips-en for an ordinary sightseeing trip in [high-altitude city]; no hiking.
+Expected sleeping altitude is [value]. I have [only relevant condition category] and carry
+[medicine generic name/device]. Load the health module; separate entry mandates from advice,
+and verify medicine import, acclimatisation, food/vector exposure, suitable care, payment,
+and evacuation. Label clinician decisions Professional assessment required; do not diagnose or dose.
+```
+
+## 17. Rental vehicle and essential insurance reminders
+
+```text
+Use $plan-reliable-trips-en to compare rental options for [destination / dates / route].
+Cover rental terms, CDW/LDW, liability, excess, fuel/charging, toll tag, winter equipment,
+border use, assistance, and penalties. I will arrange whole-trip insurance independently;
+flag only mandatory evidence, special-activity, remote-evacuation, or planned card-benefit
+conditions that are easy to miss. Do not rank insurance products or compare a full policy.
+```
+
+## 18. Search from the actual origin and decide when to book
+
+```text
+Use $plan-reliable-trips-en to search flights for [travelers] on [full dates/flexibility]
+from [actual origin] to [first trip node] and from [last trip node] to [return point]. Cabin [ ],
+baggage [ ], connection/red-eye/self-transfer tolerance [ ], and fare budget/refund priority [ ].
+
+Compare nonstop, protected connections, and useful open-jaw structures from the actual origin.
+Add another gateway only when complete cost and risk genuinely improve. Use direct airlines plus
+reputable channels in my sales market that I can actually buy from. Include positioning, airport
+change, hotel, baggage recheck, and missed-connection risk rather than comparing sticker fare alone.
+
+Return at most genuinely distinct Balanced recommendation / Lowest complete cost / More comfortable
+or lower risk finalists, then conclude Buy now / Set alerts and observe / Wait for trip conditions /
+Cannot yet assess. If observing, state the current complete fare, target or buy trigger, platforms,
+and latest decision date. If the host has no real scheduler, label this a manual protocol instead of
+promising background monitoring. Do not apply a universal advance-purchase rule or treat an alert as inventory.
 ```
