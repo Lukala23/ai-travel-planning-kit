@@ -1,5 +1,7 @@
 # 在不同 AI Agent 中安装和使用
 
+[English](agent-platforms.en.md)
+
 > 文档最近核验：2026-08-14。Agent 产品更新很快；如果界面、目录或命令发生变化，请优先查看本节链接的官方说明，并欢迎提交 Issue 更新本文档。
 
 **AI 旅行规划工具包（AI Travel Planning Kit）**的核心是标准 `SKILL.md` 加一组按需读取的规则文件。不同软件对 Agent Skills 的支持方式不完全相同，因此不要把所有产品都理解成“安装到 Codex”。
