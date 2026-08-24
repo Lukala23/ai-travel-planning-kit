@@ -43,7 +43,16 @@ Mark each `Met / To confirm / Not met / Not applicable`, then conclude `Feasible
 - Verify an official charge's name, amount, affected traveler, official channel, and receipt. Never claim a commercial fast-track guarantees admission, bypasses customs, or buys favorable treatment from officials.
 - Research paid fast-track or assistance only when asked or when a tight connection/accessibility need makes it material, identifying the exact service component.
 
-## 5. Unofficial demands and document safety
+## 5. Customs Legality of Carried and Purchased Items
+
+Selecting souvenirs, gifts, and shopping is itself answered as an ordinary preference (favor items with local identity, interest, portability, and reasonable price; do not default to expensive collectibles); this module owns only the legality questions:
+
+- Do not recommend or put into the route by default: suspected looted artifacts, fake antiques, or “antiques” of unknown origin; ivory, coral, tortoiseshell, shell products, fur, and endangered animals/plants and their products regulated under CITES or bilateral quarantine rules; traditional medicines, minerals, or religious artifacts the destination explicitly bans from export.
+- Check both the exit and the entry side: liquids, alcohol, meat products, dairy, seeds, fruit, and medicines (especially compound drugs with controlled ingredients) must satisfy the destination's entry rules and also be legal to bring back home; writing “it can be bought locally” is not a completed verification.
+- Bargaining and returns are commercial custom: mention them only when genuinely routine locally; never write “must haggle” as a rule.
+- For an item whose legality cannot be confirmed, state clearly “unconfirmed—verify with customs or an official channel before departure”; do not give a vague “should be fine”.
+
+## 6. Unofficial demands and document safety
 
 Warn only when official travel advice or several credible recent sources repeatedly identify a risk for a specific border, process, or traveler group. Do not generalize from one post.
 
@@ -51,13 +60,13 @@ Warn only when official travel advice or several credible recent sources repeate
 - When safe, ask calmly for the charge name and legal basis, use an official counter/electronic channel, request a receipt, or ask for a supervisor.
 - Do not encourage confrontation or unlawful recording. Prioritize personal and document safety; once safe, use appropriate border operator, tourist-police, embassy/consular, or emergency channels and preserve lawfully obtained details.
 
-## 6. Transit and arrival execution
+## 7. Transit and arrival execution
 
 - Use complete local dates, weekdays, time zones, airport, and terminal; expose date-line changes.
 - Separate check-in, security, immigration, baggage reclaim/recheck, terminal/airport transfer, and boarding.
 - Do not treat minimum connection time as a personal guarantee. Distinguish protected connections from self-transfer responsibility.
 - If the current question includes the first arrival connection, verify last transport, safe late-arrival lodging/transfer, and a missed-connection fallback. Otherwise do not expand into a complete local-operations guide.
 
-## 7. Minimum output
+## 8. Minimum output
 
 For a narrow question use: `Conclusion -> decisive conditions -> missing facts -> minimum viable requirements -> sources and recheck date`. Do not append airfare, lodging, payment, insurance-product, or full-itinerary research unless it is in scope.

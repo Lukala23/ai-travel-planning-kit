@@ -185,7 +185,7 @@ Complete for hiking, mountaineering, crossings, snow/ice, gorges, or altitude-fo
 | Item | Current trip | Notes |
 |---|---|---|
 | Current stage | [Optional] | Exploration / draft / compare / formal package / T-7 update / T-48 review |
-| Formal-format exception | [Optional] | Default start file, quick-card PDF, complete MD/PDF, and necessary images; state no-PDF, full print, offline HTML, etc. |
+| Formal-format exception | [Optional] | Default is the offline mobile HTML plus the travel handbook MD; fill in only for exceptions such as needing the print version, a full PDF conversion, or explicitly dropping an item |
 | Must include / explicitly omit | [Optional] | Modules normally follow the trip; add only special requests |
 | Options to compare | [Fill] | Faster / cheaper / lower effort / photography-first |
 | Existing guide or links | [Fill] | For updates |

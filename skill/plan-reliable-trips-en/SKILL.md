@@ -80,15 +80,15 @@ Do not load these merely for rewriting, format conversion, or a narrow answer th
 | High altitude, vaccine/prophylaxis, medicine/device, a health condition that affects travel, remote care, or an explicit health question | [health-and-medical.md](references/health-and-medical.md) |
 | Photography is explicit, a known shot changes the current route, or formal delivery needs reference images | [photography.md](references/photography.md) |
 | A museum is named, selected for the route, or known to be central to the current destination choice | [museum-visits.md](references/museum-visits.md) |
-| The user wants souvenirs/gifts or a purchase is already a route stop | [souvenirs.md](references/souvenirs.md) |
 | Hiking, mountaineering, trail running, canyon, wading, snow/ice, or outdoor route review; also read the route module | [hiking-rules.md](references/hiking-rules.md) |
-| The user explicitly requests a handbook, PDF, quick reference, offline mobile page, print fallback, illustrated directions, or AI-ready package | [deliverable-package.md](references/deliverable-package.md) |
+| The user explicitly requests a formal handbook, offline mobile version, print version, PDF, or image guidance | [deliverable-package.md](references/deliverable-package.md) |
 
 ## Light handling is not a full module
 
 - For an overnight route, first identify lodging status and base; read lodging only when a lodging decision is needed.
 - Reserve a real meal window and convenient area when the route crosses a meal; research dining only when a food choice matters.
-- Use already gathered destination evidence to notice museum, photography, or souvenir value. If it does not change a choice, do not load or emit those modules.
+- Use already gathered destination evidence to notice museum and photography value. If it does not change a choice, do not load or emit those modules.
+- Souvenir/gift and shopping suggestions are answered directly as ordinary preferences without a dedicated module; legality questions such as customs or endangered-species restrictions follow the entry-and-transit module.
 - For an international task, mention mandatory insurance evidence or an obvious special condition only when relevant. Do not expand whole-trip insurance when the traveler handles it independently.
 - Keep routine food/water, sun, or mosquito notes short; load health only on its specialist trigger.
 

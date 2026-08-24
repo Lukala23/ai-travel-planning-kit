@@ -80,15 +80,15 @@ description: 为从中国出发的旅行者用中文研究、规划和修改有�
 | 高海拔、疫苗 / 预防用药、药品设备、会影响旅行的健康条件、偏远医疗或用户主动询问 | [health-and-medical.md](references/health-and-medical.md) |
 | 用户明确重视摄影，已知拍摄点会改变当前路线，或正式交付需要参考图 | [photography.md](references/photography.md) |
 | 展馆被点名、已进入主路线，或已知它是当前目的地选择的核心 | [museum-visits.md](references/museum-visits.md) |
-| 用户要购买纪念品 / 伴手礼，或购买已经成为路线节点 | [souvenirs.md](references/souvenirs.md) |
 | 徒步、登山、越野、峡谷、涉水、冰雪或户外路线审核；同时读取通用路线模块 | [hiking-rules.md](references/hiking-rules.md) |
-| 用户明确要求正式手册、PDF、速查卡、离线手机版、打印版、图片指引或 AI 资料包 | [deliverable-package.md](references/deliverable-package.md) |
+| 用户明确要求正式手册、离线手机版、打印版、PDF 或图片指引 | [deliverable-package.md](references/deliverable-package.md) |
 
 ## 轻量处理不等于完整模块
 
 - 过夜路线只先确认住宿状态和住宿基点；需要作住宿决定时才读取完整住宿模块。
 - 路线跨越正餐时保留真实用餐窗口和顺路区域；需要选择餐饮时才深入研究。
-- 可以从已经取得的目的地证据中顺手识别展馆、摄影和纪念品价值；没有改变取舍就不加载专项文件，也不生成对应章节。
+- 可以从已经取得的目的地证据中顺手识别展馆和摄影价值；没有改变取舍就不加载专项文件，也不生成对应章节。
+- 纪念品 / 伴手礼和购物建议按普通偏好直接回答，不设专项模块；涉及携带、海关或濒危物种等合法性问题时按出入境模块核验。
 - 境外旅行只在当前范围内提醒强制保险证明或明显专项条件；用户自行处理整体旅行险时不展开产品和条款。
 - 普通食水、日晒、蚊虫等只给必要短提醒；达到健康触发条件时才读取完整健康模块。
 

@@ -134,13 +134,12 @@ Do not create a long-term preference index. Then propose simplified wording and 
 ```text
 The route and key choices are confirmed. Generate:
 
-- 00_START-HERE.md
 - 01_OFFLINE_MOBILE.html
-- 02_COMPLETE-TRAVEL-HANDBOOK.md
-- 02_COMPLETE-TRAVEL-HANDBOOK.pdf
-- media/
-- 01_TRIP-QUICK-REFERENCE.pdf as the print counterpart of the offline page when a paper backup is needed
-- 03_PRINT-EMERGENCY.pdf when this trip needs it
+- 02_TRAVEL-HANDBOOK.md
+
+Generate 03_PRINT-BACKUP.pdf (the only paper artifact) when a paper backup
+or weak-connectivity travel requires it; convert the handbook to PDF only for
+portable reading or sharing; create media/ only when images are needed.
 
 Derive every version from one Markdown source of truth. Include trip dates,
 version, generation date, latest verification date, and recheck points. PDFs
@@ -157,7 +156,7 @@ Update this package at T-7 days.
 Recheck local weather, temporary closures, construction, gallery/trail status,
 restaurants, main services, and important reservations. List changes and
 affected route nodes first. Edit only affected sections, then rebuild the
-Markdown, offline mobile page, PDF, and quick card together.
+handbook, offline mobile page, and any generated print or PDF versions together.
 ```
 
 ## 12. T-48 hour review

@@ -39,7 +39,7 @@ An AI with files or workspace context can use the rules without a native Skill. 
 | `portable-international.en.md` | Air chain, entry/transit, triggered health, and minimum insurance reminders |
 | `portable-road-outdoor.en.md` | Self-drive, hiking, health, and related insurance reminders |
 
-If a needed specialist is absent, add its individual `references/*.md` from the Skill archive. Add photography, museums, or souvenirs only when the user explicitly values them, they enter the main route, or the purchase is real. The full `ai-travel-planning-kit-portable.en.md` is for archive, compatibility, or a platform that genuinely searches the whole library—not the default upload.
+If a needed specialist is absent, add its individual `references/*.md` from the Skill archive. Add photography or museums only when the user explicitly values them or they enter the main route; souvenir and shopping advice is given directly as an ordinary preference and needs no specialist file. The full `ai-travel-planning-kit-portable.en.md` is for archive, compatibility, or a platform that genuinely searches the whole library—not the default upload.
 
 Natural language is normally sufficient. Add the advanced trip form only when the user completed it or the trip has unusually many conditions.
 
@@ -146,11 +146,13 @@ After the route and key choices are confirmed:
 
 ```text
 The route is confirmed. Generate the formal travel package.
-Use one Markdown source of truth for the offline mobile page, complete PDF, quick card, and required images.
+Deliver 01_OFFLINE_MOBILE.html and 02_TRAVEL-HANDBOOK.md by default, from one Markdown source of truth.
 Put the version, generation date, latest verification date, and recheck points in every file.
 ```
 
-In the formal package, `01_OFFLINE_MOBILE.html` is the primary on-site deliverable: a single offline web page saved to the phone before departure and opened directly in the phone browser without a network. Tabs switch between the overview, day-by-day itinerary, and place views; places in each day's timeline link to their details, and the text is searchable. `01_TRIP-QUICK-REFERENCE.pdf` is its print counterpart, generated on demand for paper backups or no-browser situations rather than as a fixed burden of every delivery.
+The formal package delivers two files by default. `01_OFFLINE_MOBILE.html` is the primary on-site deliverable: a single offline web page saved to the phone before departure and opened directly in the phone browser without a network. Tabs switch between the overview, day-by-day itinerary, and place views; places in each day's timeline link to their details, and the text is searchable. `02_TRAVEL-HANDBOOK.md` is the authoritative source, opening with a version, generation-date, and latest-verification block, and suits continued editing, handoff to another AI for deeper questions, or casual conversion to PDF for sharing.
+
+Everything else is on demand: generate `03_PRINT-BACKUP.pdf` (the only paper artifact, combining quick reference and emergency use) when a paper backup or weak-connectivity travel requires it; the complete handbook PDF is no longer a separately named deliverable—convert the handbook on demand for portable reading or sharing; create the `media/` image directory only when images are genuinely needed.
 
 ## 4. Judge source reliability
 
@@ -246,9 +248,9 @@ Treat the fact ledger in the package as the recheck baseline: refresh expired en
 ## 8. Use the package during the trip
 
 - Lead on site with `01_OFFLINE_MOBILE.html`: open it in the phone browser, move between days with tabs, tap a place in the timeline for its details, and search the text directly.
-- Use the quick-reference PDF (the print counterpart of the offline page) when a paper backup or a no-browser situation requires it.
-- Search the complete PDF by local name or tags such as `[Entrance]`, `[Payment]`, `[Risk]`, and `[Photo]` for full background, images, and fallback detail.
-- When giving the PDF to an AI, require the section and document verification date used.
+- Use `03_PRINT-BACKUP.pdf` (the single on-demand paper artifact, combining quick reference and emergency use) when a paper backup or a no-browser situation requires it.
+- Search `02_TRAVEL-HANDBOOK.md` (or its on-demand PDF conversion) by local name or tags such as `[Entrance]`, `[Payment]`, `[Risk]`, and `[Photo]` for full background, images, and fallback detail.
+- When giving the handbook or its PDF conversion to an AI, require the section and document verification date used.
 - For live changes, require current online verification rather than relying only on the old package.
 - After a change, check downstream bookings, transport, meals, return, and accommodation.
 

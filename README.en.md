@@ -38,7 +38,7 @@ flowchart LR
     C --> D["Load the smallest gated module set"]
     D --> E["Research, compare, and stop when supported"]
     E --> F["Deliver the current answer"]
-    F -->|"Explicit file request"| G["Build handbook, offline mobile page, PDF, and quick card"]
+    F -->|"Explicit file request"| G["Build the offline mobile page and travel handbook"]
 ```
 
 The three controls are independent:
@@ -87,9 +87,9 @@ Scenario files are deltas and no longer repeat the core. Provide the core first,
 | Health and medical | Activates for altitude, vaccine/prophylaxis, medicines/devices, traveler conditions, or remote-care needs and maps preparation and care pathways |
 | Travel insurance | Flags mandatory evidence and easy-to-miss activity, altitude, evacuation, or card-benefit conditions; the traveler manages whole-trip cover |
 | Hiking and outdoors | Reviews a user-supplied track, permits, weather, exits, access, communications, care, and rescue without presenting track review as certification |
-| Museums, photography, souvenirs | Loads only when the subject matters to the traveler or changes the route; recommendations remain reproducible, lawful, and proportionate |
+| Museums and photography | Load only when the subject matters to the traveler or changes the route; recommendations remain reproducible and proportionate. Souvenir and shopping advice is given directly as an ordinary preference, with carrying and customs legality verified by entry and transit |
 | Transactional facts and fact ledger | Verifies prices, inventory, and schedules only on bookable transactional channels, labels each figure's source level, and reuses a per-trip ledger of verified facts instead of re-searching |
-| Formal package | After confirmation, derives the offline mobile page, handbook Markdown/PDF, the on-demand print quick card, and necessary images from one source of truth |
+| Formal package | After confirmation, delivers the offline mobile page and the travel handbook by default; the print backup PDF, handbook PDF conversion, and images are generated on demand from one source of truth |
 
 ## Origin-aware airfare planning
 
@@ -190,17 +190,16 @@ More examples are in the [prompt library](examples/prompts.en.md). The [advanced
 
 ## Formal deliverables
 
-Only an explicit request activates formal delivery:
+Only an explicit request activates formal delivery. Two files ship by default; everything else is generated on demand:
 
 | Artifact | Purpose |
 |---|---|
-| `00_START-HERE.md` | Version, latest verification date, directory, and usage notes |
-| `01_OFFLINE_MOBILE.html` | Primary on-site artifact: a single offline web page opened in the phone browser, with day-by-day tabs and place details |
-| `01_TRIP-QUICK-REFERENCE.pdf` | Print counterpart of the offline page, generated on demand for paper backups |
-| `02_COMPLETE-TRAVEL-HANDBOOK.md` | Continued editing, Git versioning, or handoff to another AI |
-| `02_COMPLETE-TRAVEL-HANDBOOK.pdf` | Searchable offline reading and sharing |
-| `media/` | Necessary entrance, transfer, and photography references |
-| `03_PRINT-EMERGENCY.pdf` | Optional backup for international, remote, hiking, or weak-connectivity travel |
+| `01_OFFLINE_MOBILE.html` | Primary on-site artifact (default): a single offline web page opened in the phone browser, with day-by-day tabs and place details |
+| `02_TRAVEL-HANDBOOK.md` | Authoritative source (default): opens with a version and latest-verification block; for continued editing, Git versioning, handoff to another AI, or casual conversion to PDF for sharing |
+| `03_PRINT-BACKUP.pdf` | The only paper artifact (on demand): generated for paper backups or weak-connectivity travel, combining quick reference and emergency use |
+| `media/` | Image directory (on demand): actually used entrance, transfer, and photography references; not created without an image need |
+
+The complete handbook PDF is no longer a separately named deliverable; convert `02_TRAVEL-HANDBOOK.md` to PDF on demand for portable reading or sharing.
 
 Simple trips do not need every artifact.
 

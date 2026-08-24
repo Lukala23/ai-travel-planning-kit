@@ -1,6 +1,6 @@
 # Museums, Exhibitions, Memorials, and Interpretation
 
-Read when the user names a venue, a museum is selected for the route, or a light destination scan shows that it is central to the place's value. Capitals, famous cities, and historic/cultural destinations increase the chance of a scan but do not automatically trigger this full module. Once active, treat museums as potential core experiences rather than a ticket-and-hours appendix, while rejecting fame without real visitor value.
+Read when the user names a venue, a museum is selected for the route, or a light destination scan shows that it is central to the place's value. Capitals, famous cities, and historic/cultural destinations increase the chance of a scan but do not automatically trigger this full module. Once active, treat museums as potential core experiences rather than a ticket-and-hours appendix, while rejecting fame without real visitor value. Shop purchases are answered directly as ordinary preferences; carrying and customs legality follow `entry-and-transit.md`.
 
 ## 1. Candidate discovery and value
 
@@ -81,7 +81,7 @@ Do not produce a giant object list. Select a coherent narrative and acknowledge 
 
 Check flash, tripod, video, portrait, security, sacred/human remains, memorial, copyright, and commercial-use rules. Provide a concise composition tip only for architecture, displays, or public spaces where photography is allowed and meaningful.
 
-Museum shops may be good for authoritative reproductions, books, design objects, and compact gifts, but compare price and distinctiveness with local makers, bookshops, markets, and other channels. Do not turn the exit shop into a required stop.
+Museum shops may be good for authoritative reproductions, books, design objects, and compact gifts, but compare price and distinctiveness with local makers, bookshops, markets, and other channels. Do not turn the exit shop into a required stop. Whether such purchases can lawfully cross the border—customs, quarantine, or protected-material rules—follows `entry-and-transit.md`, not this module.
 
 ## 8. Multi-venue comparison
 

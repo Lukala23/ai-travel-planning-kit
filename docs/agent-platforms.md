@@ -239,7 +239,7 @@ gemini skills link "$PWD/skill/plan-reliable-trips"
 | 航空链路、国外 / 跨境 / 国际中转、触发后的健康与保险提醒 | `ai-travel-planning-kit-portable-international.md` |
 | 租车、自驾、徒步、户外、相关健康与保障提醒 | `ai-travel-planning-kit-portable-road-outdoor.md` |
 
-摄影、展馆、纪念品、包车或正式资料包等不在场景包中的专项，只在真正触发时从 Skill 压缩包增加对应 `references/*.md`。完整 `ai-travel-planning-kit-portable.md` 仅作向后兼容和归档，不是默认上下文。用户已填写或复杂任务确实需要时才增加高级任务卡。
+摄影、展馆、包车或正式资料包等不在场景包中的专项，只在真正触发时从 Skill 压缩包增加对应 `references/*.md`。完整 `ai-travel-planning-kit-portable.md` 仅作向后兼容和归档，不是默认上下文。用户已填写或复杂任务确实需要时才增加高级任务卡。
 
 然后输入：
 

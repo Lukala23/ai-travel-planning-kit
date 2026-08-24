@@ -103,7 +103,6 @@ build_portable_file() {
         "references/museum-visits.md"
         "references/photography.md"
         "references/hiking-rules.md"
-        "references/souvenirs.md"
         "references/deliverable-package.md"
       )
       ;;

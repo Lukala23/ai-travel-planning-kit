@@ -214,7 +214,7 @@ These files contain specialists only and do not repeat the router. Pair them wit
 | Air chain, international/cross-border/transit, and triggered health/insurance reminders | `ai-travel-planning-kit-portable-international.en.md` |
 | Rental/self-drive, hiking/outdoor, and related health/insurance reminders | `ai-travel-planning-kit-portable-road-outdoor.en.md` |
 
-For photography, museums, souvenirs, charters, or formal package rules absent from a scenario pack, add the individual `references/*.md` from the Skill archive only when triggered. The full `ai-travel-planning-kit-portable.en.md` is backward-compatible archive, not the default context. Add the advanced trip brief only when completed or genuinely useful for a complex task.
+For photography, museums, charters, or formal package rules absent from a scenario pack, add the individual `references/*.md` from the Skill archive only when triggered. The full `ai-travel-planning-kit-portable.en.md` is backward-compatible archive, not the default context. Add the advanced trip brief only when completed or genuinely useful for a complex task.
 
 ```text
 Follow the uploaded core rules and use only modules needed for my current question.

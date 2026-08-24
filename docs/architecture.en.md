@@ -46,7 +46,7 @@ High consequence does not imply broad research, and formal files do not imply st
 
 ## 5. Light scans and full modules
 
-Lodging status, meal windows, possible museum/photo/souvenir value, and routine health notes may be handled from evidence already gathered. A light scan asks only whether the topic changes the choice; it does not start a new research lane for a soft preference or load the full specialist.
+Lodging status, meal windows, possible museum/photo value, and routine health notes may be handled from evidence already gathered. A light scan asks only whether the topic changes the choice; it does not start a new research lane for a soft preference or load the full specialist. Souvenirs and shopping have no specialist module: they are answered directly as an ordinary preference, with carrying and customs legality verified by the entry-and-transit module.
 
 Entry and foreign operations are separate: `entry-and-transit.md` owns visa, entry, international transit, and borders; `international-operations.md` owns payment, connectivity, billing, and local operation. A narrow visa question must not pull in the latter.
 

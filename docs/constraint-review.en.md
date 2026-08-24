@@ -435,3 +435,16 @@ Use one authoritative content source to derive multiple views.
 ## Ongoing review
 
 All ten sections were confirmed on 2026-08-13. Future changes should be incremental, based on real-trip evidence, and synchronised across the Chinese and English execution rules where behavior is shared.
+
+---
+
+## 2026-08-24 deliverable simplification and souvenir-module merge (v1.2.2)
+
+- The default formal package converges on two files: `01_OFFLINE_MOBILE.html` (primary on-site artifact) and `02_TRAVEL-HANDBOOK.md` (authoritative source, renamed from `02_COMPLETE-TRAVEL-HANDBOOK.md`); every other format becomes on demand.
+- `00_START-HERE.md` is removed; version, generation date, latest verification date, and usage notes move into the version block at the top of the travel handbook.
+- The former quick-reference card (`01_TRIP-QUICK-REFERENCE.pdf`) and print emergency version (`03_PRINT-EMERGENCY.pdf`) merge into an on-demand `03_PRINT-BACKUP.pdf` as the only paper artifact.
+- The complete handbook PDF is no longer a separately named deliverable; it becomes an on-demand portable conversion of the handbook, and the `media/` image directory exists only when needed.
+- `references/souvenirs.md` is removed in both editions: souvenir and gift selection is answered directly as an ordinary preference without a specialist module; carrying and customs legality moves into section 5 of `entry-and-transit.md`.
+- `SKILL.md` routing and light-scan handling are synchronized: souvenirs/shopping leave the trigger matrix and light scans and are answered as an ordinary preference; the related handoff in `museum-visits.md` is adjusted; the brief template (`trip-brief-template.md`) delivery-exception default becomes "offline mobile HTML plus travel handbook MD".
+- The `full` portable archive manifest in `scripts/build-release-assets.sh` is updated accordingly.
+- README, usage-guide, architecture, agent-platforms, and prompts are synchronized in Chinese and English; the specialist-module count changes from 17 to 16 (reference files from 19 to 18).
