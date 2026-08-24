@@ -18,7 +18,7 @@ Build area candidates from urban structure and route skeleton, then search exact
 - metasearch and maps for discovery, followed by a bookable direct or agency page;
 - lawful official/management/specialist channels for apartments, guesthouses, huts, or special stays.
 
-This is not a mandatory platform checklist. For finalists, compare two currently bookable channels and the official one where accessible. When login, region, cookies, dynamic pricing, or blocking prevents verification, say so; never treat a search snippet as a live fare.
+This is not a mandatory platform checklist. For finalists, compare two currently bookable channels and the official one where accessible. When login, region, cookies, dynamic pricing, or blocking prevents verification, say so; never treat a search snippet as a live fare. Label every price with its source level: `quoted channel price at check time` (a currently bookable channel, current basis) or `background reference range` (content source, not purchasable); never mix the two classes in one comparison table. The grading rules are in `source-verification.md`.
 
 Normalize:
 
@@ -86,13 +86,19 @@ For a mismatch at arrival or checkout, request an itemised bill and charge name/
 
 When visa, transport, weather-dependent experience, or party size is unstable, show cancellable first, with non-refundable saving, deadline, and maximum loss. Do not direct private off-channel transfer.
 
-## 7. Reviews, images, and marketing noise
+## 7. Accommodation quality assessment
 
-- Official source proves facilities/policy; booking channel proves inventory/total/terms; recent guests reveal field experience.
-- Do not recommend from aggregate score or rank. Read recent detailed room-specific, local/multilingual reviews, ordinary photos, and negative reports for repetition.
-- Distinguish old/new, main/annex, before/after renovation, and room types.
-- Check location mismatch, works, noise, cleanliness, pests, hot water, HVAC, lift, data, repeated cancellation, view gap, and arrival surcharge.
-- Use `Higher risk` with observed reasons; never allege review fraud or scam without evidence.
+Platform scores are only a weak first filter, not a recommendation basis. Assess every shortlisted property through four layers:
+
+**Layer 1: score screening.** Use the aggregate score only to filter obvious failures, never to rank properties. Rating scales differ by platform and must not be compared across platforms. A platform's default ordering reflects paid promotion, review manipulation, and traffic; do not read it as a quality ranking.
+
+**Layer 2: review mining.** Prioritize mid-band negative reviews of the target room type from the last six months (roughly 4–6 on a 10-point scale); discount extreme negative reviews that look emotional or describe a one-off incident. Tally the negatives by type: hardware problems (soundproofing, hot water, air conditioning/heating, pests, internet, lift) recurring across reviews are a strong negative signal; service and expectation complaints are read separately, not pooled with hardware issues. Also check the reviewer profile—the closer the party structure and trip purpose to this trip, the more the review is worth; different guest segments apply different standards, so one segment's complaints are not a conclusion about every guest.
+
+**Layer 3: cross-platform triangulation.** Check whether the score trend agrees across two or more platforms; glowing reviews on one platform while another is silent or clearly lower is a risk signal. Compare official imagery with recent guest photos to catch pre-renovation shots, wide-angle distortion, and show-room gaps. Distinguish old/new buildings, main building/annex, before/after renovation, and room types; never apply one room type's reviews to every room.
+
+**Layer 4: scorecard output.** Build recommendations from evidence on fixed dimensions, then synthesize: `Route fit (door-to-door) | Sleep risk (noise evidence) | Facility match | True total cost | Cancellation flexibility | Arrival risk (deposit/surcharge/registration)`. Label each dimension with its evidence source and check time. The overall recommendation must remain challengeable and adjustable dimension by dimension, not an opaque total score. When the user weights one dimension heavily, recompute with that weight first and then explain the difference.
+
+Write `Higher risk` only from observable evidence and state the basis; never allege review fraud or scam without evidence.
 
 ## 8. Deliver a recommendation
 

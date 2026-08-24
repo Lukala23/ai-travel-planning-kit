@@ -2,7 +2,7 @@
 
 Read only when the current request needs payment, exchange, connectivity, billing/tipping, legal-cultural, or practical operating guidance abroad, or when an executable international route materially depends on it. Do not load this module for a narrow visa or transit answer.
 
-`entry-and-transit.md` owns border legality; `public-transit.md` owns operator-specific ticketing. This file owns how the traveler can operate reliably after arrival.
+`entry-and-transit.md` owns border legality; `public-transit.md` owns transit ticketing and gate acceptance. This file centrally owns general payment-method selection, payment backup, cash and exchange, and the classification of taxes, tips, and surcharges; `dining.md` applies that classification in dining settings. This file is about how the traveler can operate reliably after arrival.
 
 ## 1. Choose payment by actual coverage and resilience
 

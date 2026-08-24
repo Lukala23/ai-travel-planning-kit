@@ -1,6 +1,6 @@
 # Destination candidate research and grading
 
-Use for a new destination, broad candidate request, or the screening needed before route design. Research depth follows the trip; do not force a full list as a separate deliverable.
+Read this file only when the task needs to understand a new destination, build a candidate field, compare where to go, or scan candidates before route design. Use it for a new destination, broad candidate request, or the screening needed before route design. Research depth follows the trip; do not force a full list as a separate deliverable.
 
 ## 1. Define the boundary
 

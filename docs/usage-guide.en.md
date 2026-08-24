@@ -146,9 +146,11 @@ After the route and key choices are confirmed:
 
 ```text
 The route is confirmed. Generate the formal travel package.
-Use one Markdown source of truth for the complete PDF, quick card, and required images.
+Use one Markdown source of truth for the offline mobile page, complete PDF, quick card, and required images.
 Put the version, generation date, latest verification date, and recheck points in every file.
 ```
+
+In the formal package, `01_Offline_Mobile.html` is the primary on-site deliverable: a single offline web page saved to the phone before departure and opened directly in the phone browser without a network. Tabs switch between the overview, day-by-day itinerary, and place views; places in each day's timeline link to their details, and the text is searchable. `01_Trip_Quick_Reference.pdf` is its print counterpart, generated on demand for paper backups or no-browser situations rather than as a fixed burden of every delivery.
 
 ## 4. Judge source reliability
 
@@ -234,10 +236,11 @@ Track review is not a safety certification. Weather, permits, ability, equipment
 
 ## 8. Use the package during the trip
 
-- Start with the quick card for immediate action.
-- Search the complete PDF by local name or tags such as `[Entrance]`, `[Payment]`, `[Risk]`, and `[Photo]`.
+- Lead on site with `01_Offline_Mobile.html`: open it in the phone browser, move between days with tabs, tap a place in the timeline for its details, and search the text directly.
+- Use the quick-reference PDF (the print counterpart of the offline page) when a paper backup or a no-browser situation requires it.
+- Search the complete PDF by local name or tags such as `[Entrance]`, `[Payment]`, `[Risk]`, and `[Photo]` for full background, images, and fallback detail.
 - When giving the PDF to an AI, require the section and document verification date used.
-- For live changes, require current online verification rather than relying only on the old PDF.
+- For live changes, require current online verification rather than relying only on the old package.
 - After a change, check downstream bookings, transport, meals, return, and accommodation.
 
 ```text

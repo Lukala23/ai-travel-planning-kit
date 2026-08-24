@@ -66,8 +66,10 @@ Street stalls, small shops, market counters, and ordinary restaurants can rank e
 
 ## 7. Bills, tips, and unclear charges
 
+The general classification and handling of taxes, tips, and surcharges is owned centrally by `international-operations.md`; this section adds only the dining-specific execution.
+
 - Verify current tax/consumer information and venue menu/terms; customer bills discover possible items but do not prove legality or universality.
-- Separate statutory tax, mandatory service, cover/bread/water, minimum spend, card fee, and voluntary tip, with amount, inclusion, collector, and whether a service fee changes normal tipping.
+- Items to separate in dining settings: statutory tax, mandatory service, cover/bread/water, minimum spend, card surcharge, and voluntary tip; state amount/percentage, inclusion in displayed prices, mandatory status, collector, and whether a further tip is still customary after a service charge.
 - Never confuse a hospitality tip with an unofficial payment to a public official.
 - For an unexplained percentage/item, ask for itemised bill, name, mandatory/optional status, and menu/legal basis; compare ordering price and ask a manager to explain/correct.
 - Match terminal amount/currency to the bill and avoid duplicate tip. Prioritise safety; preserve bill, menu, and payment evidence for consumer authority, tourist police, booking platform, or issuer as appropriate.

@@ -4,6 +4,8 @@ Read for bus, metro, rail, ferry, public shuttle, or non-air intercity transfer.
 
 ## 1. Verify the actual connection
 
+Match the verification strategy to how digitized the destination's transport information is. In mature markets with working official apps, timetables, and fare lookup, verify directly against official sources. In fragmented markets where official information is missing, stale, or scattered, do not pretend the data is reliable—after cross-checking multiple sources, mark whatever remains unresolved `Uncertain` and give an on-site confirmation method (information desk, in-station signage, driver, or ticket office) plus a fallback (cash ticket or taxi alternative).
+
 - Use the operator's current station names, timetable, rules, works, and suspension.
 - Determine whether stations/platforms/terminals/piers are co-located and how long entrances take.
 - Check exit/re-entry, security, border control, baggage reclaim, new ticket, or second payment during transfer.
@@ -25,9 +27,9 @@ For each operator, verify:
 - payment methods on vehicle, at station, in app/site, or convenience store;
 - action for low balance, failed payment, dead phone, or no data; whether e-tickets work offline.
 
-## 4. Use a soft payment preference, not a fixed ladder
+## 4. Transit payment acceptance is a soft preference, not a fixed ladder
 
-Cash, physical cards, and digital wallets are all normal candidates. Start with methods the traveler already has and can reuse in the relevant region, without assuming a home-country wallet or card network. This is a convenience starting point, not proof that a wallet should lead for this operator, country, or account.
+General payment-method selection and primary/backup principles are owned by `international-operations.md`; this file covers only acceptance and fare ticketing in transport settings. Start by verifying that methods the traveler already has and can reuse across regions actually work on this operator's gates and fare products; that is a convenience starting point, not proof a wallet should lead for this operator, country, or account.
 
 Compare the following for exact acceptance, full cost, setup burden, network/battery dependency, and failure consequence:
 
@@ -46,13 +48,12 @@ The presence of any wallet, QR rail, or card-network branding does not prove the
 - **settlement**: currency, fee, exchange, pre-authorisation, offline transaction, limits, refund;
 - **trip operation**: activation, data dependency, multiple travelers, transfer, and cap preservation.
 
-## 5. Independent fallback
+## 5. Payment failure and backup
 
-- Primary and backup must not share one phone, card, or account.
-- Carry at least one physical method. Decide cash role, currency, and amount from local acceptance, exchange convenience, and full cost; do not exchange a large amount mechanically.
-- State actions for dead battery, fraud controls, SMS failure, declined card, and low transit balance.
-- Do not mix a phone wallet and its underlying physical card for tap-in/out; they may be separate tokens.
-- When tickets, navigation, or ride-hail depend on the phone, also apply connectivity rules. Transit card and SIM/eSIM are different products.
+- Primary and backup must not share one phone, card, or account; the general backup principles—including an independent physical fallback and the response to dead battery, fraud controls, or a declined card—are owned by `international-operations.md`.
+- For tap-in/tap-out systems, warn against mixing a phone wallet with its underlying physical card; the system may treat them as two different payment tokens.
+- Verify the re-ticketing and exit method for low balance, failed payment, dead phone, or no data; whether e-tickets can display offline or must stay connected.
+- When transit abroad depends on phone tickets, navigation, or ride-hail and connectivity would affect the current route, read `international-operations.md` under the SKILL gate. A transit card is a fare medium; a SIM/eSIM is a connectivity service—judge them separately and never write them as one thing.
 
 ## 6. Evaluate convenience for this trip
 

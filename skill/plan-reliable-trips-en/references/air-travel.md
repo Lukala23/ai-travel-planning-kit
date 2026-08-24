@@ -48,6 +48,8 @@ Use a channel mix appropriate to the traveler's origin, payment access, language
 2. reputable local or regional travel agencies/marketplaces the traveler can buy from and obtain support from;
 3. global metasearch for flexible dates, nearby airports, route discovery, and price context.
 
+Label every fare that enters a comparison with its source level: `quoted channel price at check time` (live basis from a platform or airline channel, with the check time included) or `background reference range` (content source, with sample date and a not-purchasable note). Never mix the two classes of numbers in the same comparison table. Fares found on blogs, forums, and social media are background reference ranges only and must never be presented as current quotes; the transactional-source grading rules live in `source-verification.md`.
+
 Use low-fare calendars, price signals, or alerts only when accessible and their basis is clear. Reprice finalists with identical travelers, dates, cabin, baggage, and settlement currency, ideally to the last step before confirmation. Identify member, coupon, app-only, subsidy, card, or residency conditions. No single channel proves complete market coverage.
 
 If a logged-in or highly dynamic result is inaccessible, do not invent a fare. Provide exact search inputs and fields to record, then compare redacted user quotes or screenshots on one basis.

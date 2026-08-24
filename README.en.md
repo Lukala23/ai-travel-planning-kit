@@ -38,7 +38,7 @@ flowchart LR
     C --> D["Load the smallest gated module set"]
     D --> E["Research, compare, and stop when supported"]
     E --> F["Deliver the current answer"]
-    F -->|"Explicit file request"| G["Build handbook, PDF, and quick references"]
+    F -->|"Explicit file request"| G["Build handbook, offline mobile page, PDF, and quick card"]
 ```
 
 The three controls are independent:
@@ -88,7 +88,8 @@ Scenario files are deltas and no longer repeat the core. Provide the core first,
 | Travel insurance | Flags mandatory evidence and easy-to-miss activity, altitude, evacuation, or card-benefit conditions; the traveler manages whole-trip cover |
 | Hiking and outdoors | Reviews a user-supplied track, permits, weather, exits, access, communications, care, and rescue without presenting track review as certification |
 | Museums, photography, souvenirs | Loads only when the subject matters to the traveler or changes the route; recommendations remain reproducible, lawful, and proportionate |
-| Formal package | After confirmation, derives Markdown, PDF, mobile quick references, necessary images, and print fallback from one source of truth |
+| Transactional facts and fact ledger | Verifies prices, inventory, and schedules only on bookable transactional channels, labels each figure's source level, and reuses a per-trip ledger of verified facts instead of re-searching |
+| Formal package | After confirmation, derives the offline mobile page, handbook Markdown/PDF, the on-demand print quick card, and necessary images from one source of truth |
 
 ## Origin-aware airfare planning
 
@@ -181,7 +182,8 @@ Only an explicit request activates formal delivery:
 | Artifact | Purpose |
 |---|---|
 | `00_Start_Here.md` | Version, latest verification date, directory, and usage notes |
-| `01_Trip_Quick_Reference.pdf` | Mobile access to today’s route, addresses, entrances, payment, and return |
+| `01_Offline_Mobile.html` | Primary on-site artifact: a single offline web page opened in the phone browser, with day-by-day tabs and place details |
+| `01_Trip_Quick_Reference.pdf` | Print counterpart of the offline page, generated on demand for paper backups |
 | `02_Complete_Travel_Handbook.md` | Continued editing, Git versioning, or handoff to another AI |
 | `02_Complete_Travel_Handbook.pdf` | Searchable offline reading and sharing |
 | `media/` | Necessary entrance, transfer, and photography references |

@@ -60,6 +60,19 @@ This module is confirmed as origin-neutral in English. The Chinese edition remai
 
 ---
 
+## 2026-08-24 rule update: transactional sources, fact ledger, lodging quality assessment, and the offline mobile page
+
+- Transactional-fact source constraint, added to `source-verification.md`: prices, inventory, bookable status, and schedule times may be verified only on transactional channels (the live page of a bookable or ticketing platform, an official reservation or ticketing system, official timetables). Blogs, forums, and social media are content sources that may supply only a background reference range labeled not purchasable. Every quoted figure carries a source level (`quoted channel price at check time` / `background reference range`), and the two classes are never mixed in one comparison table. The air and lodging modules reference the same grading.
+- Fact ledger and reuse, added to `source-verification.md` and the `SKILL.md` operating boundary: the conversation about one trip maintains a fact ledger (content + source + check date + validity class); later questions reuse matching, unexpired entries instead of re-searching. Access failures are recorded as well and are not retried within the session. Where the host supports persistence, the ledger is saved as `trip-facts.md` and merged into the formal package as the recheck baseline for the T-7 / T-48 update.
+- Comprehensive lodging quality assessment, replacing section 7 of `accommodation.md`: platform scores are a weak pre-screen only. Shortlisted properties are assessed through four layers: score screening, review mining (mid-band negative reviews of the target room type from the last six months, tallied by type with recurring hardware issues as a strong negative signal, plus reviewer profiles), cross-platform triangulation, and a fixed six-dimension scorecard output.
+- Public transport now verifies by how digitized the destination's information is, in `public-transit.md`: mature markets verify official sources directly; in fragmented markets, items still unresolved after cross-checking are marked `Uncertain` with an on-site confirmation method and a fallback.
+- Payment and tax/tip responsibility convergence: general payment-method selection, payment backup, cash exchange, and tax and tip classification are owned by `international-operations.md`; `public-transit.md` keeps transit acceptance and fare products, and `dining.md` applies the classification to dining.
+- The offline mobile page is promoted to a first-class deliverable, with `deliverable-package.md` restructured into 10 sections: `01_OFFLINE_MOBILE.html` becomes the primary on-site deliverable (a single offline web page with tab navigation, day-by-day timelines, cross-links to place details, searchable text, and a gradient fallback for missing background images), generated from the `assets/trip-mobile-template.html` template. New image specifications apply (one cover plus optional daily backgrounds, JPEG 800–1200 px, at most 150KB per image and 3MB in total, source order own photos > CC-licensed > official imagery, prefer missing over wrong). The quick-reference PDF becomes an on-demand print counterpart.
+- Trigger declarations were added at the top of `hiking-rules.md` and `destination-research.md`, stating when each file is read.
+- Six routing cases were added to `tests/routing-cases.tsv`: lodging quality assessment, fact-ledger reuse, and offline-page generation in Chinese, mirrored by three English cases.
+
+---
+
 ## Section 1: attraction research and value screening
 
 ### Confirmed behavior

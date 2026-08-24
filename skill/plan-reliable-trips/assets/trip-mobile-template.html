@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<!--
+  ═════════════════════════════════════════════════════════════════
+  离线旅行手册模板（手机优先 · 单文件 · 中文）
+  trip-mobile-template.html —— 用于把一份真实行程生成"离线可用的手机旅行手册"
+  ─────────────────────────────────────────────────────────────────
+  【模板用途】
+  1. 最终产物是单文件 HTML：手机浏览器直接打开即用，全程离线，
+     供旅途中随时翻看（不依赖网络与任何服务）。
+  2. 页面机制（全部保留自源实现，请勿改动）：
+     - 底栏 4 个 Tab：首页 / 景点 / 餐厅 / 备查；
+     - 首页 = 可折叠的整个行程表（单开手风琴：展开某天自动收起其它天），
+       每天含时间轴 / 交通 / 住宿 / 餐厅 / 当日提示；
+     - 行程里的景点名可点击 → 跳到景点详情页（交叉跳转）；
+     - 景点详情页分"当天攻略 / 详细介绍"两个面板；
+     - ready=0 的景点渲染占位面板（研究未完成，禁止编造内容）；
+     - 餐厅库按城市归档；酒店与餐厅带 Google Maps 按钮。
+  3. 生成真实手册时：只改 tripData JSON + 填 IMGS 图片槽位，其余一律不动。
+
+  【如何修改数据 —— 只改 <script id="tripData"> 里的 JSON】
+  1. 本模板自带 3 天 / 3 景点的占位示例（字段结构与真实数据完全一致），
+     生成时整体替换；天数、景点数不限，增删 days[] / pois[] 数组项即可。
+  2. 替换后保持字段名与结构不变——页面渲染完全依赖这些字段名。
+  3. JSON 必须保持合法（可用 python -m json.tool 校验），内容里不要出现 "</script>" 字样。
+
+  【数据块结构说明】
+  ▸ meta（行程级信息，4 个字段）
+    - title   手册主标题（首页封面大标题）
+    - dates   日期区间串（封面副标题，如 "10/13 – 10/25"；页面会追加"· 离线手册"）
+    - route   路线概览串（首页"路线"卡片，城市间用 → 连接）
+    - note    版本 / 口径备注（仅存于数据区，页面不渲染）
+  ▸ days[]（每日行程，一天一个对象）
+    - id            天数序号（整数 1..N；同时对应图片槽位 dN）
+    - date          日期展示串（如 "10/13 周二"）
+    - title         当日标题
+    - city          当日城市：用于统计"座城市"与餐厅库按城分组；
+                    跨城日可写 "城市A→城市B"（取 → 前段分组）；纯交通日写"机上"不计入城市数
+    - transport     交通摘要（可空；渲染为卡片头小字 + 展开后的"交通"行）
+    - timeline[]    时间轴，每项 { t 时间, n 名称, x 备注（可省略）, poi 景点id（可省略，填了自动变可点链接） }
+    - tip           当日提示（可空）
+    - hotel         { area 区域, name 名称（可省略）, maps 地图链接 }（整个对象可省略）
+    - restaurants[] 餐厅 { name, rating 评分串（餐厅库页直接渲染，勿省略）, desc 一句话说明,
+                    maps 地图链接（可省略） }；空数组时改为展示 restNote
+    - restNote      restaurants 为空时的占位说明（可省略）
+  ▸ pois[]（景点详情）
+    - id      景点 id，必须以 "poi-" 开头（路由据此识别）；days[].timeline[].poi 引用它
+    - name    景点名
+    - city    所在城市
+    - ready   1=已研究完成（渲染完整内容）；0=未完成（渲染"即将补充"占位面板）
+    - chips   标签数组（详情页胶囊标签）
+    - maps    Google Maps 链接（可空；渲染"打开导航"按钮）
+    - intro[] 详细介绍：字符串数组，每段渲染为一个 <p>（背景 / 年代 / 历史脉络 / 看点 / 参观要点）
+    - guide[] 当天攻略：每项 { k 小标题, v 内容, src 来源标注（空串则不显示来源行） }
+
+  【如何换图 —— IMGS 图片槽位表（页面 <script> 顶部）】
+  槽位表：hero = 封面背景 1 张；d1 ~ dN = 每日卡片背景，对应 days[].id，均可缺省
+  （某天没图就保持空串，卡片头自动回退深色渐变；封面留空同理回退渐变，页面不会报错）。
+  - 填法：把 JPEG 的 base64 字符串填进引号内，不要带 "data:image/jpeg;base64," 前缀
+    （代码会自动拼接前缀）；新增天数时按需增加 d4、d5… 键。
+  - 规格：JPEG；宽 800–1200px；单张 ≤150KB；全部图片总量 ≤3MB（保证成品 ≤5MB 且手机流畅）。
+  - 选图逻辑：优先当日核心景点的实景图；纯交通日用城市地标；相邻两天避免相似画面。
+  - 来源顺序（合规优先级）：用户自拍 > CC 授权图（如 Wikimedia Commons，遵守署名要求）>
+    官方旅游机构宣传图（仅个人使用，不得再分发）。
+  - 降级纪律：找不到合规图片就留空槽位——宁可缺图，也不放错图 / 侵权图。
+  - 景点详情页有意不放图片：图片只用于封面与每日卡片背景，避免逐景点选图的版权负担。
+
+  【生成验收标准（交付前逐条检查）】
+  1. 手机实测：真机浏览器打开成品，4 个 Tab 均可切换、每日卡片可展开收起、
+     景点交叉跳转正常、餐厅库按城正常归档、无控制台报错。
+  2. 一致性：天数、景点数与经用户确认的权威行程一致；票价 / 班次 / 开放时间等关键
+     信息按来源复核并标注；ready=0 的景点保持占位，不编造内容。
+  3. 体积：成品文件 ≤5MB；本模板（图片槽位全空）<100KB。
+  ═════════════════════════════════════════════════════════════════
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>旅行手册模板 · 占位示例 v1.0</title>
+<style>
+  :root{
+    --bg:#F6F1E7; --card:#FFFFFF; --ink:#2E2A24; --sub:#8B8272;
+    --gold:#C08A2D; --gold-soft:#F3E7CF; --nile:#1F6E6E; --nile-soft:#DFECEA;
+    --line:#EAE2D2; --warn:#B4552D; --ok:#3E7C4F;
+    --r:16px; --shadow:0 2px 10px rgba(62,52,34,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.5;
+    max-width:480px; margin:0 auto; min-height:100vh; padding-bottom:64px;
+  }
+  .page{display:none; padding:14px 16px 28px; animation:fade .25s ease}
+  .page.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .hide{display:none}
+
+  /* ── 顶栏 ── */
+  .topbar{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0 8px;
+    display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+  .topbar .back{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--ink);text-decoration:none;font-size:16px;flex:none}
+  .topbar h1{font-size:17px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar .tag{font-size:11px;color:var(--gold);background:var(--gold-soft);padding:3px 8px;border-radius:99px;flex:none}
+
+  /* ── 封面头部 ── */
+  .hero{border-radius:var(--r);overflow:hidden;position:relative;box-shadow:var(--shadow);margin-top:6px}
+  .hero.grad{background:linear-gradient(135deg,#1F6E6E 0%,#2E8B8B 55%,#C08A2D 100%);height:150px}
+  .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(20,14,6,.66))}
+  .hero .txt{position:absolute;left:14px;right:14px;bottom:12px;color:#fff}
+  .hero .txt .k{font-size:11px;letter-spacing:2px;opacity:.9}
+  .hero .txt h2{font-size:22px;font-weight:800;margin-top:2px}
+  .hero .txt p{font-size:12px;opacity:.92;margin-top:2px}
+
+  .stats{display:flex;gap:8px;margin:12px 0}
+  .stats .s{flex:1;background:var(--card);border-radius:14px;padding:9px 4px;text-align:center;box-shadow:var(--shadow)}
+  .stats .s b{display:block;font-size:16px;color:var(--nile)}
+  .stats .s span{font-size:10.5px;color:var(--sub)}
+
+  .sec-title{display:flex;align-items:baseline;justify-content:space-between;margin:18px 2px 8px}
+  .sec-title h3{font-size:15px;font-weight:700}
+  .sec-title small{font-size:11px;color:var(--sub)}
+
+  /* ── 首页行程表（每日卡片） ── */
+  .day-block{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+  .db-hd{display:flex;gap:10px;align-items:center;padding:15px 13px;width:100%;border:0;text-align:left;
+    background:linear-gradient(135deg,rgba(21,73,75,.92),rgba(15,45,47,.94));background-size:cover;background-position:center;
+    color:#fff;cursor:pointer;font-family:inherit;min-height:78px}
+  .db-hd .db-d{width:42px;flex:none;text-align:center;font-weight:800;font-size:15px;color:var(--gold);
+    background:rgba(255,255,255,.14);border-radius:10px;padding:5px 0}
+  .db-hd .db-t{flex:1;min-width:0}
+  .db-hd .db-t b{font-size:13.5px;display:block}
+  .db-hd .db-t span{font-size:11.5px;opacity:.92;display:block;margin-top:1px}
+  .db-hd .db-t small{font-size:11px;opacity:.85;display:block;margin-top:2px}
+  .db-hd .chev{flex:none;font-size:14px;color:var(--gold);transition:transform .2s}
+  .day-block.open .db-hd .chev{transform:rotate(180deg)}
+  [hidden]{display:none !important}
+  .db-body{padding:11px 13px}
+  .db-tl{padding-left:16px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+  .db-tl .tl::before{left:-23px;width:9px;height:9px}
+  .db-tl .tl .t{font-size:11.5px}
+  .db-tl .tl .n{font-size:13.5px}
+  .db-tl .tl .x{font-size:11.5px}
+  .db-tl .tl a{color:var(--nile);font-weight:700;text-decoration:none}
+  .db-line{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;
+    color:#4A4438;padding:6px 0;border-top:1px dashed var(--line)}
+  .db-line .tx{flex:1;min-width:0}
+  .db-line .lk{font-weight:700;color:var(--gold);flex:none;margin-right:6px}
+  .db-rest{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px dashed var(--line)}
+  .db-rest .tx{flex:1;min-width:0;font-size:12px;color:#4A4438}
+  .db-rest .tx b{font-size:12.5px;color:var(--ink)}
+  .db-rest .tx em{font-style:normal;font-size:10.5px;color:var(--ok);background:#E4EFE6;padding:1px 6px;border-radius:99px;margin-left:4px}
+  .db-rest .tx span{display:block;font-size:11px;color:var(--sub)}
+  .db-tip{font-size:11.5px;color:#27484A;background:var(--nile-soft);border-radius:10px;padding:7px 10px;margin-top:8px}
+  .db-empty{font-size:11.5px;color:var(--sub);padding:5px 0;border-top:1px dashed var(--line)}
+
+  /* ── 地图按钮（酒店 / 餐厅统一） ── */
+  .mapbtn{display:inline-flex;align-items:center;gap:3px;background:var(--nile);color:#fff;font-size:11.5px;
+    font-weight:700;padding:6px 12px;border-radius:99px;text-decoration:none;
+    box-shadow:0 1px 4px rgba(31,110,110,.4);flex:none;white-space:nowrap}
+  .mapbtn:active{opacity:.82;transform:scale(.97)}
+
+  /* ── 时间轴（详情页用） ── */
+  .timeline{margin:14px 0 0;padding-left:18px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:12px}
+  .tl{position:relative}
+  .tl::before{content:"";position:absolute;left:-25px;top:5px;width:10px;height:10px;border-radius:50%;
+    background:var(--gold);border:2px solid var(--bg)}
+  .tl.poi::before{background:var(--nile)}
+  .tl .t{font-size:12px;color:var(--gold);font-weight:700}
+  .tl .n{font-size:14px;font-weight:600;margin-top:1px}
+  .tl .x{font-size:12px;color:var(--sub);margin-top:1px}
+  .tl a{color:var(--nile);text-decoration:none;font-weight:600}
+
+  .tip-card{background:var(--nile-soft);border-radius:14px;padding:12px;margin-top:14px;font-size:12.5px}
+  .tip-card b{color:var(--nile)}
+  .tip-card p{margin-top:3px;color:#27484A}
+  .tip-card .g-src{font-size:10.5px;color:#7A9494;margin-top:6px}
+  .tip-card .g-src a{color:var(--nile)}
+
+  /* ── 景点卡（列表用） ── */
+  .poi-row{display:flex;gap:10px;align-items:center;background:var(--card);border-radius:14px;padding:10px;
+    box-shadow:var(--shadow);text-decoration:none;color:inherit;margin-bottom:8px}
+  .poi-row .av2{width:44px;height:44px;border-radius:10px;background:var(--nile-soft);color:var(--nile);
+    display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+  .poi-row .i{flex:1;min-width:0}
+  .poi-row .i b{display:block;font-size:13.5px}
+  .poi-row .i span{display:block;font-size:11px;color:var(--sub);margin-top:1px}
+  .poi-row .go{color:var(--gold);font-size:13px}
+  .poi-row .go.todo{color:var(--line)}
+
+  /* ── 景点详情 ── */
+  .poi-hero{border-radius:var(--r);overflow:hidden;position:relative;margin-top:6px;box-shadow:var(--shadow)}
+  .poi-hero.grad{background:linear-gradient(135deg,#15494B,#1F6E6E 60%,#C08A2D);height:120px}
+  .poi-hero .nm{position:absolute;left:12px;right:12px;bottom:10px;color:#fff}
+  .poi-hero .nm b{font-size:19px;display:block}
+  .poi-hero .nm span{font-size:11px;opacity:.9}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+  .chip{font-size:11px;padding:4px 9px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--sub)}
+  .btn-maps{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0;
+    background:var(--nile);color:#fff;font-size:14px;font-weight:600;padding:12px;border-radius:14px;text-decoration:none}
+  .block{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-top:12px}
+  .block h4{font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .block h4::before{content:"";width:4px;height:14px;background:var(--gold);border-radius:2px}
+  .block p{font-size:13px;color:#4A4438}
+
+  /* ── 三入口分段 ── */
+  .seg{display:flex;background:var(--gold-soft);border-radius:12px;padding:4px;margin:12px 0}
+  .seg button{flex:1;border:0;background:transparent;font-size:13px;font-weight:600;color:#8A5F14;padding:9px 4px;border-radius:9px}
+  .seg button.on{background:#fff;color:var(--nile);box-shadow:0 1px 4px rgba(62,52,34,.12)}
+
+  /* ── 餐厅库 ── */
+  .city-seg{font-size:13px;font-weight:700;margin:16px 2px 8px;color:var(--gold)}
+  .rest{display:flex;gap:10px;background:var(--card);border-radius:14px;padding:11px;box-shadow:var(--shadow);margin-bottom:8px;align-items:center}
+  .rest .av{width:44px;height:44px;border-radius:10px;background:var(--gold-soft);color:#8A5F14;
+    display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+  .rest .i{flex:1;min-width:0}
+  .rest .i b{font-size:13.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .rest .i b em{font-style:normal;font-size:11px;color:var(--ok);background:#E4EFE6;padding:2px 6px;border-radius:99px}
+  .rest .i span{display:block;font-size:11px;color:var(--sub);margin-top:1px}
+
+  /* ── 备查 ── */
+  .ref{background:var(--card);border-radius:14px;padding:13px;box-shadow:var(--shadow);margin-bottom:9px}
+  .ref b{font-size:13.5px;display:block}
+  .ref p{font-size:12px;color:var(--sub);margin-top:3px}
+  .ref p b{display:inline;font-size:12px;color:var(--ink)}
+  .ref a{color:var(--nile)}
+
+  /* ── 底栏 Tab ── */
+  .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+    background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+    display:flex;padding:6px 8px calc(8px + env(safe-area-inset-bottom));z-index:20}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;
+    color:var(--sub);text-decoration:none;font-size:10px}
+  .tabbar a .ic{font-size:19px;line-height:1}
+  .tabbar a.on{color:var(--nile);font-weight:700}
+
+  /* ── 提示 ── */
+  .toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:rgba(30,26,18,.88);color:#fff;
+    font-size:12px;padding:8px 14px;border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:30}
+  .toast.show{opacity:1}
+  .ph-note{font-size:11px;color:#B3A98F;text-align:center;margin:10px 0;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 数据区：只改这里（完整用法见文件头部注释） ═══════════ -->
+<script id="tripData" type="application/json">
+{
+ "meta": {
+  "title": "示例目的地 · 3 天行程（占位数据）",
+  "dates": "MM/DD – MM/DD",
+  "route": "出发地 ✈ 示例市 A → 示例市 B → 返程（占位路线）",
+  "note": "模板示例 v1.0：3 天占位行程 · 3 个占位景点（2 个完整详情 + 1 个 ready=0 占位示例）· 餐厅按城示例 · 生成真实手册时整体替换本 JSON"
+ },
+ "days": [
+  {
+   "id": 1,
+   "date": "MM/DD 周一",
+   "title": "抵达：出发地 → 示例市 A",
+   "city": "示例市 A",
+   "transport": "✈️ 抵达示例机场 → 市区约 XX 分钟（机场大巴 / 出租车）",
+   "timeline": [
+    {
+     "t": "下午",
+     "n": "抵达示例机场",
+     "x": "占位：入境 / 取行李 / 换汇 / 电话卡"
+    },
+    {
+     "t": "傍晚",
+     "n": "酒店办理入住",
+     "x": "占位：市区交通方式与耗时，见本日交通"
+    },
+    {
+     "t": "晚上",
+     "n": "示例老城区散步 + 晚餐",
+     "x": "占位：就近街区的安全路线与晚餐选择"
+    }
+   ],
+   "tip": "占位提示：抵达日实用提醒，例如交通卡购买、小费习惯、安全注意事项。",
+   "hotel": {
+    "area": "示例市 A 老城区",
+    "name": "示例酒店（占位）",
+    "maps": "https://maps.google.com/?q=Example+City+A"
+   },
+   "restaurants": [],
+   "restNote": "占位：抵达日就近解决；正式版应填入权威来源复核过的餐厅"
+  },
+  {
+   "id": 2,
+   "date": "MM/DD 周二",
+   "title": "示例市 A 核心景点日",
+   "city": "示例市 A",
+   "transport": "🚶 步行 + 示例地铁 1 号线",
+   "timeline": [
+    {
+     "t": "08:30",
+     "n": "示例景点一（核心）",
+     "x": "占位：开门即入避人流；详情见景点页",
+     "poi": "poi-sample-1"
+    },
+    {
+     "t": "12:30",
+     "n": "午餐",
+     "x": "占位：动线上就近解决，见本日餐厅"
+    },
+    {
+     "t": "14:30",
+     "n": "示例景点二",
+     "x": "占位：与景点一的联票 / 步行衔接",
+     "poi": "poi-sample-2"
+    },
+    {
+     "t": "傍晚",
+     "n": "示例观景台看日落",
+     "x": "占位：日落前 1 小时到机位"
+    }
+   ],
+   "tip": "占位提示：两个景点间的动线、避坑与省时技巧，内容需标注来源。",
+   "hotel": {
+    "area": "示例市 A 老城区",
+    "name": "示例酒店（占位）",
+    "maps": "https://maps.google.com/?q=Example+City+A"
+   },
+   "restaurants": [
+    {
+     "name": "示例餐厅一（本地菜）",
+     "rating": "Google 4.X · 1万+",
+     "desc": "占位：菜系 / 招牌菜 / 人均参考价 / 位置；评分注明来源与统计口径",
+     "maps": "https://maps.google.com/?q=Example+Restaurant+1"
+    },
+    {
+     "name": "示例餐厅二（小吃）",
+     "rating": "Trip.com 4.X",
+     "desc": "占位：与动线的关系（距景点一步行 X 分钟）",
+     "maps": "https://maps.google.com/?q=Example+Restaurant+2"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "date": "MM/DD 周三",
+   "title": "示例市 B 半日游 + 返程",
+   "city": "示例市 B",
+   "transport": "🚄 示例高铁 示例市 A → 示例市 B（约 X 小时）· ✈️ 傍晚返程",
+   "timeline": [
+    {
+     "t": "08:00",
+     "n": "前往示例市 B",
+     "x": "占位：班次 / 票价 / 购票渠道，以官网实核为准"
+    },
+    {
+     "t": "10:30",
+     "n": "示例景点三（详情待补）",
+     "x": "占位：ready=0 景点示例——点进详情页会显示占位面板",
+     "poi": "poi-sample-3"
+    },
+    {
+     "t": "15:00",
+     "n": "返程航班",
+     "x": "占位：预留提前 X 小时到机场"
+    }
+   ],
+   "tip": "占位提示：跨城日的行李寄存、班次衔接与误点预案。",
+   "hotel": {
+    "area": "示例市 B",
+    "name": "占位：返程前寄存行李，无住宿",
+    "maps": "https://maps.google.com/?q=Example+City+B"
+   },
+   "restaurants": [
+    {
+     "name": "示例餐厅三（示例市 B）",
+     "rating": "TripAdvisor 4.X",
+     "desc": "占位：车站 / 景点动线上的用餐选择",
+     "maps": "https://maps.google.com/?q=Example+Restaurant+3"
+    }
+   ]
+  }
+ ],
+ "pois": [
+  {
+   "id": "poi-sample-1",
+   "name": "示例景点一（完整详情示例）",
+   "city": "示例市 A",
+   "ready": 1,
+   "chips": [
+    "开放时间占位",
+    "建议游览 2–3 小时",
+    "需提前购票",
+    "需防晒"
+   ],
+   "maps": "https://maps.google.com/?q=Example+Landmark+1",
+   "intro": [
+    "【背景与年代】占位：景点的建造背景、年代与历史脉络，以权威来源（官网 / 权威百科 / 学术资料）为准。",
+    "【核心看点】占位：核心看点说明，含可核查的数字、尺寸与典故。",
+    "【人文看点】占位：次级看点与人文背景。",
+    "【参观要点】占位：入口选择、动线建议、最佳时段与避坑提醒。"
+   ],
+   "guide": [
+    {
+     "k": "逆人流路线",
+     "v": "占位：从哪个门进、先看什么后看什么的实测路线，可避开人流。",
+     "src": "示例来源：社区高赞攻略（链接占位）"
+    },
+    {
+     "k": "到达方式",
+     "v": "占位：从酒店出发的交通方式、耗时与费用。",
+     "src": "示例来源：官方交通信息"
+    },
+    {
+     "k": "购票与开放时间",
+     "v": "占位：票种、价格与官方购票渠道（链接占位）。",
+     "src": "示例来源：景点官网"
+    }
+   ]
+  },
+  {
+   "id": "poi-sample-2",
+   "name": "示例景点二（无来源标注示例）",
+   "city": "示例市 A",
+   "ready": 1,
+   "chips": [
+    "开放时间占位",
+    "建议 1–2 小时"
+   ],
+   "maps": "https://maps.google.com/?q=Example+Landmark+2",
+   "intro": [
+    "【背景】占位：景点二的背景与年代说明。",
+    "【参观要点】占位：与景点一的联票 / 步行关系。"
+   ],
+   "guide": [
+    {
+     "k": "与景点一联游",
+     "v": "占位：两个景点的先后顺序与衔接方式。src 留空串则不显示来源行——本条即为该示例。",
+     "src": ""
+    }
+   ]
+  },
+  {
+   "id": "poi-sample-3",
+   "name": "示例景点三（ready=0 占位示例）",
+   "city": "示例市 B",
+   "ready": 0,
+   "chips": [],
+   "maps": "https://maps.google.com/?q=Example+Landmark+3",
+   "intro": [],
+   "guide": []
+  }
+ ]
+}
+</script>
+<!-- ═══════════ 数据区结束 ═══════════ -->
+
+<div id="app">
+
+  <!-- ───── 首页：整个行程表 ───── -->
+  <section class="page" id="cover">
+    <div class="hero grad">
+      <div class="shade"></div>
+      <div class="txt">
+        <div class="k">TRAVEL HANDBOOK · TEMPLATE</div>
+        <h2 id="heroTitle">示例目的地 · 3 天行程（占位数据）</h2>
+        <p id="heroDates">MM/DD – MM/DD · 离线手册</p>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="sec-title"><h3>路线</h3></div>
+    <div class="block"><p id="routeTxt" style="font-size:13px"></p></div>
+    <div class="sec-title">
+      <h3 id="itineraryTitle">整个行程表（3 天）</h3>
+      <small>蓝色景点名可点进详情</small>
+    </div>
+    <div id="itinerary"></div>
+    <div class="ph-note">模板示例 v1.0 · 单文件离线可用<br>点击每日卡片展开；蓝色景点名可点进详情；图片槽位留空时自动回退渐变底色。</div>
+  </section>
+
+  <!-- ───── 全部景点（底栏 icon 入口） ───── -->
+  <section class="page" id="pois">
+    <div class="topbar"><h1>全部景点</h1><span class="tag">3 个</span></div>
+    <div id="poiList" style="margin-top:12px"></div>
+  </section>
+
+  <!-- ───── 景点详情（动态） ───── -->
+  <section class="page" id="poi">
+    <div class="topbar"><a class="back" href="#cover">‹</a><h1>景点详情</h1><span class="tag">景点</span></div>
+    <div class="poibox"></div>
+  </section>
+
+  <!-- ───── 餐厅库 ───── -->
+  <section class="page" id="restaurants">
+    <div class="topbar"><h1>餐厅库</h1><span class="tag">按城市</span></div>
+    <div class="ph-note">按城市归档：示例数据含 3 家占位餐厅。<br>评分来源 Google Maps / TripAdvisor / Trip.com 等权威平台，人均为参考价，以现场为准。</div>
+    <div id="restbox"></div>
+  </section>
+
+  <!-- ───── 备查 ───── -->
+  <section class="page" id="reference">
+    <div class="topbar"><h1>备查页</h1><span class="tag">出行信息</span></div>
+    <div class="ref"><b>🎫 官方购票（以官网为准）</b>
+      <p>占位：主要景点官方购票渠道与链接。<br>
+      占位：需提前预订的分时段票项目清单。</p>
+    </div>
+    <div class="ref"><b>📄 签证</b><p>占位：签证类型、费用、材料与办理渠道。</p></div>
+    <div class="ref"><b>💵 现金</b><p>占位：当地货币、换汇建议与小费习惯。</p></div>
+    <div class="ref"><b>🚕 打车</b><p>占位：常用打车 App、议价规则与机场往返耗时。</p></div>
+    <div class="ref"><b>🚌 城际交通（官网实核）</b><p>占位：关键班次 / 票价 / 购票渠道；时刻与票价以官网实核为准。</p></div>
+    <div class="ref"><b>📶 电话卡 / 网络</b><p>占位：机场游客卡与资费参考。</p></div>
+    <div class="ref"><b>🔌 电压插座</b><p>占位：当地电压与所需转换头。</p></div>
+    <div class="ref"><b>🧴 行前清单</b><p>占位：防晒、衣物、常用药等行前物品清单。</p></div>
+    <div class="ref"><b>💡 礼仪与安全</b><p>占位：着装礼仪、拍照征询与财物安全提示。</p></div></section>
+
+</div>
+
+<!-- 底栏 -->
+<nav class="tabbar">
+  <a href="#cover" data-tab="cover"><span class="ic">🏠</span>首页</a>
+  <a href="#pois" data-tab="pois"><span class="ic">🏛</span>景点</a>
+  <a href="#restaurants" data-tab="restaurants"><span class="ic">🍴</span>餐厅</a>
+  <a href="#reference" data-tab="reference"><span class="ic">📌</span>备查</a>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const IMGS = {
+  // 图片槽位表：hero=封面背景 1 张；d1~dN=每日卡片背景，对应 days[].id，均可缺省。
+  // 值为 JPEG 的 base64（不含 data: 前缀，代码自动拼接）；留空串即回退 CSS 渐变，页面不会报错。
+  hero: "",
+  d1: "",
+  d2: "",
+  d3: ""
+};
+
+/* ── 工具 ── */
+const $ = s => document.querySelector(s);
+const data = JSON.parse(document.getElementById('tripData').textContent);
+const POI_RE = /^poi-/;
+
+let toastTimer;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ── 路由：cover / poi-* / restaurants / reference ── */
+function show(id){
+  let target;
+  if(POI_RE.test(id)){
+    const p = data.pois.find(x => x.id === id);
+    if(p){ target = $('#poi'); renderPoi(id); }
+    else { target = $('#cover'); id = 'cover'; }
+  } else {
+    target = document.getElementById(id);
+    if(!target){ target = $('#cover'); id = 'cover'; }
+  }
+  document.querySelectorAll('.page').forEach(x => x.classList.toggle('active', x === target));
+  const map = {cover:'cover', pois:'pois', restaurants:'restaurants', reference:'reference'};
+  const tab = map[id] || 'cover';
+  document.querySelectorAll('.tabbar a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
+  if(id === 'restaurants') renderRests();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', () => show(location.hash.slice(1) || 'cover'));
+
+/* ── 首页：头部统计 ── */
+function renderCoverHead(){
+  const heroEl = document.querySelector('.hero');
+  if(heroEl && IMGS.hero){
+    heroEl.style.backgroundImage = "linear-gradient(180deg, rgba(12,10,6,.28), rgba(12,8,4,.78)), url('data:image/jpeg;base64," + IMGS.hero + "')";
+    heroEl.style.backgroundSize = 'cover';
+    heroEl.style.backgroundPosition = 'center';
+  }
+  $('#heroTitle').textContent = data.meta.title;
+  $('#heroDates').textContent = data.meta.dates + ' · 离线手册';
+  $('#routeTxt').textContent = data.meta.route;
+  const nDay = data.days.length, nPoi = data.pois.length, nReady = data.pois.filter(p => p.ready).length;
+  const cities = [...new Set(data.days.map(d => d.city.split('→')[0].trim()).filter(c => c !== '机上'))].length;
+  $('#itineraryTitle').textContent = '整个行程表（' + nDay + ' 天）';
+  $('#stats').innerHTML =
+    '<div class="s"><b>' + nDay + '</b><span>天行程</span></div>' +
+    '<div class="s"><b>' + cities + '</b><span>座城市</span></div>' +
+    '<div class="s"><b>' + nPoi + '</b><span>必去景点</span></div>' +
+    '<div class="s"><b>' + nReady + '/' + nPoi + '</b><span>详情已填充</span></div>';
+}
+
+/* ── 首页：整个行程表 ── */
+function mapBtn(u, label){
+  return u ? '<a class="mapbtn" href="' + u + '" target="_blank" rel="noopener">📍 ' + label + '</a>' : '';
+}
+function renderItinerary(){
+  $('#itinerary').innerHTML = data.days.map(d => {
+    const tl = (d.timeline || []).map(it => {
+      const poi = it.poi ? data.pois.find(p => p.id === it.poi) : null;
+      const nm = poi ? '<a href="#' + poi.id + '">' + it.n + '</a>' : it.n;
+      return '<div class="tl' + (poi ? ' poi' : '') + '"><div class="t">' + it.t + '</div><div class="n">' + nm + '</div>' +
+        (it.x ? '<div class="x">' + it.x + '</div>' : '') + '</div>';
+    }).join('');
+    const hotel = d.hotel ? '<div class="db-line"><div class="tx"><span class="lk">🏨 住宿</span>' + d.hotel.area +
+      (d.hotel.name ? ' · ' + d.hotel.name : '') + '</div>' + mapBtn(d.hotel.maps, '地图') + '</div>' : '';
+    const rests = (d.restaurants && d.restaurants.length)
+      ? d.restaurants.map(r =>
+        '<div class="db-rest"><div class="tx"><b>' + r.name + '</b>' + (r.rating ? '<em>' + r.rating + '</em>' : '') +
+        '<span>' + r.desc + '</span></div>' + mapBtn(r.maps, '地图') + '</div>').join('')
+      : '<div class="db-empty">🍽 ' + (d.restNote || '占位：本日餐厅待权威来源复核后填入') + '</div>';
+    const body =
+      (tl ? '<div class="db-tl">' + tl + '</div>' : '') +
+      (d.transport ? '<div class="db-line"><div class="tx"><span class="lk">🚌 交通</span>' + d.transport + '</div></div>' : '') +
+      hotel + rests +
+      (d.tip ? '<div class="db-tip">💡 ' + d.tip + '</div>' : '');
+    const bg = IMGS['d' + d.id] ? "background-image:linear-gradient(180deg, rgba(16,18,16,.42), rgba(8,10,9,.82)), url('data:image/jpeg;base64," + IMGS['d' + d.id] + "');background-size:cover;background-position:center;" : '';
+    return '<div class="day-block">' +
+      '<button type="button" class="db-hd" style="' + bg + '"><div class="db-d">D' + d.id + '</div>' +
+      '<div class="db-t"><b>' + d.date + ' · ' + d.city + '</b><span>' + d.title + '</span>' +
+      (d.transport ? '<small>' + d.transport + '</small>' : '') + '</div>' +
+      '<span class="chev">▾</span></button>' +
+      '<div class="db-body" hidden>' + body + '</div></div>';
+  }).join('');
+  $('#itinerary').addEventListener('click', e => {
+    const hd = e.target.closest('.db-hd'); if(!hd) return;
+    const block = hd.parentElement;
+    const willOpen = block.querySelector('.db-body').hidden;
+    document.querySelectorAll('#itinerary .day-block').forEach(b => {
+      b.querySelector('.db-body').hidden = true;
+      b.classList.remove('open');
+    });
+    if(willOpen){
+      block.querySelector('.db-body').hidden = false;
+      block.classList.add('open');
+    }
+  });
+}
+
+/* ── 景点页：全部景点入口 ── */
+function renderPois(){
+  const tag = document.querySelector('#pois .tag');
+  if(tag) tag.textContent = data.pois.length + ' 个';
+  $('#poiList').innerHTML = data.pois.map(p =>
+    '<a class="poi-row" href="#' + p.id + '">' +
+    '<div class="av2">' + (p.ready ? '🏛' : '📍') + '</div>' +
+    '<div class="i"><b>' + p.name + '</b><span>' + p.city + ' · ' + (p.ready ? '详情已填充' : '详情即将补充') + '</span></div>' +
+    '<span class="go' + (p.ready ? '' : ' todo') + '">›</span></a>'
+  ).join('');
+}
+
+/* ── 景点详情（三入口） ── */
+function renderPoi(id){
+  const p = data.pois.find(x => x.id === id);
+  if(!p){ show('cover'); return; }
+  $('#poi h1').textContent = p.name;
+  $('#poi .back').href = '#cover';
+  const chips = (p.chips || []).map(c => '<span class="chip">' + c + '</span>').join('');
+  const mapsBtn = p.maps ? '<a class="btn-maps" href="' + p.maps + '" target="_blank" rel="noopener">📍 打开 Google Maps 导航</a>' : '';
+  const place = '<div class="tip-card"><b>详情即将补充</b><p>以官网信息为准。</p></div>';
+  let intro, guide;
+  if(p.ready){
+    intro = '<div class="block">' + (p.intro || []).map(t => '<p style="margin-bottom:8px">' + t + '</p>').join('') + '</div>';
+    guide = (p.guide || []).map(g =>
+      '<div class="tip-card"><b>' + g.k + '</b><p>' + g.v + '</p>' +
+      (g.src ? '<div class="g-src">来源：' + g.src + '</div>' : '') + '</div>').join('') || place;
+  } else {
+    intro = '<div class="tip-card"><b>详细介绍即将补充</b><p>以官网信息为准。</p></div>';
+    guide = '<div class="tip-card"><b>当天攻略即将补充</b><p>以官网信息为准。</p></div>';
+  }
+  $('#poi .poibox').innerHTML =
+    '<div class="poi-hero grad"><div class="nm"><b>' + p.name + '</b><span>' + p.city + '</span></div></div>' +
+    '<div class="chips">' + chips + '</div>' + mapsBtn +
+    '<div class="seg">' +
+    '<button class="on" data-p="guide">当天攻略</button>' +
+    '<button data-p="intro">详细介绍</button>' +
+    '</div>' +
+    '<div class="panel" id="p-guide"><div class="sec-title"><h3>当天旅游小攻略</h3><small>仅社区高赞 / 权威来源</small></div>' + guide + '</div>' +
+    '<div class="panel hide" id="p-intro"><div class="sec-title"><h3>景点详细介绍</h3></div>' + intro + '</div>';
+  $('#poi .seg').onclick = e => {
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#poi .seg button').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('#poi .panel').forEach(x => x.classList.toggle('hide', x.id !== 'p-' + b.dataset.p));
+  };
+}
+
+/* ── 餐厅库（按城市归档；城市顺序取自 days 出现顺序） ── */
+function renderRests(){
+  const order = [...new Set(data.days.map(d => d.city.split('→')[0].trim()))];
+  const byCity = {};
+  data.days.forEach(d => {
+    const c = d.city.split('→')[0].trim();
+    (d.restaurants || []).forEach(r => {
+      if(!byCity[c]) byCity[c] = [];
+      if(!byCity[c].find(x => x.name === r.name)) byCity[c].push(r);
+    });
+  });
+  $('#restbox').innerHTML = order.map(c => {
+    const list = (byCity[c] || []).map(r =>
+      '<div class="rest"><div class="av">🍽</div><div class="i"><b>' + r.name + ' <em>' + r.rating + '</em></b><span>' + r.desc + '</span></div>' +
+      mapBtn(r.maps, '地图') + '</div>').join('') ||
+      '<div class="db-empty" style="border-top:0">占位：该城餐厅待权威来源复核后填入</div>';
+    return '<div class="city-seg">' + c + '</div>' + list;
+  }).join('');
+}
+
+/* ── 启动 ── */
+renderCoverHead();
+renderItinerary();
+renderPois();
+show(location.hash.slice(1) || 'cover');
+</script>
+</body>
+</html>

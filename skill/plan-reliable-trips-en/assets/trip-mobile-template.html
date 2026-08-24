@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<!--
+  ═════════════════════════════════════════════════════════════════
+  Offline Travel Handbook Template (mobile-first · single file · English)
+  trip-mobile-template.html — turn a real itinerary into an offline,
+  phone-friendly travel handbook.
+  ─────────────────────────────────────────────────────────────────
+  [WHAT THIS TEMPLATE IS FOR]
+  1. The final deliverable is a single HTML file: open it directly in a
+     phone browser, fully usable offline — a handbook to check any time
+     during the trip (no network, no external services).
+  2. Page mechanics (kept intact from the source implementation — do not
+     modify):
+     - Bottom tab bar with 4 tabs: Home / POIs / Dining / Reference;
+     - Home = the full itinerary as collapsible day cards (single-open
+       accordion: opening one day collapses the others); each day shows
+       timeline / transport / hotel / restaurants / daily tip;
+     - POI names inside the itinerary are tappable → jump to the POI
+       detail page (cross-links);
+     - The POI detail page has two panels: "Day Guide" and "Introduction";
+     - POIs with ready=0 render a placeholder panel (never invent content
+       for unresearched POIs);
+     - Restaurant library grouped by city; hotels & restaurants carry a
+       Google Maps button.
+  3. When generating a real handbook: edit ONLY the tripData JSON and
+     fill the IMGS image slots. Leave everything else untouched.
+
+  [HOW TO EDIT THE DATA — only the <script id="tripData"> JSON]
+  1. This template ships with a 3-day / 3-POI placeholder sample (field
+     structure identical to real data). Replace it wholesale; days and
+     POIs are unlimited — just add or remove array items in days[] / pois[].
+  2. Keep field names and structure unchanged after replacing — the page
+     renders exclusively from these field names.
+  3. The JSON must stay valid (verify with python -m json.tool) and must
+     not contain the literal string "</script>".
+
+  [DATA STRUCTURE REFERENCE]
+  > meta (trip-level info, 4 fields)
+    - title   handbook main title (hero heading on Home)
+    - dates   date-range string (hero subtitle, e.g. "10/13 – 10/25";
+              the page appends "· Offline Handbook")
+    - route   route summary string (the "Route" card; join cities with →)
+    - note    version / editorial note (stored in the data block only,
+              never rendered)
+  > days[] (one object per day)
+    - id            day number (integer 1..N; also maps to image slot dN)
+    - date          display date string (e.g. "10/13 Tue")
+    - title         day title
+    - city          city of the day: feeds the "Cities" stat and the
+                    restaurant-library grouping; for a transfer day write
+                    "City A→City B" (the part before → is used); a pure
+                    transit day may use "In flight", excluded from the count
+    - transport     transport summary (optional; card subtitle + the
+                    "Transport" row when expanded)
+    - timeline[]    per-item { t time, n name, x note (optional),
+                    poi POI id (optional — turns the name into a tappable link) }
+    - tip           daily tip (optional)
+    - hotel         { area, name (optional), maps link } (whole object optional)
+    - restaurants[] { name, rating (rendered as-is in the Dining tab — do not
+                    omit), desc one-line note, maps link (optional) };
+                    an empty array renders restNote instead
+    - restNote      placeholder note when restaurants is empty (optional)
+  > pois[] (POI detail pages)
+    - id      POI id, must start with "poi-" (the router relies on it);
+              referenced by days[].timeline[].poi
+    - name    POI name
+    - city    city of the POI
+    - ready   1 = research complete (full content rendered);
+              0 = pending (placeholder panel rendered — never invent)
+    - chips   tag array (pill chips on the detail page)
+    - maps    Google Maps link (optional; renders the navigation button)
+    - intro[] introduction: array of strings, each rendered as one <p>
+              (background / era / history / highlights / visiting notes)
+    - guide[] day guide: per-item { k heading, v body, src source label
+              (empty string hides the source line) }
+
+  [HOW TO SWAP IMAGES — the IMGS slot table (top of the page <script>)]
+  Slots: hero = 1 cover background; d1 ~ dN = per-day card backgrounds,
+  keyed by days[].id, all optional (a day without an image keeps the empty
+  string and its card header falls back to a dark gradient; an empty hero
+  likewise falls back to a gradient — the page never errors).
+  - How to fill: paste the JPEG's base64 string inside the quotes, WITHOUT
+    the "data:image/jpeg;base64," prefix (the code adds it automatically);
+    when adding days, add d4, d5… keys as needed.
+  - Specs: JPEG; width 800–1200px; ≤150KB per image; ≤3MB total for all
+    images (keeps the final file ≤5MB and smooth on phones).
+  - Image selection logic: prefer a real photo of that day's core POI; use
+    a city landmark for pure transit days; avoid similar-looking pictures
+    on consecutive days.
+  - Source priority (compliance first): user's own photos > CC-licensed
+    images (e.g. Wikimedia Commons, respect attribution) > official
+    tourism-board images (personal use only, no redistribution).
+  - Degradation discipline: if no compliant image can be found, leave the
+    slot empty — better a missing image than a wrong or infringing one.
+  - The POI detail page intentionally has NO images: pictures are used only
+    for the cover and day-card backgrounds, avoiding per-POI image sourcing
+    and copyright overhead.
+
+  [ACCEPTANCE CHECKLIST (verify item by item before delivery)]
+  1. Real-device test: open the final file in a phone browser; all 4 tabs
+     switch, day cards expand/collapse, POI cross-links work, the
+     restaurant library groups by city, and the console shows no errors.
+  2. Consistency: day count and POI count match the authoritative itinerary
+     confirmed with the user; key facts (fares, schedules, opening hours)
+     are verified against sources and labeled; POIs with ready=0 stay as
+     placeholders — no invented content.
+  3. Size: final file ≤5MB; this template (all image slots empty) <100KB.
+  ═════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Trip Handbook Template · Sample v1.0</title>
+<style>
+  :root{
+    --bg:#F6F1E7; --card:#FFFFFF; --ink:#2E2A24; --sub:#8B8272;
+    --gold:#C08A2D; --gold-soft:#F3E7CF; --nile:#1F6E6E; --nile-soft:#DFECEA;
+    --line:#EAE2D2; --warn:#B4552D; --ok:#3E7C4F;
+    --r:16px; --shadow:0 2px 10px rgba(62,52,34,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.5;
+    max-width:480px; margin:0 auto; min-height:100vh; padding-bottom:64px;
+  }
+  .page{display:none; padding:14px 16px 28px; animation:fade .25s ease}
+  .page.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .hide{display:none}
+
+  /* ── Top bar ── */
+  .topbar{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0 8px;
+    display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+  .topbar .back{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--ink);text-decoration:none;font-size:16px;flex:none}
+  .topbar h1{font-size:17px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar .tag{font-size:11px;color:var(--gold);background:var(--gold-soft);padding:3px 8px;border-radius:99px;flex:none}
+
+  /* ── Hero header ── */
+  .hero{border-radius:var(--r);overflow:hidden;position:relative;box-shadow:var(--shadow);margin-top:6px}
+  .hero.grad{background:linear-gradient(135deg,#1F6E6E 0%,#2E8B8B 55%,#C08A2D 100%);height:150px}
+  .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(20,14,6,.66))}
+  .hero .txt{position:absolute;left:14px;right:14px;bottom:12px;color:#fff}
+  .hero .txt .k{font-size:11px;letter-spacing:2px;opacity:.9}
+  .hero .txt h2{font-size:22px;font-weight:800;margin-top:2px}
+  .hero .txt p{font-size:12px;opacity:.92;margin-top:2px}
+
+  .stats{display:flex;gap:8px;margin:12px 0}
+  .stats .s{flex:1;background:var(--card);border-radius:14px;padding:9px 4px;text-align:center;box-shadow:var(--shadow)}
+  .stats .s b{display:block;font-size:16px;color:var(--nile)}
+  .stats .s span{font-size:10.5px;color:var(--sub)}
+
+  .sec-title{display:flex;align-items:baseline;justify-content:space-between;margin:18px 2px 8px}
+  .sec-title h3{font-size:15px;font-weight:700}
+  .sec-title small{font-size:11px;color:var(--sub)}
+
+  /* ── Home itinerary (day cards) ── */
+  .day-block{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+  .db-hd{display:flex;gap:10px;align-items:center;padding:15px 13px;width:100%;border:0;text-align:left;
+    background:linear-gradient(135deg,rgba(21,73,75,.92),rgba(15,45,47,.94));background-size:cover;background-position:center;
+    color:#fff;cursor:pointer;font-family:inherit;min-height:78px}
+  .db-hd .db-d{width:42px;flex:none;text-align:center;font-weight:800;font-size:15px;color:var(--gold);
+    background:rgba(255,255,255,.14);border-radius:10px;padding:5px 0}
+  .db-hd .db-t{flex:1;min-width:0}
+  .db-hd .db-t b{font-size:13.5px;display:block}
+  .db-hd .db-t span{font-size:11.5px;opacity:.92;display:block;margin-top:1px}
+  .db-hd .db-t small{font-size:11px;opacity:.85;display:block;margin-top:2px}
+  .db-hd .chev{flex:none;font-size:14px;color:var(--gold);transition:transform .2s}
+  .day-block.open .db-hd .chev{transform:rotate(180deg)}
+  [hidden]{display:none !important}
+  .db-body{padding:11px 13px}
+  .db-tl{padding-left:16px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+  .db-tl .tl::before{left:-23px;width:9px;height:9px}
+  .db-tl .tl .t{font-size:11.5px}
+  .db-tl .tl .n{font-size:13.5px}
+  .db-tl .tl .x{font-size:11.5px}
+  .db-tl .tl a{color:var(--nile);font-weight:700;text-decoration:none}
+  .db-line{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;
+    color:#4A4438;padding:6px 0;border-top:1px dashed var(--line)}
+  .db-line .tx{flex:1;min-width:0}
+  .db-line .lk{font-weight:700;color:var(--gold);flex:none;margin-right:6px}
+  .db-rest{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px dashed var(--line)}
+  .db-rest .tx{flex:1;min-width:0;font-size:12px;color:#4A4438}
+  .db-rest .tx b{font-size:12.5px;color:var(--ink)}
+  .db-rest .tx em{font-style:normal;font-size:10.5px;color:var(--ok);background:#E4EFE6;padding:1px 6px;border-radius:99px;margin-left:4px}
+  .db-rest .tx span{display:block;font-size:11px;color:var(--sub)}
+  .db-tip{font-size:11.5px;color:#27484A;background:var(--nile-soft);border-radius:10px;padding:7px 10px;margin-top:8px}
+  .db-empty{font-size:11.5px;color:var(--sub);padding:5px 0;border-top:1px dashed var(--line)}
+
+  /* ── Map button (hotels / restaurants) ── */
+  .mapbtn{display:inline-flex;align-items:center;gap:3px;background:var(--nile);color:#fff;font-size:11.5px;
+    font-weight:700;padding:6px 12px;border-radius:99px;text-decoration:none;
+    box-shadow:0 1px 4px rgba(31,110,110,.4);flex:none;white-space:nowrap}
+  .mapbtn:active{opacity:.82;transform:scale(.97)}
+
+  /* ── Timeline (detail pages) ── */
+  .timeline{margin:14px 0 0;padding-left:18px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:12px}
+  .tl{position:relative}
+  .tl::before{content:"";position:absolute;left:-25px;top:5px;width:10px;height:10px;border-radius:50%;
+    background:var(--gold);border:2px solid var(--bg)}
+  .tl.poi::before{background:var(--nile)}
+  .tl .t{font-size:12px;color:var(--gold);font-weight:700}
+  .tl .n{font-size:14px;font-weight:600;margin-top:1px}
+  .tl .x{font-size:12px;color:var(--sub);margin-top:1px}
+  .tl a{color:var(--nile);text-decoration:none;font-weight:600}
+
+  .tip-card{background:var(--nile-soft);border-radius:14px;padding:12px;margin-top:14px;font-size:12.5px}
+  .tip-card b{color:var(--nile)}
+  .tip-card p{margin-top:3px;color:#27484A}
+  .tip-card .g-src{font-size:10.5px;color:#7A9494;margin-top:6px}
+  .tip-card .g-src a{color:var(--nile)}
+
+  /* ── POI card (list) ── */
+  .poi-row{display:flex;gap:10px;align-items:center;background:var(--card);border-radius:14px;padding:10px;
+    box-shadow:var(--shadow);text-decoration:none;color:inherit;margin-bottom:8px}
+  .poi-row .av2{width:44px;height:44px;border-radius:10px;background:var(--nile-soft);color:var(--nile);
+    display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+  .poi-row .i{flex:1;min-width:0}
+  .poi-row .i b{display:block;font-size:13.5px}
+  .poi-row .i span{display:block;font-size:11px;color:var(--sub);margin-top:1px}
+  .poi-row .go{color:var(--gold);font-size:13px}
+  .poi-row .go.todo{color:var(--line)}
+
+  /* ── POI detail ── */
+  .poi-hero{border-radius:var(--r);overflow:hidden;position:relative;margin-top:6px;box-shadow:var(--shadow)}
+  .poi-hero.grad{background:linear-gradient(135deg,#15494B,#1F6E6E 60%,#C08A2D);height:120px}
+  .poi-hero .nm{position:absolute;left:12px;right:12px;bottom:10px;color:#fff}
+  .poi-hero .nm b{font-size:19px;display:block}
+  .poi-hero .nm span{font-size:11px;opacity:.9}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+  .chip{font-size:11px;padding:4px 9px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--sub)}
+  .btn-maps{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0;
+    background:var(--nile);color:#fff;font-size:14px;font-weight:600;padding:12px;border-radius:14px;text-decoration:none}
+  .block{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-top:12px}
+  .block h4{font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .block h4::before{content:"";width:4px;height:14px;background:var(--gold);border-radius:2px}
+  .block p{font-size:13px;color:#4A4438}
+
+  /* ── Segment tabs ── */
+  .seg{display:flex;background:var(--gold-soft);border-radius:12px;padding:4px;margin:12px 0}
+  .seg button{flex:1;border:0;background:transparent;font-size:13px;font-weight:600;color:#8A5F14;padding:9px 4px;border-radius:9px}
+  .seg button.on{background:#fff;color:var(--nile);box-shadow:0 1px 4px rgba(62,52,34,.12)}
+
+  /* ── Restaurant library ── */
+  .city-seg{font-size:13px;font-weight:700;margin:16px 2px 8px;color:var(--gold)}
+  .rest{display:flex;gap:10px;background:var(--card);border-radius:14px;padding:11px;box-shadow:var(--shadow);margin-bottom:8px;align-items:center}
+  .rest .av{width:44px;height:44px;border-radius:10px;background:var(--gold-soft);color:#8A5F14;
+    display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+  .rest .i{flex:1;min-width:0}
+  .rest .i b{font-size:13.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .rest .i b em{font-style:normal;font-size:11px;color:var(--ok);background:#E4EFE6;padding:2px 6px;border-radius:99px}
+  .rest .i span{display:block;font-size:11px;color:var(--sub);margin-top:1px}
+
+  /* ── Reference ── */
+  .ref{background:var(--card);border-radius:14px;padding:13px;box-shadow:var(--shadow);margin-bottom:9px}
+  .ref b{font-size:13.5px;display:block}
+  .ref p{font-size:12px;color:var(--sub);margin-top:3px}
+  .ref p b{display:inline;font-size:12px;color:var(--ink)}
+  .ref a{color:var(--nile)}
+
+  /* ── Bottom tab bar ── */
+  .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+    background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+    display:flex;padding:6px 8px calc(8px + env(safe-area-inset-bottom));z-index:20}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;
+    color:var(--sub);text-decoration:none;font-size:10px}
+  .tabbar a .ic{font-size:19px;line-height:1}
+  .tabbar a.on{color:var(--nile);font-weight:700}
+
+  /* ── Toast ── */
+  .toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:rgba(30,26,18,.88);color:#fff;
+    font-size:12px;padding:8px 14px;border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:30}
+  .toast.show{opacity:1}
+  .ph-note{font-size:11px;color:#B3A98F;text-align:center;margin:10px 0;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ═════ Data zone: edit ONLY here (full usage guide in the header comment) ═════ -->
+<script id="tripData" type="application/json">
+{
+ "meta": {
+  "title": "Sample Destination · 3-Day Trip (Placeholder Data)",
+  "dates": "MM/DD – MM/DD",
+  "route": "Home ✈ Sample City A → Sample City B → Return (placeholder route)",
+  "note": "Template sample v1.0: 3 placeholder days · 3 placeholder POIs (2 filled + 1 ready=0 sample) · sample restaurants by city · replace this JSON wholesale when generating a real handbook"
+ },
+ "days": [
+  {
+   "id": 1,
+   "date": "MM/DD Mon",
+   "title": "Arrival: Home → Sample City A",
+   "city": "Sample City A",
+   "transport": "✈️ Land at Sample Airport → city center ~XX min (airport shuttle / taxi)",
+   "timeline": [
+    {
+     "t": "Afternoon",
+     "n": "Land at Sample Airport",
+     "x": "Placeholder: immigration / baggage / currency exchange / SIM card"
+    },
+    {
+     "t": "Evening",
+     "n": "Hotel check-in",
+     "x": "Placeholder: transfer options and duration, see Transport"
+    },
+    {
+     "t": "Night",
+     "n": "Old town stroll + dinner",
+     "x": "Placeholder: safe walking route and nearby dinner options"
+    }
+   ],
+   "tip": "Placeholder tip: arrival-day reminders such as transit cards, tipping habits and safety notes.",
+   "hotel": {
+    "area": "Sample City A old town",
+    "name": "Sample Hotel (placeholder)",
+    "maps": "https://maps.google.com/?q=Example+City+A"
+   },
+   "restaurants": [],
+   "restNote": "Placeholder: eat near the hotel on arrival day; the final version should list restaurants verified against authoritative sources"
+  },
+  {
+   "id": 2,
+   "date": "MM/DD Tue",
+   "title": "Sample City A highlight day",
+   "city": "Sample City A",
+   "transport": "🚶 Walking + Sample Metro Line 1",
+   "timeline": [
+    {
+     "t": "08:30",
+     "n": "Sample POI 1 (core)",
+     "x": "Placeholder: enter at opening to beat crowds; see the POI page",
+     "poi": "poi-sample-1"
+    },
+    {
+     "t": "12:30",
+     "n": "Lunch",
+     "x": "Placeholder: nearby options on the route, see today's restaurants"
+    },
+    {
+     "t": "14:30",
+     "n": "Sample POI 2",
+     "x": "Placeholder: combo ticket / walking link with POI 1",
+     "poi": "poi-sample-2"
+    },
+    {
+     "t": "Sunset",
+     "n": "Sunset at the sample viewpoint",
+     "x": "Placeholder: arrive 1 hour before sunset"
+    }
+   ],
+   "tip": "Placeholder tip: routing between the two POIs, pitfalls and time-savers; label the sources.",
+   "hotel": {
+    "area": "Sample City A old town",
+    "name": "Sample Hotel (placeholder)",
+    "maps": "https://maps.google.com/?q=Example+City+A"
+   },
+   "restaurants": [
+    {
+     "name": "Sample Restaurant 1 (local cuisine)",
+     "rating": "Google 4.X · 10k+",
+     "desc": "Placeholder: cuisine / signature dishes / reference price per person / location; state the rating source and basis",
+     "maps": "https://maps.google.com/?q=Example+Restaurant+1"
+    },
+    {
+     "name": "Sample Restaurant 2 (street food)",
+     "rating": "Trip.com 4.X",
+     "desc": "Placeholder: relation to the route (X-minute walk from POI 1)",
+     "maps": "https://maps.google.com/?q=Example+Restaurant+2"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "date": "MM/DD Wed",
+   "title": "Sample City B half day + return",
+   "city": "Sample City B",
+   "transport": "🚄 Sample train Sample City A → Sample City B (~X hours) · ✈️ Evening return flight",
+   "timeline": [
+    {
+     "t": "08:00",
+     "n": "To Sample City B",
+     "x": "Placeholder: schedule / fare / booking channel, verify on the official site"
+    },
+    {
+     "t": "10:30",
+     "n": "Sample POI 3 (details pending)",
+     "x": "Placeholder: a ready=0 POI sample — its detail page shows a placeholder panel",
+     "poi": "poi-sample-3"
+    },
+    {
+     "t": "15:00",
+     "n": "Return flight",
+     "x": "Placeholder: allow X hours at the airport before departure"
+    }
+   ],
+   "tip": "Placeholder tip: luggage storage, connection buffers and delay plans on a transfer day.",
+   "hotel": {
+    "area": "Sample City B",
+    "name": "Placeholder: luggage storage before the return flight, no overnight stay",
+    "maps": "https://maps.google.com/?q=Example+City+B"
+   },
+   "restaurants": [
+    {
+     "name": "Sample Restaurant 3 (Sample City B)",
+     "rating": "TripAdvisor 4.X",
+     "desc": "Placeholder: dining option on the station / POI route",
+     "maps": "https://maps.google.com/?q=Example+Restaurant+3"
+    }
+   ]
+  }
+ ],
+ "pois": [
+  {
+   "id": "poi-sample-1",
+   "name": "Sample POI 1 (full-details sample)",
+   "city": "Sample City A",
+   "ready": 1,
+   "chips": [
+    "Opening hours placeholder",
+    "Allow 2–3 hours",
+    "Book tickets in advance",
+    "Sun protection needed"
+   ],
+   "maps": "https://maps.google.com/?q=Example+Landmark+1",
+   "intro": [
+    "[Background & era] Placeholder: construction background, dating and historical context; verify against authoritative sources (official site / major encyclopedias / academic material).",
+    "[Core highlight] Placeholder: the key highlight with verifiable figures, dimensions and anecdotes.",
+    "[Cultural highlights] Placeholder: secondary highlights and cultural context.",
+    "[Visiting notes] Placeholder: entrance choice, suggested route, best timing and pitfall reminders."
+   ],
+   "guide": [
+    {
+     "k": "Counter-crowd route",
+     "v": "Placeholder: which gate to enter and what to see first — a field-tested route that avoids the crowds.",
+     "src": "Sample source: highly-rated community guide (link placeholder)"
+    },
+    {
+     "k": "Getting there",
+     "v": "Placeholder: transport from the hotel, duration and cost.",
+     "src": "Sample source: official transit information"
+    },
+    {
+     "k": "Tickets & opening hours",
+     "v": "Placeholder: ticket types, prices and the official booking channel (link placeholder).",
+     "src": "Sample source: POI official website"
+    }
+   ]
+  },
+  {
+   "id": "poi-sample-2",
+   "name": "Sample POI 2 (no-source-label sample)",
+   "city": "Sample City A",
+   "ready": 1,
+   "chips": [
+    "Opening hours placeholder",
+    "Allow 1–2 hours"
+   ],
+   "maps": "https://maps.google.com/?q=Example+Landmark+2",
+   "intro": [
+    "[Background] Placeholder: background and era of POI 2.",
+    "[Visiting notes] Placeholder: combo ticket / walking link with POI 1."
+   ],
+   "guide": [
+    {
+     "k": "Pairing with POI 1",
+     "v": "Placeholder: order and connection between the two POIs. An empty src string hides the source line — this item is that sample.",
+     "src": ""
+    }
+   ]
+  },
+  {
+   "id": "poi-sample-3",
+   "name": "Sample POI 3 (ready=0 placeholder sample)",
+   "city": "Sample City B",
+   "ready": 0,
+   "chips": [],
+   "maps": "https://maps.google.com/?q=Example+Landmark+3",
+   "intro": [],
+   "guide": []
+  }
+ ]
+}
+</script>
+<!-- ═════ End of data zone ═════ -->
+
+<div id="app">
+
+  <!-- ───── Home: full itinerary ───── -->
+  <section class="page" id="cover">
+    <div class="hero grad">
+      <div class="shade"></div>
+      <div class="txt">
+        <div class="k">TRAVEL HANDBOOK · TEMPLATE</div>
+        <h2 id="heroTitle">Sample Destination · 3-Day Trip (Placeholder Data)</h2>
+        <p id="heroDates">MM/DD – MM/DD · Offline Handbook</p>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="sec-title"><h3>Route</h3></div>
+    <div class="block"><p id="routeTxt" style="font-size:13px"></p></div>
+    <div class="sec-title">
+      <h3 id="itineraryTitle">Full Itinerary (3 days)</h3>
+      <small>Blue POI names link to details</small>
+    </div>
+    <div id="itinerary"></div>
+    <div class="ph-note">Template sample v1.0 · single-file offline<br>Tap a day card to expand; blue POI names link to details; empty image slots fall back to gradients.</div>
+  </section>
+
+  <!-- ───── All POIs (bottom-tab entry) ───── -->
+  <section class="page" id="pois">
+    <div class="topbar"><h1>All POIs</h1><span class="tag">3 POIs</span></div>
+    <div id="poiList" style="margin-top:12px"></div>
+  </section>
+
+  <!-- ───── POI detail (dynamic) ───── -->
+  <section class="page" id="poi">
+    <div class="topbar"><a class="back" href="#cover">‹</a><h1>POI Details</h1><span class="tag">POI</span></div>
+    <div class="poibox"></div>
+  </section>
+
+  <!-- ───── Restaurant library ───── -->
+  <section class="page" id="restaurants">
+    <div class="topbar"><h1>Restaurant Library</h1><span class="tag">By City</span></div>
+    <div class="ph-note">Grouped by city: the sample data contains 3 placeholder restaurants.<br>Ratings from Google Maps / TripAdvisor / Trip.com; prices are reference only, verify on site.</div>
+    <div id="restbox"></div>
+  </section>
+
+  <!-- ───── Reference ───── -->
+  <section class="page" id="reference">
+    <div class="topbar"><h1>Reference</h1><span class="tag">Trip Info</span></div>
+    <div class="ref"><b>🎫 Official tickets (official sites prevail)</b>
+      <p>Placeholder: official booking channels and links for major POIs.<br>
+      Placeholder: list of timed-entry tickets that must be booked ahead.</p>
+    </div>
+    <div class="ref"><b>📄 Visa</b><p>Placeholder: visa type, fee, documents and application channel.</p></div>
+    <div class="ref"><b>💵 Cash</b><p>Placeholder: local currency, exchange tips and tipping habits.</p></div>
+    <div class="ref"><b>🚕 Taxis</b><p>Placeholder: recommended ride apps, bargaining rules, airport transfer times.</p></div>
+    <div class="ref"><b>🚌 Intercity transport (verify on official sites)</b><p>Placeholder: key schedules / fares / booking channels; verify times and prices on official sites.</p></div>
+    <div class="ref"><b>📶 SIM card / network</b><p>Placeholder: airport tourist SIM cards and reference pricing.</p></div>
+    <div class="ref"><b>🔌 Voltage & plugs</b><p>Placeholder: local voltage and required adapter.</p></div>
+    <div class="ref"><b>🧴 Packing list</b><p>Placeholder: sunscreen, clothing, medications and other essentials.</p></div>
+    <div class="ref"><b>💡 Etiquette & safety</b><p>Placeholder: dress code, asking before photos, and belongings safety.</p></div></section>
+
+</div>
+
+<!-- Bottom tab bar -->
+<nav class="tabbar">
+  <a href="#cover" data-tab="cover"><span class="ic">🏠</span>Home</a>
+  <a href="#pois" data-tab="pois"><span class="ic">🏛</span>POIs</a>
+  <a href="#restaurants" data-tab="restaurants"><span class="ic">🍴</span>Dining</a>
+  <a href="#reference" data-tab="reference"><span class="ic">📌</span>Reference</a>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const IMGS = {
+  // Image slot table: hero = 1 cover background; d1~dN = per-day card
+  // backgrounds keyed by days[].id, all optional. Values are JPEG base64 WITHOUT the data: prefix (the code adds it); an empty string falls back to the CSS gradient, the page never errors.
+  hero: "",
+  d1: "",
+  d2: "",
+  d3: ""
+};
+
+/* ── Utilities ── */
+const $ = s => document.querySelector(s);
+const data = JSON.parse(document.getElementById('tripData').textContent);
+const POI_RE = /^poi-/;
+
+let toastTimer;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ── Router: cover / poi-* / restaurants / reference ── */
+function show(id){
+  let target;
+  if(POI_RE.test(id)){
+    const p = data.pois.find(x => x.id === id);
+    if(p){ target = $('#poi'); renderPoi(id); }
+    else { target = $('#cover'); id = 'cover'; }
+  } else {
+    target = document.getElementById(id);
+    if(!target){ target = $('#cover'); id = 'cover'; }
+  }
+  document.querySelectorAll('.page').forEach(x => x.classList.toggle('active', x === target));
+  const map = {cover:'cover', pois:'pois', restaurants:'restaurants', reference:'reference'};
+  const tab = map[id] || 'cover';
+  document.querySelectorAll('.tabbar a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
+  if(id === 'restaurants') renderRests();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', () => show(location.hash.slice(1) || 'cover'));
+
+/* ── Home: header stats ── */
+function renderCoverHead(){
+  const heroEl = document.querySelector('.hero');
+  if(heroEl && IMGS.hero){
+    heroEl.style.backgroundImage = "linear-gradient(180deg, rgba(12,10,6,.28), rgba(12,8,4,.78)), url('data:image/jpeg;base64," + IMGS.hero + "')";
+    heroEl.style.backgroundSize = 'cover';
+    heroEl.style.backgroundPosition = 'center';
+  }
+  $('#heroTitle').textContent = data.meta.title;
+  $('#heroDates').textContent = data.meta.dates + ' · Offline Handbook';
+  $('#routeTxt').textContent = data.meta.route;
+  const nDay = data.days.length, nPoi = data.pois.length, nReady = data.pois.filter(p => p.ready).length;
+  const cities = [...new Set(data.days.map(d => d.city.split('→')[0].trim()).filter(c => c !== 'In flight'))].length;
+  $('#itineraryTitle').textContent = 'Full Itinerary (' + nDay + ' days)';
+  $('#stats').innerHTML =
+    '<div class="s"><b>' + nDay + '</b><span>Days</span></div>' +
+    '<div class="s"><b>' + cities + '</b><span>Cities</span></div>' +
+    '<div class="s"><b>' + nPoi + '</b><span>Must-see POIs</span></div>' +
+    '<div class="s"><b>' + nReady + '/' + nPoi + '</b><span>Details filled</span></div>';
+}
+
+/* ── Home: full itinerary ── */
+function mapBtn(u, label){
+  return u ? '<a class="mapbtn" href="' + u + '" target="_blank" rel="noopener">📍 ' + label + '</a>' : '';
+}
+function renderItinerary(){
+  $('#itinerary').innerHTML = data.days.map(d => {
+    const tl = (d.timeline || []).map(it => {
+      const poi = it.poi ? data.pois.find(p => p.id === it.poi) : null;
+      const nm = poi ? '<a href="#' + poi.id + '">' + it.n + '</a>' : it.n;
+      return '<div class="tl' + (poi ? ' poi' : '') + '"><div class="t">' + it.t + '</div><div class="n">' + nm + '</div>' +
+        (it.x ? '<div class="x">' + it.x + '</div>' : '') + '</div>';
+    }).join('');
+    const hotel = d.hotel ? '<div class="db-line"><div class="tx"><span class="lk">🏨 Stay</span>' + d.hotel.area +
+      (d.hotel.name ? ' · ' + d.hotel.name : '') + '</div>' + mapBtn(d.hotel.maps, 'Map') + '</div>' : '';
+    const rests = (d.restaurants && d.restaurants.length)
+      ? d.restaurants.map(r =>
+        '<div class="db-rest"><div class="tx"><b>' + r.name + '</b>' + (r.rating ? '<em>' + r.rating + '</em>' : '') +
+        '<span>' + r.desc + '</span></div>' + mapBtn(r.maps, 'Map') + '</div>').join('')
+      : '<div class="db-empty">🍽 ' + (d.restNote || 'Placeholder: restaurants pending verification from authoritative sources') + '</div>';
+    const body =
+      (tl ? '<div class="db-tl">' + tl + '</div>' : '') +
+      (d.transport ? '<div class="db-line"><div class="tx"><span class="lk">🚌 Transport</span>' + d.transport + '</div></div>' : '') +
+      hotel + rests +
+      (d.tip ? '<div class="db-tip">💡 ' + d.tip + '</div>' : '');
+    const bg = IMGS['d' + d.id] ? "background-image:linear-gradient(180deg, rgba(16,18,16,.42), rgba(8,10,9,.82)), url('data:image/jpeg;base64," + IMGS['d' + d.id] + "');background-size:cover;background-position:center;" : '';
+    return '<div class="day-block">' +
+      '<button type="button" class="db-hd" style="' + bg + '"><div class="db-d">D' + d.id + '</div>' +
+      '<div class="db-t"><b>' + d.date + ' · ' + d.city + '</b><span>' + d.title + '</span>' +
+      (d.transport ? '<small>' + d.transport + '</small>' : '') + '</div>' +
+      '<span class="chev">▾</span></button>' +
+      '<div class="db-body" hidden>' + body + '</div></div>';
+  }).join('');
+  $('#itinerary').addEventListener('click', e => {
+    const hd = e.target.closest('.db-hd'); if(!hd) return;
+    const block = hd.parentElement;
+    const willOpen = block.querySelector('.db-body').hidden;
+    document.querySelectorAll('#itinerary .day-block').forEach(b => {
+      b.querySelector('.db-body').hidden = true;
+      b.classList.remove('open');
+    });
+    if(willOpen){
+      block.querySelector('.db-body').hidden = false;
+      block.classList.add('open');
+    }
+  });
+}
+
+/* ── POIs page: all entries ── */
+function renderPois(){
+  const tag = document.querySelector('#pois .tag');
+  if(tag) tag.textContent = data.pois.length + ' POIs';
+  $('#poiList').innerHTML = data.pois.map(p =>
+    '<a class="poi-row" href="#' + p.id + '">' +
+    '<div class="av2">' + (p.ready ? '🏛' : '📍') + '</div>' +
+    '<div class="i"><b>' + p.name + '</b><span>' + p.city + ' · ' + (p.ready ? 'Details filled' : 'Details coming soon') + '</span></div>' +
+    '<span class="go' + (p.ready ? '' : ' todo') + '">›</span></a>'
+  ).join('');
+}
+
+/* ── POI detail (guide / intro panels) ── */
+function renderPoi(id){
+  const p = data.pois.find(x => x.id === id);
+  if(!p){ show('cover'); return; }
+  $('#poi h1').textContent = p.name;
+  $('#poi .back').href = '#cover';
+  const chips = (p.chips || []).map(c => '<span class="chip">' + c + '</span>').join('');
+  const mapsBtn = p.maps ? '<a class="btn-maps" href="' + p.maps + '" target="_blank" rel="noopener">📍 Open in Google Maps</a>' : '';
+  const place = '<div class="tip-card"><b>Details coming soon</b><p>Please refer to the official website.</p></div>';
+  let intro, guide;
+  if(p.ready){
+    intro = '<div class="block">' + (p.intro || []).map(t => '<p style="margin-bottom:8px">' + t + '</p>').join('') + '</div>';
+    guide = (p.guide || []).map(g =>
+      '<div class="tip-card"><b>' + g.k + '</b><p>' + g.v + '</p>' +
+      (g.src ? '<div class="g-src">Source: ' + g.src + '</div>' : '') + '</div>').join('') || place;
+  } else {
+    intro = '<div class="tip-card"><b>Full introduction coming soon</b><p>Please refer to the official website.</p></div>';
+    guide = '<div class="tip-card"><b>Day guide coming soon</b><p>Please refer to the official website.</p></div>';
+  }
+  $('#poi .poibox').innerHTML =
+    '<div class="poi-hero grad"><div class="nm"><b>' + p.name + '</b><span>' + p.city + '</span></div></div>' +
+    '<div class="chips">' + chips + '</div>' + mapsBtn +
+    '<div class="seg">' +
+    '<button class="on" data-p="guide">Day Guide</button>' +
+    '<button data-p="intro">Introduction</button>' +
+    '</div>' +
+    '<div class="panel" id="p-guide"><div class="sec-title"><h3>Quick Tips for the Day</h3><small>Community-vetted / authoritative sources only</small></div>' + guide + '</div>' +
+    '<div class="panel hide" id="p-intro"><div class="sec-title"><h3>POI Introduction</h3></div>' + intro + '</div>';
+  $('#poi .seg').onclick = e => {
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#poi .seg button').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('#poi .panel').forEach(x => x.classList.toggle('hide', x.id !== 'p-' + b.dataset.p));
+  };
+}
+
+/* ── Restaurant library (grouped by city; city order follows days) ── */
+function renderRests(){
+  const order = [...new Set(data.days.map(d => d.city.split('→')[0].trim()))];
+  const byCity = {};
+  data.days.forEach(d => {
+    const c = d.city.split('→')[0].trim();
+    (d.restaurants || []).forEach(r => {
+      if(!byCity[c]) byCity[c] = [];
+      if(!byCity[c].find(x => x.name === r.name)) byCity[c].push(r);
+    });
+  });
+  $('#restbox').innerHTML = order.map(c => {
+    const list = (byCity[c] || []).map(r =>
+      '<div class="rest"><div class="av">🍽</div><div class="i"><b>' + r.name + ' <em>' + r.rating + '</em></b><span>' + r.desc + '</span></div>' +
+      mapBtn(r.maps, 'Map') + '</div>').join('') ||
+      '<div class="db-empty" style="border-top:0">Placeholder: restaurants in this city pending verification from authoritative sources</div>';
+    return '<div class="city-seg">' + c + '</div>' + list;
+  }).join('');
+}
+
+/* ── Boot ── */
+renderCoverHead();
+renderItinerary();
+renderPois();
+show(location.hash.slice(1) || 'cover');
+</script>
+</body>
+</html>

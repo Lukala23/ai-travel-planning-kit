@@ -1,6 +1,6 @@
 # Hiking, Mountaineering, and Outdoor Route Rules
 
-For safety matters, this module overrides the general route rules. The goal is to decide whether a route fits, what preparation and access it needs, how to exit, and when to turn back. It does not replace the user's hiking app with printed maps, a new track, or turn-by-turn navigation.
+Read this file only when the current task includes hiking, mountaineering, trail running, canyon, wading, snow/ice, or outdoor route review, and read the general route module `route-core.md` alongside it. For safety matters, this module overrides the general route rules. The goal is to decide whether a route fits, what preparation and access it needs, how to exit, and when to turn back. It does not replace the user's hiking app with printed maps, a new track, or turn-by-turn navigation.
 
 ## 1. Safety gate
 
@@ -96,7 +96,7 @@ This section adds route-specific altitude, activity, search/rescue, and remote-c
 
 - Verify national/park/local/restricted-area permits, checkpoints, registration, required guide/agency or party size, and authorised entry/exit.
 - State applicant, lead time, physical/electronic documents, photos, payment, office holiday effects, and conflict between authorities.
-- Recheck destination-specific rules for the actual year and valley/region; never reuse an old Nepal TIMS, restricted-area, or guide rule without current verification.
+- High-administration destinations that require permits, restricted-area registration, or a mandatory guide (Nepal's Annapurna or Everest circuit routes, for example) must have the latest official requirements re-verified during this planning pass, including TIMS, restricted-area permits, and licensed-guide rules; never substitute a rule from a past year or another region.
 
 ### Altitude, health, and itinerary
 
