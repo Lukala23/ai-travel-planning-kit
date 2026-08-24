@@ -691,6 +691,7 @@ D 级只列知名、营销风险高或用户可能疑惑为什么没安排的地
 
 - 新增 `examples/egypt-trip-demo.html`：一份真实交付的 13 天埃及行程离线手机版，作为 README 展示案例。脱敏处理：全部日期由 10/13–10/25 平移至 11/03–11/15（星期标注逐一核对保持一致，新旧区间零重叠）；出发地由实际城市替换为西安（含机场名）；同行人关系表述泛化为“两人同行”；版本标记由“正式版”改为“示例版”并在 meta.note 注明脱敏。
 - 技术保障：图片 base64 块分段隔离、逐字节不变（14 张图无损）；tripData JSON 解析校验通过（13 天 / 14 景点）；旧日期区间 13 个值与出发地等关键词在文本区零残留。
-- README.md 与 README.en.md 在交付物表格后新增“在线看一个真实示例”展示块（jsDelivr 交互演示链接 + 源文件链接），点击即可在浏览器打开完整离线页面；目录树中 examples/ 注释同步更新；示例与仓库模板（skill/*/assets/trip-mobile-template.html）结构同源。
+- README.md 与 README.en.md 在交付物表格后新增“在线看一个真实示例”展示块（GitHub Pages 交互演示链接 + 源文件链接），点击即可在浏览器打开完整离线页面；目录树中 examples/ 注释同步更新；示例与仓库模板（skill/*/assets/trip-mobile-template.html）结构同源。
+- 演示链接托管于 GitHub Pages（仓库 main 分支根目录，地址 https://lukala23.github.io/ai-travel-planning-kit/examples/egypt-trip-demo.html ）。不使用 jsDelivr 等代码 CDN：它们按安全策略把 .html 以 text/plain 返回，浏览器只显示源代码而不渲染页面；GitHub Pages 返回 text/html，可直接交互。Pages 随 main 分支推送自动重建，无需额外发布步骤。
 - 本变更不改变技能规则；示例不进入 Skill ZIP 与便携包（构建脚本只打包 skill/ 目录）。
 - 配套修正 `scripts/validate-project.sh` 的城市残留检查：原先直接全文匹配旧默认出发城市及其机场代码，示例 HTML 内嵌图片的 base64 数据会随机出现与机场代码相同的三个字母组合造成误报；现改为先剥离 ≥64 字符的 base64 连续段再匹配，文本层检测能力不变，校验通过耗时约 2 秒。

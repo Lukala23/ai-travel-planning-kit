@@ -260,7 +260,7 @@ AI 会根据任务需要：
 
 ### 在线看一个真实示例
 
-**[埃及 · 尼罗河 13 天 —— 打开离线手机版交互演示](https://cdn.jsdelivr.net/gh/Lukala23/ai-travel-planning-kit@main/examples/egypt-trip-demo.html)**（[查看源文件](https://github.com/Lukala23/ai-travel-planning-kit/blob/main/examples/egypt-trip-demo.html)）
+**[埃及 · 尼罗河 13 天 —— 打开离线手机版交互演示](https://lukala23.github.io/ai-travel-planning-kit/examples/egypt-trip-demo.html)**（[查看源文件](https://github.com/Lukala23/ai-travel-planning-kit/blob/main/examples/egypt-trip-demo.html)）
 
 这是一份真实规划交付物的脱敏示例（日期与个人信息已替换）：单文件约 2.2 MB、内置 14 张图片、无外网依赖。手机或电脑浏览器打开即可体验完整交互——封面与路线总览、13 天逐日手风琴行程、14 个景点详情卡、按城市分组的餐厅库与参考页。示例与本仓库收录的 [离线手机版模板](skill/plan-reliable-trips/assets/trip-mobile-template.html) 同一结构，由真实行程数据填充而成。
 

@@ -205,7 +205,7 @@ Simple trips do not need every artifact.
 
 ### See a real example
 
-**[Egypt · Nile, 13 days — open the interactive offline mobile demo](https://cdn.jsdelivr.net/gh/Lukala23/ai-travel-planning-kit@main/examples/egypt-trip-demo.html)** ([view the source file](https://github.com/Lukala23/ai-travel-planning-kit/blob/main/examples/egypt-trip-demo.html))
+**[Egypt · Nile, 13 days — open the interactive offline mobile demo](https://lukala23.github.io/ai-travel-planning-kit/examples/egypt-trip-demo.html)** ([view the source file](https://github.com/Lukala23/ai-travel-planning-kit/blob/main/examples/egypt-trip-demo.html))
 
 This is a sanitized example of a real planned trip (dates and personal details replaced; Chinese UI): a single ~2.2 MB file with 14 embedded images and no network dependency. Open it in a phone or desktop browser to try the full interaction — a cover with route overview, a 13-day accordion itinerary, 14 place detail cards, city-grouped restaurant lists, and a reference page. It shares the structure of the [offline mobile template](skill/plan-reliable-trips-en/assets/trip-mobile-template.html) shipped in this repository, filled with real planning data.
 
