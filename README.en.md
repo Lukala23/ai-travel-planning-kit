@@ -75,7 +75,7 @@ Scenario files are deltas and no longer repeat the core. Provide the core first,
 
 | Domain | What the Skill does |
 |---|---|
-| Destination and itinerary | Screens meaningful candidates and builds routes with door-to-door movement, queues, meals, buffers, and safe return |
+| Destination and itinerary | Builds the real candidate set across sights, museums, districts, and seasonal picks, screens marketing noise, grades candidates by structure and trip purpose, and builds routes with door-to-door movement, queues, meals, buffers, and safe return |
 | Air travel | Compares the complete outbound/return chain, protected connections, positioning, and domestic flights at the destination using channels appropriate to the traveler’s sales market |
 | Accommodation | Chooses an area before exact properties and compares total price, room rights, cancellation, walkability, nearby food, and route effects |
 | Dining | Integrates everyday local food, representative dishes, markets, and priority meals into the route instead of appending a generic list |
