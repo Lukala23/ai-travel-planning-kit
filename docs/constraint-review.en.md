@@ -448,3 +448,10 @@ All ten sections were confirmed on 2026-08-13. Future changes should be incremen
 - `SKILL.md` routing and light-scan handling are synchronized: souvenirs/shopping leave the trigger matrix and light scans and are answered as an ordinary preference; the related handoff in `museum-visits.md` is adjusted; the brief template (`trip-brief-template.md`) delivery-exception default becomes "offline mobile HTML plus travel handbook MD".
 - The `full` portable archive manifest in `scripts/build-release-assets.sh` is updated accordingly.
 - README, usage-guide, architecture, agent-platforms, and prompts are synchronized in Chinese and English; the specialist-module count changes from 17 to 16 (reference files from 19 to 18).
+
+## 2026-08-24 Add the consistency-sweep rule (contribution process)
+
+- `CONTRIBUTING.md` and `CONTRIBUTING.en.md` gain a dedicated "consistency sweep: change one place, check every place" section: search every copy before editing; a sync map for six change types (add/remove/rename a module, trigger changes, deliverable names, moving rules between modules, hard-coded counts, terminology renames) listing the locations each must keep in sync; mandatory pre-commit steps (zero stale hits, both editions in one commit, validate, review record, sweep result in the PR description).
+- `docs/architecture.md` / `.en.md` section 8 gains the consistency-sweep item; `docs/ai-review-guide.md` / `.en.md` section 9 gains an "every related location is synchronized" checklist entry.
+- Background: the v1.2.2 deliverable simplification touched 26 linked files and confirmed that repeated information across files is easy to miss without a map; the sweep discipline actually executed in that change is now codified for future contributors.
+- This change only affects documentation and the contribution process; skill behavior is unchanged and release assets do not need rebuilding.

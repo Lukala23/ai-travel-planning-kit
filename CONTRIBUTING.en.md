@@ -60,6 +60,33 @@ When changing detailed rules, also inspect:
 - whether a new/removed reference is present in the right scenario packs and full archive in `scripts/build-release-assets.sh`;
 - whether both editions preserve the same safety and decision logic while the Chinese edition remains China-origin and the English edition remains origin-neutral; literal translation is not required.
 
+Whenever the same information lives in several files (module inventories, deliverable names, counts, terminology), run the full sweep described in the next section, "Consistency sweep".
+
+## Consistency sweep: change one place, check every place
+
+This repository intentionally repeats certain information: module inventories, deliverable names, module counts, triggers, and cross-module handoffs appear across skill files, build scripts, docs, examples, and tests. That keeps each file independently readable; the cost is that every change must be synchronized. **Divergent versions across files are not acceptable**: any mismatch in content, structure, cross-references, or counts means the change is incomplete.
+
+**Before changing**: search the whole repository for every place the information appears. Search both editions together, and watch for case, hyphen, and underscore variants.
+
+**Sync map** (what changes → what must be checked):
+
+| Object | Places that must stay in sync |
+|---|---|
+| Add / remove / rename a references module | routing tables in both `SKILL.md` files; boundary/handoff sentences in other modules that mention it; scenario-pack lists in `scripts/build-release-assets.sh`; `docs/architecture.md`; the file map in section 8 of `docs/ai-review-guide.md`; README capability lists (both editions); every hard-coded module count (README, docs, repository About); `tests/routing-cases.tsv` |
+| Trigger changes | the routing row in `SKILL.md` and the trigger statement at the top of the module file must match; behavioral expectations in `tests/routing-cases.tsv` |
+| Deliverable names / structure | `references/deliverable-package.md` (both editions); README deliverables tables (both); the formal-delivery section of `docs/usage-guide.md` (both); `examples/prompts.md` (both); deliverable-exception defaults in `assets/trip-brief-template.md` (both) |
+| Moving a rule between modules | remove from the source module, add to the destination, update `SKILL.md` routing and handoff sentences elsewhere, in both editions—anything less is rolled back |
+| Counts and hard-coded numbers | grep the number repo-wide and update each occurrence, or reword to avoid the fixed count; the repository About description is not in git and is updated separately at release time |
+| Terminology / file renames | grep old terms and their variants repo-wide; only `constraint-review` history may keep old names |
+
+**After changing** (mandatory before commit):
+
+1. Re-search the repository with the old names, counts, and terms: zero hits outside `constraint-review` history, in both editions;
+2. Land both language editions in the same commit; changing one side alone is an incomplete change;
+3. Run `scripts/validate-project.sh`;
+4. Append a dated record to `docs/constraint-review.md` and `docs/constraint-review.en.md` stating what changed and which locations were synchronized;
+5. Describe the sweep result in the pull request (search scope + validation output), not just the change itself.
+
 ## Writing principles
 
 - Use clear, actionable Chinese or English.

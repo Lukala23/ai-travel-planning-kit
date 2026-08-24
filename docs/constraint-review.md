@@ -679,3 +679,10 @@ D 级只列知名、营销风险高或用户可能疑惑为什么没安排的地
 - `SKILL.md` 路由与轻量处理同步：纪念品 / 购物从触发矩阵与轻量扫描中移除，按普通偏好直接建议；`museum-visits.md` 的相关交接指向调整；brief 模板（`trip-brief-template.md`）交付例外默认值更新为“离线手机版 HTML 与旅行手册 MD”。
 - `scripts/build-release-assets.sh` 的 full 便携归档清单同步更新。
 - README、usage-guide、architecture、agent-platforms、prompts 中英文档同步更新；专项模块计数由 17 个调整为 16 个（references 文件由 19 个变为 18 个）。
+
+## 2026-08-24 新增关联同步规则（贡献流程）
+
+- 在 `CONTRIBUTING.md` 与 `CONTRIBUTING.en.md` 新增“关联同步规则（改一处，查全部）”专节：改前全仓库搜索落点；六类改动的同步地图（模块增删改名、触发条件、交付物命名、规则搬家、写死计数、术语变更各自对应必须同步的位置）；提交前硬性步骤（旧值零残留、中英同提交、validate、审阅记录、PR 描述清扫结果）。
+- `docs/architecture.md` / `.en.md` 第 8 节新增关联同步条目；`docs/ai-review-guide.md` / `.en.md` 第 9 节验收清单新增“关联位置全部同步”检查项。
+- 背景：v1.2.2 交付物简化涉及 26 个文件联动，确认同一信息多处落点若无清单极易漏改；将本次实际执行的清扫纪律固化为贡献规则，供后续修改者照单执行。
+- 本变更仅涉及文档与贡献流程，不改变技能行为，无需重建 Release 资产。

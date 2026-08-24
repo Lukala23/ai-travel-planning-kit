@@ -155,6 +155,7 @@ Preferences choose among options that are already legal and feasible.
 - [ ] No unnecessary required field was added.
 - [ ] Users can understand headings and status labels.
 - [ ] The same fact is not contradicted across files.
+- [ ] Every related location is synchronized: stale names, counts, and terms return zero hits across both editions (history records aside), and both editions changed in the same commit.
 - [ ] Every universal specialist rule has one authoritative file, with no separate long-term preference index or duplicate body.
 - [ ] The loading matrix can find the new rule.
 - [ ] Safety and legal priority remain intact.

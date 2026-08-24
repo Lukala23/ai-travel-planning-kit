@@ -69,6 +69,7 @@ Scenario deltas may share a small specialist needed for standalone composition. 
 - Keep explainable module inventories and routing relationships across editions; localize market assumptions to each edition.
 - A new module defines its gated trigger, ownership, handoff, and minimum output.
 - When references change, update the build script, architecture docs, and routing cases.
+- Any cross-file change follows the consistency sweep in `CONTRIBUTING.md`: locate every copy before editing; after editing, stale names, counts, and terms return zero hits, and both editions land in the same commit.
 - Ordinary trips run active-scope checks only; formal delivery or release runs complete QA.
 - `scripts/validate-project.sh` performs deterministic structural checks; `tests/routing-cases.tsv` records behavioral expectations; a real model test still observes whether soft routing is followed.
 - `dist/` is generated and is not a hand-maintained authority.
