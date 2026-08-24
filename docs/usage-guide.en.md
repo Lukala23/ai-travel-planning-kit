@@ -174,6 +174,13 @@ Use five explicit states:
 
 Place citations beside conclusions and include the verification date. Safety, law, and expensive non-refundable decisions require at least one responsible authority or direct operator; add a second independent source when wording is ambiguous, evidence conflicts or is inaccessible, or the downside is severe and confirmation is practical.
 
+### Prices, inventory, and the fact ledger
+
+- Prices, availability, and schedules are verified only through transactional channels: a current page on a bookable or ticketing platform, an official booking or ticketing system, or an official timetable. Numbers from blogs, forums, and social media serve only as background references and must be labeled non-purchasable.
+- Quotes entering a comparison carry a source level: `quoted channel price at check time` (with the check time) or `background reference range` (with the sample period); the two are never mixed in one table.
+- When a channel cannot be opened, the AI states that the current price or availability cannot be confirmed and offers a copy-ready search combination or asks for a redacted screenshot instead of filling the gap with forum numbers.
+- The same trip keeps a fact ledger: verified facts record their source and check date, later questions reuse unexpired entries instead of re-searching, and channels that failed to load in this session are not retried.
+
 ## 5. Photography and wayfinding images
 
 A photography reference should answer “what can I reproduce?”:
@@ -212,6 +219,8 @@ The AI should review source and version, endpoints, distance and ascent, breaks 
 Track review is not a safety certification. Weather, permits, ability, equipment, and rescue conditions can still make the route unusable.
 
 ## 7. Update before departure
+
+Treat the fact ledger in the package as the recheck baseline: refresh expired entries and items marked "recheck before departure" first, add newly affected facts, and do not re-research everything from scratch.
 
 ### Around T-30 days
 

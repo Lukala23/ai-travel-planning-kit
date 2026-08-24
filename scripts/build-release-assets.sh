@@ -158,6 +158,7 @@ build_portable_file() {
           in_frontmatter && $0 == "---" { in_frontmatter = 0; next }
           !in_frontmatter { print }
         ' "$repo_root/$relative_file" | perl -pe '
+          s{\[([^\]]+)\]\(\.\./((?:references|assets)/[^)]+)\)}{$1 . "（按需补充源文件：`" . $2 . "`）"}ge;
           s{\[([^\]]+)\]\(((?:references|assets)/[^)]+)\)}{$1 . "（按需补充源文件：`" . $2 . "`）"}ge;
           s{\[([^\]]+)\]\(([^/()]+\.md)\)}{$1 . "（按需补充源文件：`references/" . $2 . "`）"}ge
         '
@@ -167,6 +168,7 @@ build_portable_file() {
           in_frontmatter && $0 == "---" { in_frontmatter = 0; next }
           !in_frontmatter { print }
         ' "$repo_root/$relative_file" | perl -pe '
+          s{\[([^\]]+)\]\(\.\./((?:references|assets)/[^)]+)\)}{$1 . " (add only when needed: `" . $2 . "`)"}ge;
           s{\[([^\]]+)\]\(((?:references|assets)/[^)]+)\)}{$1 . " (add only when needed: `" . $2 . "`)"}ge;
           s{\[([^\]]+)\]\(([^/()]+\.md)\)}{$1 . " (add only when needed: `references/" . $2 . "`)"}ge
         '
