@@ -18,7 +18,7 @@ AI Travel Planning Kit is not a fixed itinerary and does not book a trip for you
 - when enough evidence exists to stop searching;
 - when to answer narrowly and when a complete plan or formal file is justified.
 
-The Skill loads specialist guidance only when it affects the current decision. Flights, lodging, driving, hiking, health, photography, museums, and other domains do not all enter context for every request.
+The Skill loads specialist guidance only when it affects the current decision. Flights, lodging, dining, driving, hiking, health, photography, museums, and other domains do not all enter context for every request.
 
 ## Two editions with different market assumptions
 

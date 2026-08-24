@@ -695,3 +695,10 @@ D 级只列知名、营销风险高或用户可能疑惑为什么没安排的地
 - 演示链接托管于 GitHub Pages（仓库 main 分支根目录，地址 https://lukala23.github.io/ai-travel-planning-kit/examples/egypt-trip-demo.html ）。不使用 jsDelivr 等代码 CDN：它们按安全策略把 .html 以 text/plain 返回，浏览器只显示源代码而不渲染页面；GitHub Pages 返回 text/html，可直接交互。Pages 随 main 分支推送自动重建，无需额外发布步骤。
 - 本变更不改变技能规则；示例不进入 Skill ZIP 与便携包（构建脚本只打包 skill/ 目录）。
 - 配套修正 `scripts/validate-project.sh` 的城市残留检查：原先直接全文匹配旧默认出发城市及其机场代码，示例 HTML 内嵌图片的 base64 数据会随机出现与机场代码相同的三个字母组合造成误报；现改为先剥离 ≥64 字符的 base64 连续段再匹配，文本层检测能力不变，校验通过耗时约 2 秒。
+
+## 2026-08-24 开篇能力清单补上“在地饮食”
+
+- 背景：README.md 开篇“这个项目能帮你做什么”的编号清单漏了在地饮食研究——而 `references/dining.md` 专项模块真实存在，同文档详细能力段、英文版 Capabilities 表、便携城市包和示例页餐厅库均有餐饮能力，唯独访客最先读到的开篇清单缺失，违反关联同步规则。
+- README.md：清单在第 5 条“安排每日路线”后插入第 6 条“研究在地饮食”（区分当地日常吃什么与面向游客的商品，把代表菜、市场、街边小店和重点餐放进实际路线），后续条目顺延为 7–10；清单为 Markdown 自动编号，全仓库无写死的能力数量需同步。
+- README.en.md：第 2 节领域枚举句补入 dining（Flights, lodging, dining, driving, ...），与 Capabilities 表的 Dining 行对齐。
+- 本变更仅涉及两份 README 文案，不改变技能规则与交付物结构。
