@@ -52,10 +52,17 @@ if ! diff -u "$tmp_dir/zh-references.txt" "$tmp_dir/en-references.txt"; then
   fail "Chinese and English reference inventories differ"
 fi
 
-if search_recursive '昆明|Kunming|KMG' \
-  "$repo_root/skill" "$repo_root/docs" "$repo_root/examples" \
-  "$repo_root/README.md" "$repo_root/README.en.md" \
-  "$repo_root/CONTRIBUTING.md" "$repo_root/CONTRIBUTING.en.md"; then
+# 昆明默认出发地残留检查。先剥离 ≥64 字符的 base64 连续段再匹配：
+# 示例 HTML 内嵌图片的 base64 数据可能随机包含 "KMG" 等三字母组合，直接全文匹配会误报。
+city_residue_found=0
+while IFS= read -r -d '' residue_file; do
+  if sed -E 's/[A-Za-z0-9+/=]{64,}//g' "$residue_file" | grep -q -E -- '昆明|Kunming|KMG'; then
+    printf '  residue: %s\n' "${residue_file#"$repo_root"/}" >&2
+    city_residue_found=1
+  fi
+done < <(find "$repo_root/skill" "$repo_root/docs" "$repo_root/examples" -type f -print0
+  find "$repo_root" -maxdepth 1 -type f \( -name 'README.md' -o -name 'README.en.md' -o -name 'CONTRIBUTING.md' -o -name 'CONTRIBUTING.en.md' \) -print0)
+if [[ "$city_residue_found" -ne 0 ]]; then
   fail "city-specific origin default remains"
 fi
 
