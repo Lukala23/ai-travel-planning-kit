@@ -146,6 +146,19 @@ Download from [Releases](https://github.com/Lukala23/ai-travel-planning-kit/rele
 
 Do not upload the full archive, full brief, and every specialist by default.
 
+### Hand the repo URL to your AI
+
+If your AI can act on your local machine (coding agents such as TRAE, Cursor, Codex CLI, or Claude Code), you do not need to install anything yourself. Start a new chat, paste the repository URL, and say:
+
+```text
+Clone https://github.com/Lukala23/ai-travel-planning-kit locally, then act as my
+trip-planning assistant following the rules in skill/plan-reliable-trips-en/SKILL.md.
+```
+
+Once cloned, describe your trip in the same chat. The agent reads the specialist rules on demand from the local checkout, which is equivalent to the first option — and you can later ask it to edit the rule files and maintain your own version. Chinese-speaking users should point it at `skill/plan-reliable-trips/SKILL.md` instead.
+
+This works only with agents that can run commands or access local folders. Plain web-chat AIs cannot clone a repository; use document-upload mode for those.
+
 ## Three example requests
 
 ### Answer one issue

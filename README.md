@@ -100,6 +100,19 @@ ln -s "$PWD/skill/plan-reliable-trips" ~/.agents/skills/plan-reliable-trips
 bash scripts/build-release-assets.sh dist
 ```
 
+### 方式三：把仓库地址直接发给 AI
+
+如果你使用的 AI 可以操作本地电脑（如 TRAE、Cursor、Codex CLI、Claude Code 等编程助手），不需要自己安装任何东西：新建一个对话，把仓库地址发给它，并说：
+
+```text
+帮我把 https://github.com/Lukala23/ai-travel-planning-kit 克隆到本地，
+然后按 skill/plan-reliable-trips/SKILL.md 的规则，作为我的旅行规划助手。
+```
+
+克隆完成后，在同一个对话里直接描述旅行需求即可。AI 会从本地仓库按需读取专项规则，效果等同于方式一；之后你还可以让它直接修改规则文件，维护出自己的版本。英文用户把路径换成 `skill/plan-reliable-trips-en/SKILL.md`。
+
+这个方式只适用于支持执行命令或访问本地文件夹的 AI。纯网页对话的 AI 无法克隆仓库，请使用方式二。
+
 ## 怎样和 AI 沟通
 
 不需要学习复杂的提示词技巧。提示词就是你发给 AI 的任务说明。把 AI 当作共同规划旅行的助手，告诉它“这次要解决什么、哪些条件已经确定、哪些还不知道”即可。
