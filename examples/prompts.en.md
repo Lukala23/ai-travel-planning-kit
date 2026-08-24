@@ -134,13 +134,13 @@ Do not create a long-term preference index. Then propose simplified wording and 
 ```text
 The route and key choices are confirmed. Generate:
 
-- 00_START_HERE.md
+- 00_START-HERE.md
 - 01_OFFLINE_MOBILE.html
-- 02_COMPLETE_TRAVEL_HANDBOOK.md
-- 02_COMPLETE_TRAVEL_HANDBOOK.pdf
+- 02_COMPLETE-TRAVEL-HANDBOOK.md
+- 02_COMPLETE-TRAVEL-HANDBOOK.pdf
 - media/
-- 01_TRIP_QUICK_CARD.pdf as the print counterpart of the offline page when a paper backup is needed
-- 03_PRINT_EMERGENCY.pdf when this trip needs it
+- 01_TRIP-QUICK-REFERENCE.pdf as the print counterpart of the offline page when a paper backup is needed
+- 03_PRINT-EMERGENCY.pdf when this trip needs it
 
 Derive every version from one Markdown source of truth. Include trip dates,
 version, generation date, latest verification date, and recheck points. PDFs

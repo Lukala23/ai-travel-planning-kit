@@ -194,13 +194,13 @@ Only an explicit request activates formal delivery:
 
 | Artifact | Purpose |
 |---|---|
-| `00_Start_Here.md` | Version, latest verification date, directory, and usage notes |
-| `01_Offline_Mobile.html` | Primary on-site artifact: a single offline web page opened in the phone browser, with day-by-day tabs and place details |
-| `01_Trip_Quick_Reference.pdf` | Print counterpart of the offline page, generated on demand for paper backups |
-| `02_Complete_Travel_Handbook.md` | Continued editing, Git versioning, or handoff to another AI |
-| `02_Complete_Travel_Handbook.pdf` | Searchable offline reading and sharing |
+| `00_START-HERE.md` | Version, latest verification date, directory, and usage notes |
+| `01_OFFLINE_MOBILE.html` | Primary on-site artifact: a single offline web page opened in the phone browser, with day-by-day tabs and place details |
+| `01_TRIP-QUICK-REFERENCE.pdf` | Print counterpart of the offline page, generated on demand for paper backups |
+| `02_COMPLETE-TRAVEL-HANDBOOK.md` | Continued editing, Git versioning, or handoff to another AI |
+| `02_COMPLETE-TRAVEL-HANDBOOK.pdf` | Searchable offline reading and sharing |
 | `media/` | Necessary entrance, transfer, and photography references |
-| `03_Print_Fallback.pdf` | Optional backup for international, remote, hiking, or weak-connectivity travel |
+| `03_PRINT-EMERGENCY.pdf` | Optional backup for international, remote, hiking, or weak-connectivity travel |
 
 Simple trips do not need every artifact.
 
@@ -234,7 +234,7 @@ The validator checks:
 
 - both Skill structures and matching reference inventories;
 - local Markdown links and stale active references;
-- module names and include/exclude expectations across nine routing cases;
+- module names and include/exclude expectations across all routing cases;
 - that scenario deltas do not repeat the portable core;
 - successful generation of both Skill ZIPs, scenario packs, full archives, and checksums.
 
